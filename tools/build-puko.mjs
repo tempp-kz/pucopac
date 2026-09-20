@@ -3,6 +3,7 @@
 import crypto from "node:crypto"
 import fs from "node:fs"
 import path from "node:path"
+import { fileURLToPath } from "node:url"
 
 const PUBLIC_ROOTS = [
   "01 一般書籍",
@@ -83,8 +84,18 @@ const NDC_CLASSES = [
   { code: "900", digit: "9", label: "文学" },
 ]
 
+const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
+const NDC_LABELS_PATH = path.join(REPO_ROOT, "data", "ndc10-labels.json")
+const NDC_LABELS = JSON.parse(fs.readFileSync(NDC_LABELS_PATH, "utf8")).labels
+
 function fail(message) {
   throw new Error(message)
+}
+
+function ndcLabel(code) {
+  const label = NDC_LABELS[code]
+  if (!label) fail(`NDC分類名が見つかりません: ${code}`)
+  return label
 }
 
 function parseArgs(argv) {
@@ -684,9 +695,29 @@ function makeIndex(records) {
     "",
     "# ぷ庫OPAC",
     "",
-    "個人図書館の蔵書検索用OPACです。",
+    "ここは個人図書館の蔵書検索用OPACです。",
+    "目的：僕の資料検索（外出時・創作資料検索時）",
+    "仕様：",
     "",
-    "> 書誌・分類・概要等はNotebookLMを用いて所蔵資料から作成しており、誤りを含む可能性があります。書籍本文・図版は公開していません。",
+    "> ・書誌・分類・概要等はNotebookLMを用いて所蔵資料から作成しており、誤りを含む可能性があります。",
+    ">",
+    "> 　参考：NotebookLMによるデータ作成過程",
+    ">",
+    "> 　https://note.com/tempp/n/n427ab4ea2324",
+    ">",
+    "> ・出版年は手持ち蔵書の出版年で、増版の場合はその版の出版年を記載しています。",
+    ">",
+    "> ・雑誌は特殊なものが含まれるため、公開していません。",
+    ">",
+    "> ・書籍本文・図版は公開していません。",
+    "",
+    "現在の作業進捗状況：",
+    "",
+    "　2026/9/20　2818冊/10136冊（内1203冊は非公開雑誌）",
+    "",
+    "おまけ：",
+    "",
+    "小説wiki：https://tempp-kz.github.io/tempp/",
     "",
     "## 所蔵区分から探す",
   ]
@@ -743,8 +774,9 @@ function makeNdcPage(ndcClass, books) {
   if (codes.length) {
     lines.push("", "## このページの分類", "")
     for (const code of codes) {
-      const heading = `NDC: ${code}　${groups.get(code).length}件`
-      lines.push(`- [[#${heading}|NDC: ${code}]]　${groups.get(code).length}件`)
+      const label = ndcLabel(code)
+      const heading = `NDC: ${code}　${label}　${groups.get(code).length}件`
+      lines.push(`- [[#${heading}|NDC: ${code}　${label}]]　${groups.get(code).length}件`)
     }
   }
 
@@ -752,7 +784,8 @@ function makeNdcPage(ndcClass, books) {
     const codeBooks = [...groups.get(code)].sort((left, right) =>
       naturalCompare(left.title, right.title),
     )
-    lines.push("", `## NDC: ${code}　${codeBooks.length}件`, "")
+    const label = ndcLabel(code)
+    lines.push("", `## NDC: ${code}　${label}　${codeBooks.length}件`, "")
     for (const book of codeBooks) {
       const target = book.relativePath.replace(/\.md$/i, "")
       const authorText = book.authors.length ? ` — ${book.authors.join("、")}` : ""
