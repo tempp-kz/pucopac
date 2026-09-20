@@ -590,12 +590,12 @@ function makeSeriesRootPage(seriesBooks) {
   const groups = publisherGroups(seriesBooks)
   const lines = [
     "---",
-    'title: "シリーズ・出版社順"',
+    'title: "03 シリーズ・出版社順"',
     "cssclasses:",
     "  - puko-custom-folder-index",
     "---",
     "",
-    "# シリーズ・出版社順",
+    "# 03 シリーズ・出版社順",
     "",
     `**${seriesBooks.length}件**`,
     "",
