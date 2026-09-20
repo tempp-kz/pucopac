@@ -14,6 +14,5 @@ quartz/cli/tui/dist/
 .turbo/
 
 # Puko OPAC preview output
-content-preview/
 .puko-staging-*/
 .puko-backup-*/

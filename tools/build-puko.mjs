@@ -14,7 +14,74 @@ const PUBLIC_ROOTS = [
 
 const AUTHOR_ROOT = "11 著者"
 const CLASSICS_ROOT = "05 古典 著者出生地分類"
+const GENERAL_BOOK_ROOT = "01 一般書籍"
+const SERIES_ROOT = "03 シリーズ 出版社順"
 const ALLOWED_OUTPUT_NAMES = new Set(["content-preview", "content"])
+const KANA_FOLDERS = ["あ", "か", "さ", "た", "な", "は", "ま", "や", "ら", "わ"]
+const KANA_HEADINGS = {
+  あ: ["あ", "い", "う", "え", "お"],
+  か: ["か", "き", "く", "け", "こ"],
+  さ: ["さ", "し", "す", "せ", "そ"],
+  た: ["た", "ち", "つ", "て", "と"],
+  な: ["な", "に", "ぬ", "ね", "の"],
+  は: ["は", "ひ", "ふ", "へ", "ほ"],
+  ま: ["ま", "み", "む", "め", "も"],
+  や: ["や", "ゆ", "よ"],
+  ら: ["ら", "り", "る", "れ", "ろ"],
+  わ: ["わ", "を", "ん"],
+}
+const KANA_BASE = new Map([
+  ["ぁ", "あ"],
+  ["ぃ", "い"],
+  ["ぅ", "う"],
+  ["ゔ", "う"],
+  ["ぇ", "え"],
+  ["ぉ", "お"],
+  ["が", "か"],
+  ["ぎ", "き"],
+  ["ぐ", "く"],
+  ["げ", "け"],
+  ["ご", "こ"],
+  ["ざ", "さ"],
+  ["じ", "し"],
+  ["ず", "す"],
+  ["ぜ", "せ"],
+  ["ぞ", "そ"],
+  ["だ", "た"],
+  ["ぢ", "ち"],
+  ["っ", "つ"],
+  ["づ", "つ"],
+  ["で", "て"],
+  ["ど", "と"],
+  ["ば", "は"],
+  ["ぱ", "は"],
+  ["び", "ひ"],
+  ["ぴ", "ひ"],
+  ["ぶ", "ふ"],
+  ["ぷ", "ふ"],
+  ["べ", "へ"],
+  ["ぺ", "へ"],
+  ["ぼ", "ほ"],
+  ["ぽ", "ほ"],
+  ["ゃ", "や"],
+  ["ゅ", "ゆ"],
+  ["ょ", "よ"],
+  ["ゎ", "わ"],
+  ["ゐ", "い"],
+  ["ゑ", "え"],
+])
+const NDC_CLASSES = [
+  { code: "000", digit: "0", label: "総記（雑誌除）" },
+  { code: "100", digit: "1", label: "哲学" },
+  { code: "200", digit: "2", label: "歴史" },
+  { code: "300", digit: "3", label: "社会科学" },
+  { code: "400", digit: "4", label: "自然科学" },
+  { code: "500", digit: "5", label: "技術・工学" },
+  { code: "600", digit: "6", label: "産業" },
+  { code: "700", digit: "7", label: "芸術・美術" },
+  { code: "800", digit: "8", label: "言語" },
+  { code: "900", digit: "9", label: "文学" },
+]
 
 function fail(message) {
   throw new Error(message)
@@ -64,7 +131,9 @@ function assertSafePaths(sourceRoot, outputRoot, idMapPath, publish) {
     fail(`出力先の末尾は content-preview または content にしてください: ${outputRoot}`)
   }
   if (outputName === "content" && !publish) {
-    fail("content を置き換える場合は --publish が必要です。試験時は content-preview を使ってください")
+    fail(
+      "content を置き換える場合は --publish が必要です。試験時は content-preview を使ってください",
+    )
   }
 
   if (isSameOrInside(outputRoot, sourceRoot) || isSameOrInside(sourceRoot, outputRoot)) {
@@ -153,9 +222,7 @@ function removeYamlFields(lines, fields) {
 }
 
 function removeObsidianLinkSyntax(line) {
-  return line
-    .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, "$2")
-    .replace(/\[\[([^\]]+)\]\]/g, "$1")
+  return line.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, "$2").replace(/\[\[([^\]]+)\]\]/g, "$1")
 }
 
 function removeTocSection(body) {
@@ -262,7 +329,6 @@ function writeUtf8(filePath, content) {
 
 function formatFrontmatter(originalLines, title, opacId, internalDir) {
   const removedFields = new Set([
-    "aliases",
     "title",
     "ID",
     "OPAC_ID",
@@ -271,7 +337,7 @@ function formatFrontmatter(originalLines, title, opacId, internalDir) {
     "AI生成",
   ])
   const retained = removeYamlFields(originalLines, removedFields)
-    .map(removeObsidianLinkSyntax)
+    .map((line) => removeObsidianLinkSyntax(line).trimEnd())
     .filter((line, index, array) => !(line.trim() === "" && array[index - 1]?.trim() === ""))
 
   const result = [`title: ${yamlQuote(title)}`, `OPAC_ID: ${opacId}`]
@@ -280,9 +346,337 @@ function formatFrontmatter(originalLines, title, opacId, internalDir) {
   return `---\n${result.join("\n").replace(/\n+$/g, "")}\n---`
 }
 
+function markdownTable(cells, columns = 3) {
+  const lines = [
+    `| ${Array(columns).fill("").join(" | ")} |`,
+    `| ${Array(columns).fill("---").join(" | ")} |`,
+  ]
+  for (let index = 0; index < cells.length; index += columns) {
+    const row = cells.slice(index, index + columns)
+    while (row.length < columns) row.push("")
+    lines.push(`| ${row.join(" | ")} |`)
+  }
+  return lines
+}
+
+function directFolder(relativePath, root) {
+  if (!relativePath.startsWith(`${root}/`)) return null
+  const remainder = relativePath.slice(root.length + 1)
+  const slash = remainder.indexOf("/")
+  return slash < 0 ? null : remainder.slice(0, slash)
+}
+
+function sortedFolders(folderCounts) {
+  return [...folderCounts.keys()].sort((left, right) => {
+    const leftKana = KANA_FOLDERS.indexOf(left)
+    const rightKana = KANA_FOLDERS.indexOf(right)
+    if (leftKana >= 0 && rightKana >= 0) return leftKana - rightKana
+    if (leftKana >= 0) return -1
+    if (rightKana >= 0) return 1
+    return left.localeCompare(right, "ja")
+  })
+}
+
+function folderLabel(folder) {
+  return KANA_FOLDERS.includes(folder) ? `${folder}行` : folder
+}
+
+function normalizeNdcValue(value) {
+  return String(value)
+    .trim()
+    .replace(/[０-９]/g, (character) => String(character.charCodeAt(0) - 0xfee0))
+}
+
+function ndcCodesFor(values) {
+  const codes = []
+  for (const value of values) {
+    const normalized = normalizeNdcValue(value)
+    const match = normalized.match(/^(\d{3})/)
+    if (match && !codes.includes(match[1])) codes.push(match[1])
+  }
+  return codes
+}
+
+function ndcClassFor(codes) {
+  for (const code of codes) {
+    const ndcClass = NDC_CLASSES.find((item) => item.digit === code[0])
+    if (ndcClass) return ndcClass
+  }
+  return null
+}
+
+function naturalCompare(left, right) {
+  return left.localeCompare(right, "ja", { numeric: true, sensitivity: "base" })
+}
+
+function katakanaToHiragana(value) {
+  return String(value)
+    .normalize("NFKC")
+    .replace(/[ァ-ヶ]/g, (character) => String.fromCharCode(character.charCodeAt(0) - 0x60))
+}
+
+function normalizeReading(value) {
+  return katakanaToHiragana(value)
+    .replace(/^[\s　「」『』【】〔〕〈〉《》（）()［］\[\]｛｝{}・･、。…‥―—‐−〜～]+/u, "")
+    .replace(/[\s　]+/g, " ")
+    .trim()
+}
+
+function readingHeading(reading) {
+  const normalized = normalizeReading(reading)
+  if (!normalized) return null
+  const initial = [...normalized][0]
+  return KANA_BASE.get(initial) || initial
+}
+
+function readingParts(reading) {
+  return normalizeReading(reading)
+    .split(/[\s\u3000・･=＝.．/／]+/u)
+    .filter(Boolean)
+}
+
+function isForeignStyleAuthorTitle(title) {
+  return /^[ァ-ヿA-Za-zＡ-Ｚａ-ｚ]/u.test(String(title).trim())
+}
+
+function readingPlacement(record, row) {
+  const reading = readingValue(record)
+  if (!reading) return null
+
+  const headings = new Set(KANA_HEADINGS[row])
+  const normalized = normalizeReading(reading)
+  if (record.type !== "author") {
+    const heading = readingHeading(normalized)
+    return headings.has(heading) ? { heading, sortKey: normalized } : null
+  }
+
+  const candidates = readingParts(normalized)
+    .map((part) => ({ part, heading: readingHeading(part) }))
+    .filter(({ heading }) => headings.has(heading))
+  if (!candidates.length) return null
+
+  const candidate = isForeignStyleAuthorTitle(record.title)
+    ? candidates[candidates.length - 1]
+    : candidates[0]
+  return {
+    heading: candidate.heading,
+    sortKey: `${normalizeReading(candidate.part)} ${normalized}`,
+  }
+}
+
+function directRowRecords(records, root, row) {
+  const prefix = `${root}/${row}/`
+  return records.filter((record) => {
+    if (!record.relativePath.startsWith(prefix)) return false
+    return !record.relativePath.slice(prefix.length).includes("/")
+  })
+}
+
+function readingValue(record) {
+  return record.type === "author" ? record.authorReading : record.titleReading
+}
+
+function compareByReading(left, right) {
+  const byReading = naturalCompare(left.sortKey, right.sortKey)
+  if (byReading !== 0) return byReading
+  return naturalCompare(left.record.title, right.record.title)
+}
+
+function readingIndexEntry(record) {
+  const target = record.relativePath.replace(/\.md$/i, "")
+  if (record.type === "author") return `- [[${target}|${record.title}]]`
+  const authorText = record.authors.length ? ` — ${record.authors.join("、")}` : ""
+  return `- [[${target}|${record.title}]]${authorText}`
+}
+
+function makeReadingRowPage(root, row, records, stats) {
+  const rowRecords = directRowRecords(records, root, row)
+  if (!rowRecords.length) return null
+
+  const headings = KANA_HEADINGS[row]
+  const groups = new Map(headings.map((heading) => [heading, []]))
+  const unconfirmed = []
+  for (const record of rowRecords) {
+    const reading = readingValue(record)
+    const placement = readingPlacement(record, row)
+    if (placement) {
+      groups.get(placement.heading).push({ record, sortKey: placement.sortKey })
+    } else {
+      unconfirmed.push(record)
+      if (reading) {
+        stats.readingWarnings.push(
+          `${record.relativePath}: 読み「${reading}」から${row}行の索引語を特定できません`,
+        )
+      }
+    }
+  }
+
+  const confirmedCount = rowRecords.length - unconfirmed.length
+  const itemLabel = root === AUTHOR_ROOT ? "名" : "冊"
+  const readingLabel = root === AUTHOR_ROOT ? "ふりがな" : "書名読み"
+  const title = `${root === AUTHOR_ROOT ? "著者" : "一般書籍"} ${folderLabel(row)}`
+  const lines = [
+    "---",
+    `title: ${yamlQuote(title)}`,
+    "cssclasses:",
+    "  - puko-custom-folder-index",
+    "---",
+    "",
+    `# ${title}`,
+    "",
+    `**${rowRecords.length}${itemLabel}**（読み確認済み ${confirmedCount}${itemLabel}・未確認 ${unconfirmed.length}${itemLabel}）`,
+    "",
+    `${readingLabel}を確認できたものを先頭のかな別に掲載し、空欄または行と一致しないものを末尾に掲載しています。`,
+  ]
+
+  for (const heading of headings) {
+    const headingRecords = groups.get(heading).sort(compareByReading)
+    if (!headingRecords.length) continue
+    lines.push("", `## ${heading}　${headingRecords.length}${itemLabel}`, "")
+    lines.push(...headingRecords.map(({ record }) => readingIndexEntry(record)))
+  }
+
+  if (unconfirmed.length) {
+    unconfirmed.sort((left, right) => naturalCompare(left.title, right.title))
+    lines.push("", `## 読み未確認　${unconfirmed.length}${itemLabel}`, "")
+    lines.push(...unconfirmed.map(readingIndexEntry))
+  }
+
+  lines.push("")
+  return { content: lines.join("\n"), confirmedCount, unconfirmedCount: unconfirmed.length }
+}
+
+function unicodeCompare(left, right) {
+  if (left < right) return -1
+  if (left > right) return 1
+  return 0
+}
+
+function seriesLocation(record) {
+  if (!record.relativePath.startsWith(`${SERIES_ROOT}/`)) return null
+  const parts = record.relativePath.split("/")
+  if (parts.length < 4) return null
+  return { row: parts[1], publisher: parts[2] }
+}
+
+function seriesDisplayTitle(record) {
+  return path.posix.basename(record.relativePath, path.posix.extname(record.relativePath))
+}
+
+function publisherGroups(records) {
+  const groups = new Map()
+  for (const record of records) {
+    const location = seriesLocation(record)
+    if (!location) continue
+    const rowGroups = groups.get(location.row) || new Map()
+    const books = rowGroups.get(location.publisher) || []
+    books.push(record)
+    rowGroups.set(location.publisher, books)
+    groups.set(location.row, rowGroups)
+  }
+  return groups
+}
+
+function publisherCells(row, rowGroups) {
+  return [...rowGroups.entries()]
+    .sort(([left], [right]) => unicodeCompare(left, right))
+    .map(([publisher, books]) => {
+      const target = `${SERIES_ROOT}/${row}/${publisher}/`
+      return `[[${target}\\|${publisher}]]　${books.length}件`
+    })
+}
+
+function makeSeriesRootPage(seriesBooks) {
+  const groups = publisherGroups(seriesBooks)
+  const lines = [
+    "---",
+    'title: "シリーズ・出版社順"',
+    "cssclasses:",
+    "  - puko-custom-folder-index",
+    "---",
+    "",
+    "# シリーズ・出版社順",
+    "",
+    `**${seriesBooks.length}件**`,
+    "",
+    "出版社を行別に掲載しています。出版社名から、その出版社のシリーズ所蔵一覧へ移動できます。",
+  ]
+  for (const row of sortedFolders(
+    new Map([...groups].map(([name, values]) => [name, values.size])),
+  )) {
+    const rowGroups = groups.get(row)
+    lines.push("", `## ${folderLabel(row)}`, "", ...markdownTable(publisherCells(row, rowGroups)))
+  }
+  lines.push("")
+  return lines.join("\n")
+}
+
+function makeSeriesRowPage(row, rowGroups) {
+  const bookCount = [...rowGroups.values()].reduce((sum, books) => sum + books.length, 0)
+  const title = `${folderLabel(row)}の出版社`
+  return [
+    "---",
+    `title: ${yamlQuote(title)}`,
+    "cssclasses:",
+    "  - puko-custom-folder-index",
+    "---",
+    "",
+    `# ${title}`,
+    "",
+    `**${bookCount}件・${rowGroups.size}出版社**`,
+    "",
+    ...markdownTable(publisherCells(row, rowGroups)),
+    "",
+  ].join("\n")
+}
+
+function makePublisherPage(publisher, books) {
+  const sortedBooks = [...books].sort((left, right) =>
+    naturalCompare(seriesDisplayTitle(left), seriesDisplayTitle(right)),
+  )
+  const lines = [
+    "---",
+    `title: ${yamlQuote(publisher)}`,
+    "cssclasses:",
+    "  - puko-custom-folder-index",
+    "---",
+    "",
+    `# ${publisher}`,
+    "",
+    `**${sortedBooks.length}件**`,
+    "",
+  ]
+  for (const book of sortedBooks) {
+    const target = book.relativePath.replace(/\.md$/i, "")
+    lines.push(`- [[${target}|${seriesDisplayTitle(book)}]]`)
+  }
+  lines.push("")
+  return lines.join("\n")
+}
+
+function makeRootSection(records, root) {
+  const rootRecords = records.filter((record) => record.relativePath.startsWith(`${root}/`))
+  if (!rootRecords.length) return []
+
+  const folderCounts = new Map()
+  for (const record of rootRecords) {
+    const folder = directFolder(record.relativePath, root)
+    if (folder) folderCounts.set(folder, (folderCounts.get(folder) || 0) + 1)
+  }
+
+  const lines = ["", `### [[${root}/|${root}]]　${rootRecords.length}件`]
+  const cells = sortedFolders(folderCounts).map((folder) => {
+    const target = `${root}/${folder}/`
+    return `[[${target}\\|${folderLabel(folder)}]]　${folderCounts.get(folder)}件`
+  })
+  if (cells.length) lines.push("", ...markdownTable(cells))
+  return lines
+}
+
 function makeIndex(records) {
   const books = records.filter((record) => record.type === "book")
   const authors = records.filter((record) => record.type === "author")
+  const classifiedBooks = books.filter((book) => book.ndcClass)
   const lines = [
     "---",
     'title: "ぷ庫OPAC"',
@@ -294,26 +688,78 @@ function makeIndex(records) {
     "",
     "> 書誌・分類・概要等はNotebookLMを用いて所蔵資料から作成しており、誤りを含む可能性があります。書籍本文・図版は公開していません。",
     "",
-    "## 書籍",
+    "## 所蔵区分から探す",
   ]
 
-  const roots = PUBLIC_ROOTS.filter(
-    (root) => root !== AUTHOR_ROOT && books.some((book) => book.relativePath.startsWith(`${root}/`)),
+  for (const root of PUBLIC_ROOTS) {
+    const rootRecords = root === AUTHOR_ROOT ? authors : books
+    lines.push(...makeRootSection(rootRecords, root))
+  }
+
+  lines.push(
+    "",
+    "## NDCから探す",
+    "",
+    "| 集計 | 冊数 |",
+    "| --- | ---: |",
+    `| 合計冊数 | ${books.length} |`,
+    `| 分類済冊数 | ${classifiedBooks.length} |`,
   )
-  for (const root of roots) {
-    lines.push("", `### ${root}`)
-    for (const book of books.filter((item) => item.relativePath.startsWith(`${root}/`))) {
-      const target = book.relativePath.replace(/\.md$/i, "")
-      const authorText = book.authors.length ? ` — ${book.authors.join("、")}` : ""
-      lines.push(`- [[${target}|${book.title}]]${authorText}`)
+  for (const ndcClass of NDC_CLASSES) {
+    const count = books.filter((book) =>
+      book.ndcCodes.some((code) => code.startsWith(ndcClass.digit)),
+    ).length
+    lines.push(
+      `| [[NDC/${ndcClass.code} ${ndcClass.label}\\|${ndcClass.code}]]　${ndcClass.label} | ${count} |`,
+    )
+  }
+  lines.push("")
+  return lines.join("\n")
+}
+
+function makeNdcPage(ndcClass, books) {
+  const title = `NDC ${ndcClass.code} ${ndcClass.label}`
+  const lines = [
+    "---",
+    `title: ${yamlQuote(title)}`,
+    "---",
+    "",
+    `# ${title}`,
+    "",
+    `公開書籍のうち、NDCの先頭1桁が「${ndcClass.digit}」のものを掲載しています。`,
+    "",
+    `**${books.length}件**`,
+  ]
+
+  const groups = new Map()
+  for (const book of books) {
+    for (const code of book.ndcCodes.filter((value) => value.startsWith(ndcClass.digit))) {
+      const codeBooks = groups.get(code) || []
+      codeBooks.push(book)
+      groups.set(code, codeBooks)
+    }
+  }
+  const codes = [...groups.keys()].sort((left, right) => Number(left) - Number(right))
+  if (codes.length) {
+    lines.push("", "## このページの分類", "")
+    for (const code of codes) {
+      const heading = `NDC: ${code}　${groups.get(code).length}件`
+      lines.push(`- [[#${heading}|NDC: ${code}]]　${groups.get(code).length}件`)
     }
   }
 
-  lines.push("", "## 著者")
-  for (const author of authors) {
-    const target = author.relativePath.replace(/\.md$/i, "")
-    lines.push(`- [[${target}|${author.title}]]`)
+  for (const code of codes) {
+    const codeBooks = [...groups.get(code)].sort((left, right) =>
+      naturalCompare(left.title, right.title),
+    )
+    lines.push("", `## NDC: ${code}　${codeBooks.length}件`, "")
+    for (const book of codeBooks) {
+      const target = book.relativePath.replace(/\.md$/i, "")
+      const authorText = book.authors.length ? ` — ${book.authors.join("、")}` : ""
+      lines.push(`- [[${target}|${book.title}]]${authorText}（NDC: ${code}）`)
+    }
   }
+
   lines.push("")
   return lines.join("\n")
 }
@@ -339,6 +785,7 @@ function transformAuthor(record, booksByAuthor) {
   const { frontmatter, body } = splitFrontmatter(record.sourceText, record.sourcePath)
   let transformedBody = removeDataviewBlocks(body)
   transformedBody = removeMarkdownSection(transformedBody, "著書一覧")
+  transformedBody = transformedBody.replace(/^(ふりがな|生まれ年|国籍|属性):[ \t]+$/gm, "$1:")
   transformedBody = withTitle(transformedBody, record.title).trimEnd()
   const works = booksByAuthor.get(record.title) || []
   const workLines = works.length
@@ -363,7 +810,9 @@ function main() {
     if (!fs.existsSync(rootPath)) continue
     sourceFiles.push(...listMarkdownFiles(rootPath))
   }
-  sourceFiles.sort((a, b) => normalizedRelative(sourceRoot, a).localeCompare(normalizedRelative(sourceRoot, b), "ja"))
+  sourceFiles.sort((a, b) =>
+    normalizedRelative(sourceRoot, a).localeCompare(normalizedRelative(sourceRoot, b), "ja"),
+  )
   if (!sourceFiles.length) fail("公開対象のmdが見つかりません")
 
   const beforeHashes = new Map(sourceFiles.map((file) => [file, sha256File(file)]))
@@ -372,12 +821,34 @@ function main() {
     const sourceText = fs.readFileSync(sourcePath, "utf8")
     const relativePath = normalizedRelative(sourceRoot, sourcePath)
     const { frontmatter } = splitFrontmatter(sourceText, sourcePath)
-    const aliases = getYamlValues(frontmatter, "aliases")
     const type = relativePath.startsWith(`${AUTHOR_ROOT}/`) ? "author" : "book"
-    const title = aliases[0] || path.basename(sourcePath, path.extname(sourcePath))
+    const title = path.basename(sourcePath, path.extname(sourcePath))
     const authors = type === "book" ? getYamlValues(frontmatter, "著者") : []
+    const titleReading =
+      type === "book"
+        ? getYamlValues(frontmatter, "書名読み")[0] ||
+          getYamlValues(frontmatter, "タイトル読み")[0] ||
+          ""
+        : ""
+    const authorReading = type === "author" ? getYamlValues(frontmatter, "ふりがな")[0] || "" : ""
+    const ndcValues = type === "book" ? getYamlValues(frontmatter, "NDC") : []
+    const ndcCodes = type === "book" ? ndcCodesFor(ndcValues) : []
+    const ndcClass = type === "book" ? ndcClassFor(ndcCodes) : null
     const opacId = ensureId(idMap, relativePath, type === "author" ? "A" : "B")
-    return { sourcePath, sourceText, relativePath, type, title, authors, opacId }
+    return {
+      sourcePath,
+      sourceText,
+      relativePath,
+      type,
+      title,
+      titleReading,
+      authorReading,
+      authors,
+      ndcValues,
+      ndcCodes,
+      ndcClass,
+      opacId,
+    }
   })
 
   records.sort((a, b) => a.title.localeCompare(b.title, "ja"))
@@ -395,15 +866,77 @@ function main() {
   const backupRoot = path.join(parent, `.puko-backup-${process.pid}-${Date.now()}`)
   fs.mkdirSync(stageRoot, { recursive: false })
 
-  const stats = { tocsRemoved: 0, classicIntrosRemoved: 0, warnings: [] }
+  const stats = {
+    tocsRemoved: 0,
+    classicIntrosRemoved: 0,
+    warnings: [],
+    readingWarnings: [],
+    readingIndexPageCount: 0,
+    bookReadingsConfirmed: 0,
+    bookReadingsUnconfirmed: 0,
+    authorReadingsConfirmed: 0,
+    authorReadingsUnconfirmed: 0,
+  }
   try {
     for (const record of records) {
-      const transformed = record.type === "author"
-        ? transformAuthor(record, booksByAuthor)
-        : transformBook(record, stats)
+      const transformed =
+        record.type === "author"
+          ? transformAuthor(record, booksByAuthor)
+          : transformBook(record, stats)
       writeUtf8(path.join(stageRoot, ...record.relativePath.split("/")), transformed)
     }
     writeUtf8(path.join(stageRoot, "index.md"), makeIndex(records))
+    const books = records.filter((record) => record.type === "book")
+    const authors = records.filter((record) => record.type === "author")
+    for (const row of KANA_FOLDERS) {
+      const bookIndex = makeReadingRowPage(GENERAL_BOOK_ROOT, row, books, stats)
+      if (bookIndex) {
+        writeUtf8(path.join(stageRoot, GENERAL_BOOK_ROOT, row, "index.md"), bookIndex.content)
+        stats.readingIndexPageCount += 1
+        stats.bookReadingsConfirmed += bookIndex.confirmedCount
+        stats.bookReadingsUnconfirmed += bookIndex.unconfirmedCount
+      }
+
+      const authorIndex = makeReadingRowPage(AUTHOR_ROOT, row, authors, stats)
+      if (authorIndex) {
+        writeUtf8(path.join(stageRoot, AUTHOR_ROOT, row, "index.md"), authorIndex.content)
+        stats.readingIndexPageCount += 1
+        stats.authorReadingsConfirmed += authorIndex.confirmedCount
+        stats.authorReadingsUnconfirmed += authorIndex.unconfirmedCount
+      }
+    }
+
+    let seriesIndexPageCount = 0
+    const seriesBooks = books.filter((book) => book.relativePath.startsWith(`${SERIES_ROOT}/`))
+    if (seriesBooks.length) {
+      const groups = publisherGroups(seriesBooks)
+      writeUtf8(path.join(stageRoot, SERIES_ROOT, "index.md"), makeSeriesRootPage(seriesBooks))
+      seriesIndexPageCount += 1
+      for (const [row, rowGroups] of groups) {
+        writeUtf8(
+          path.join(stageRoot, SERIES_ROOT, row, "index.md"),
+          makeSeriesRowPage(row, rowGroups),
+        )
+        seriesIndexPageCount += 1
+        for (const [publisher, publisherBooks] of rowGroups) {
+          writeUtf8(
+            path.join(stageRoot, SERIES_ROOT, row, publisher, "index.md"),
+            makePublisherPage(publisher, publisherBooks),
+          )
+          seriesIndexPageCount += 1
+        }
+      }
+    }
+    for (const ndcClass of NDC_CLASSES) {
+      const classBooks = books.filter((book) =>
+        book.ndcCodes.some((code) => code.startsWith(ndcClass.digit)),
+      )
+      writeUtf8(
+        path.join(stageRoot, "NDC", `${ndcClass.code} ${ndcClass.label}.md`),
+        makeNdcPage(ndcClass, classBooks),
+      )
+    }
+    stats.seriesIndexPageCount = seriesIndexPageCount
 
     fs.mkdirSync(path.dirname(idMapPath), { recursive: true })
     writeUtf8(idMapPath, `${JSON.stringify(idMap, null, 2)}\n`)
@@ -417,7 +950,14 @@ function main() {
     }
     if (fs.existsSync(backupRoot)) fs.rmSync(backupRoot, { recursive: true, force: true })
   } catch (error) {
-    if (fs.existsSync(stageRoot)) fs.rmSync(stageRoot, { recursive: true, force: true })
+    console.error(`BUILD_ORIGINAL_ERROR: ${error?.stack || error}`)
+    if (fs.existsSync(stageRoot)) {
+      try {
+        fs.rmSync(stageRoot, { recursive: true, force: true })
+      } catch (cleanupError) {
+        console.error(`BUILD_CLEANUP_ERROR: ${cleanupError?.stack || cleanupError}`)
+      }
+    }
     throw error
   }
 
@@ -428,14 +968,27 @@ function main() {
 
   const bookCount = records.filter((record) => record.type === "book").length
   const authorCount = records.filter((record) => record.type === "author").length
+  const ndcClassifiedCount = records.filter(
+    (record) => record.type === "book" && record.ndcClass,
+  ).length
   console.log("ぷ庫OPAC用データを生成しました。")
   console.log(`  書籍: ${bookCount}件`)
   console.log(`  著者: ${authorCount}件`)
+  console.log(`  NDC分類済: ${ndcClassifiedCount}件`)
+  console.log(`  シリーズ索引: ${stats.seriesIndexPageCount || 0}件`)
+  console.log(`  読み索引: ${stats.readingIndexPageCount}件`)
+  console.log(
+    `  一般書籍の書名読み: 確認済み ${stats.bookReadingsConfirmed}件 / 未確認 ${stats.bookReadingsUnconfirmed}件`,
+  )
+  console.log(
+    `  著者ふりがな: 確認済み ${stats.authorReadingsConfirmed}件 / 未確認 ${stats.authorReadingsUnconfirmed}件`,
+  )
   console.log(`  目次を除外: ${stats.tocsRemoved}件`)
   console.log(`  古典の冒頭説明を除外: ${stats.classicIntrosRemoved}件`)
   console.log(`  出力先: ${outputRoot}`)
   console.log("  変換元: ハッシュ照合済み（変更なし）")
   for (const warning of stats.warnings) console.warn(`警告: ${warning}`)
+  for (const warning of stats.readingWarnings) console.warn(`読み警告: ${warning}`)
 }
 
 try {

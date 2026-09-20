@@ -137,7 +137,7 @@ plugins:
       priority: 50
       display: all
   - source: "@quartz-community/alias-redirects"
-    enabled: true
+    enabled: false
   - source: "@quartz-community/content-index"
     enabled: true
     options:
@@ -252,12 +252,14 @@ plugins:
   - source: "@quartz-community/note-properties"
     enabled: true
     options:
-      includeAll: false
-      includedProperties:
-        - description
-        - tags
-        - aliases
-      excludedProperties: []
+      includeAll: true
+      includedProperties: []
+      excludedProperties:
+        - title
+        - 内部区分
+        - AI生成
+        - cssclasses
+        - modified
       hidePropertiesView: false
       delimiters: ---
       language: yaml

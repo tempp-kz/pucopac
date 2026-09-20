@@ -1,3 +1,9 @@
 @use "./variables.scss" as *;
 
 // put your custom CSS here!
+
+// Generated series/publisher index pages already contain their own sorted lists.
+// Hide Quartz's automatic second listing so the short book titles are not repeated.
+article.puko-custom-folder-index + .page-listing {
+  display: none;
+}
