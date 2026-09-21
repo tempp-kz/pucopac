@@ -494,11 +494,26 @@ function compareByReading(left, right) {
   return naturalCompare(left.record.title, right.record.title)
 }
 
-function readingIndexEntry(record) {
-  const target = record.relativePath.replace(/\.md$/i, "")
-  if (record.type === "author") return `- [[${target}|${record.title}]]`
+function markdownLinkLabel(value) {
+  return String(value).replace(/\\/g, "\\\\").replace(/\[/g, "\\[").replace(/\]/g, "\\]")
+}
+
+function recordLink(record, fromRelativePath, label = record.title) {
+  const wikiTarget = record.relativePath.replace(/\.md$/i, "")
+  const needsMarkdownLink = /[\[\]]/u.test(wikiTarget) || /[\[\]]/u.test(String(label))
+
+  if (!needsMarkdownLink) return `[[${wikiTarget}|${label}]]`
+
+  const rootedTarget = `./${record.relativePath}`
+
+  return `[${markdownLinkLabel(label)}](<${rootedTarget}>)`
+}
+
+function readingIndexEntry(record, fromRelativePath) {
+  const link = recordLink(record, fromRelativePath)
+  if (record.type === "author") return `- ${link}`
   const authorText = record.authors.length ? ` — ${record.authors.join("、")}` : ""
-  return `- [[${target}|${record.title}]]${authorText}`
+  return `- ${link}${authorText}`
 }
 
 function makeReadingRowPage(root, row, records, stats) {
@@ -545,13 +560,15 @@ function makeReadingRowPage(root, row, records, stats) {
     const headingRecords = groups.get(heading).sort(compareByReading)
     if (!headingRecords.length) continue
     lines.push("", `## ${heading}　${headingRecords.length}${itemLabel}`, "")
-    lines.push(...headingRecords.map(({ record }) => readingIndexEntry(record)))
+    const pageRelativePath = `${root}/${row}/index.md`
+    lines.push(...headingRecords.map(({ record }) => readingIndexEntry(record, pageRelativePath)))
   }
 
   if (unconfirmed.length) {
     unconfirmed.sort((left, right) => naturalCompare(left.title, right.title))
     lines.push("", `## 読み未確認　${unconfirmed.length}${itemLabel}`, "")
-    lines.push(...unconfirmed.map(readingIndexEntry))
+    const pageRelativePath = `${root}/${row}/index.md`
+    lines.push(...unconfirmed.map((record) => readingIndexEntry(record, pageRelativePath)))
   }
 
   lines.push("")
@@ -620,7 +637,8 @@ function makeSpecialRowPage(root, records) {
     })
 
     lines.push("", `## ${heading}　${items.length}${itemLabel}`, "")
-    lines.push(...items.map(({ record }) => readingIndexEntry(record)))
+    const pageRelativePath = `${root}/${SPECIAL_ROW}/index.md`
+    lines.push(...items.map(({ record }) => readingIndexEntry(record, pageRelativePath)))
   }
 
   lines.push("")
@@ -711,7 +729,7 @@ function makeSeriesRowPage(row, rowGroups) {
   ].join("\n")
 }
 
-function makePublisherPage(publisher, books) {
+function makePublisherPage(row, publisher, books) {
   const sortedBooks = [...books].sort((left, right) =>
     naturalCompare(seriesDisplayTitle(left), seriesDisplayTitle(right)),
   )
@@ -728,8 +746,8 @@ function makePublisherPage(publisher, books) {
     "",
   ]
   for (const book of sortedBooks) {
-    const target = book.relativePath.replace(/\.md$/i, "")
-    lines.push(`- [[${target}|${seriesDisplayTitle(book)}]]`)
+    const pageRelativePath = `${SERIES_ROOT}/${row}/${publisher}/index.md`
+    lines.push(`- ${recordLink(book, pageRelativePath, seriesDisplayTitle(book))}`)
   }
   lines.push("")
   return lines.join("\n")
@@ -859,9 +877,9 @@ function makeNdcPage(ndcClass, books) {
     const label = ndcLabel(code)
     lines.push("", `## NDC: ${code}　${label}　${codeBooks.length}件`, "")
     for (const book of codeBooks) {
-      const target = book.relativePath.replace(/\.md$/i, "")
       const authorText = book.authors.length ? ` — ${book.authors.join("、")}` : ""
-      lines.push(`- [[${target}|${book.title}]]${authorText}（NDC: ${code}）`)
+      const pageRelativePath = `NDC/${ndcClass.code} ${ndcClass.label}.md`
+      lines.push(`- ${recordLink(book, pageRelativePath)}${authorText}（NDC: ${code}）`)
     }
   }
 
@@ -894,7 +912,7 @@ function transformAuthor(record, booksByAuthor) {
   transformedBody = withTitle(transformedBody, record.title).trimEnd()
   const works = booksByAuthor.get(record.title) || []
   const workLines = works.length
-    ? works.map((book) => `- [[${book.relativePath.replace(/\.md$/i, "")}|${book.title}]]`)
+    ? works.map((book) => `- ${recordLink(book, record.relativePath)}`)
     : ["該当する公開書籍はありません。"]
   transformedBody += `\n\n##### 著書一覧\n\n${workLines.join("\n")}\n`
 
@@ -1173,7 +1191,7 @@ function main() {
         for (const [publisher, publisherBooks] of rowGroups) {
           writeUtf8(
             path.join(stageRoot, SERIES_ROOT, row, publisher, "index.md"),
-            makePublisherPage(publisher, publisherBooks),
+            makePublisherPage(row, publisher, publisherBooks),
           )
           seriesIndexPageCount += 1
         }
