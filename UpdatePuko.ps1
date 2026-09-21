@@ -290,6 +290,275 @@ function Write-SourceBaseline {
     }
 }
 
+function Get-BuildFingerprint {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$ProjectRoot
+    )
+
+    $FingerprintVersion = 1
+
+    $RequiredFiles = @(
+        "BuildPuko.ps1",
+        "UpdatePuko.ps1",
+        "tools/build-puko.mjs",
+        "tools/plan-puko-impact.mjs",
+        "data/ndc10-labels.json"
+    )
+
+    $NodeCommand = Get-Command node -ErrorAction SilentlyContinue
+
+    if (-not $NodeCommand) {
+        throw "build fingerprint計算に必要なNode.jsが見つかりません"
+    }
+
+    $NodeVersionOutput = & $NodeCommand.Source --version
+
+    if ($LASTEXITCODE -ne 0) {
+        throw "Node.jsバージョンを取得できません"
+    }
+
+    $NodeVersion = (
+        $NodeVersionOutput |
+        Out-String
+    ).Trim()
+
+    $PowerShellVersion = $PSVersionTable.PSVersion.ToString()
+
+    $Inputs = New-Object System.Collections.Generic.List[object]
+    $Material = New-Object System.Collections.Generic.List[string]
+
+    $Material.Add(
+        "fingerprint-version=$FingerprintVersion"
+    )
+
+    $Material.Add(
+        "node-version=$NodeVersion"
+    )
+
+    $Material.Add(
+        "powershell-version=$PowerShellVersion"
+    )
+
+    foreach ($RelativePath in $RequiredFiles) {
+        $NativeRelativePath = $RelativePath.Replace(
+            "/",
+            [System.IO.Path]::DirectorySeparatorChar
+        )
+
+        $FilePath = Join-Path $ProjectRoot $NativeRelativePath
+
+        if (-not (Test-Path -LiteralPath $FilePath -PathType Leaf)) {
+            throw "build fingerprint対象ファイルがありません: $RelativePath"
+        }
+
+        $Hash = (
+            Get-FileHash `
+                -LiteralPath $FilePath `
+                -Algorithm SHA256
+        ).Hash.ToLowerInvariant()
+
+        $Inputs.Add([PSCustomObject]@{
+            path   = $RelativePath
+            sha256 = $Hash
+        })
+
+        $Material.Add(
+            "${RelativePath}=$Hash"
+        )
+    }
+
+    $CanonicalText = (
+        $Material.ToArray() -join "`n"
+    ) + "`n"
+
+    $Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+    $Bytes = $Utf8NoBom.GetBytes($CanonicalText)
+
+    $Sha = [System.Security.Cryptography.SHA256]::Create()
+
+    try {
+        $Digest = $Sha.ComputeHash($Bytes)
+    }
+    finally {
+        $Sha.Dispose()
+    }
+
+    $Fingerprint = (
+        [System.BitConverter]::ToString($Digest)
+    ).Replace("-", "").ToLowerInvariant()
+
+    return [PSCustomObject]@{
+        Version           = $FingerprintVersion
+        Fingerprint       = $Fingerprint
+        NodeVersion       = $NodeVersion
+        PowerShellVersion = $PowerShellVersion
+        Inputs            = $Inputs.ToArray()
+    }
+}
+
+function Get-BuildStateStatus {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$StatePath
+    )
+
+    if (-not (Test-Path -LiteralPath $StatePath -PathType Leaf)) {
+        return [PSCustomObject]@{
+            Exists = $false
+            Valid  = $false
+            Reason = "MISSING"
+            State  = $null
+        }
+    }
+
+    try {
+        $State = Get-Content `
+            -LiteralPath $StatePath `
+            -Raw `
+            -Encoding UTF8 |
+            ConvertFrom-Json
+    }
+    catch {
+        return [PSCustomObject]@{
+            Exists = $true
+            Valid  = $false
+            Reason = "INVALID_JSON"
+            State  = $null
+        }
+    }
+
+    if (
+        $State.version -ne 1 -or
+        $State.fingerprintVersion -ne 1 -or
+        [string]$State.fingerprint -notmatch '^[0-9a-fA-F]{64}$'
+    ) {
+        return [PSCustomObject]@{
+            Exists = $true
+            Valid  = $false
+            Reason = "INVALID_SCHEMA"
+            State  = $State
+        }
+    }
+
+    return [PSCustomObject]@{
+        Exists = $true
+        Valid  = $true
+        Reason = "OK"
+        State  = $State
+    }
+}
+
+function Write-BuildState {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$StatePath,
+
+        [Parameter(Mandatory = $true)]
+        [object]$FingerprintInfo,
+
+        [string]$BackupRoot
+    )
+
+    $StateDirectory = Split-Path -Parent $StatePath
+
+    if ([string]::IsNullOrWhiteSpace($StateDirectory)) {
+        throw "build state保存先ディレクトリを決定できません: $StatePath"
+    }
+
+    New-Item `
+        -ItemType Directory `
+        -Path $StateDirectory `
+        -Force |
+        Out-Null
+
+    $BackupPath = $null
+
+    if (
+        $BackupRoot -and
+        (Test-Path -LiteralPath $StatePath -PathType Leaf)
+    ) {
+        New-Item `
+            -ItemType Directory `
+            -Path $BackupRoot `
+            -Force |
+            Out-Null
+
+        $BackupPath = Join-Path `
+            $BackupRoot `
+            "opac-build-state.json"
+
+        Copy-Item `
+            -LiteralPath $StatePath `
+            -Destination $BackupPath `
+            -Force
+    }
+
+    $NewState = [ordered]@{
+        version           = 1
+        generatedAt       = (Get-Date).ToString("o")
+        fingerprintVersion = [int]$FingerprintInfo.Version
+        fingerprint       = [string]$FingerprintInfo.Fingerprint
+        nodeVersion       = [string]$FingerprintInfo.NodeVersion
+        powershellVersion = [string]$FingerprintInfo.PowerShellVersion
+        inputs            = @($FingerprintInfo.Inputs)
+    }
+
+    $TempState = Join-Path `
+        $StateDirectory `
+        ("opac-build-state.update-" + $PID + ".json")
+
+    try {
+        $Json = $NewState | ConvertTo-Json -Depth 10
+        $Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+
+        [System.IO.File]::WriteAllText(
+            $TempState,
+            $Json + [Environment]::NewLine,
+            $Utf8NoBom
+        )
+
+        $TestStatus = Get-BuildStateStatus -StatePath $TempState
+
+        if (-not $TestStatus.Valid) {
+            throw "保存前のbuild state検証に失敗しました: $($TestStatus.Reason)"
+        }
+
+        if (
+            [string]$TestStatus.State.fingerprint -ne
+            [string]$FingerprintInfo.Fingerprint
+        ) {
+            throw "保存前のbuild fingerprint再検証に失敗しました"
+        }
+
+        Move-Item `
+            -LiteralPath $TempState `
+            -Destination $StatePath `
+            -Force
+    }
+    catch {
+        if (Test-Path -LiteralPath $TempState) {
+            Remove-Item -LiteralPath $TempState -Force
+        }
+
+        if (
+            $BackupPath -and
+            (Test-Path -LiteralPath $BackupPath -PathType Leaf)
+        ) {
+            Copy-Item `
+                -LiteralPath $BackupPath `
+                -Destination $StatePath `
+                -Force
+        }
+
+        throw
+    }
+
+    return [PSCustomObject]@{
+        Path   = $StatePath
+        Backup = $BackupPath
+    }
+}
 function Stop-WithLog {
     param(
         [string]$Stage,
