@@ -9,6 +9,8 @@ param(
 
     [string]$IdMapPath,
 
+    [string]$TargetsFile,
+
     [switch]$Publish
 )
 
@@ -30,6 +32,14 @@ if (-not $OutputRoot) {
     }
 }
 
+if ($TargetsFile) {
+    if (-not (Test-Path -LiteralPath $TargetsFile -PathType Leaf)) {
+        throw "Targets file was not found: $TargetsFile"
+    }
+
+    $TargetsFile = (Resolve-Path -LiteralPath $TargetsFile).Path
+}
+
 if (-not (Test-Path -LiteralPath $Builder -PathType Leaf)) {
     throw "Builder was not found: $Builder"
 }
@@ -40,6 +50,10 @@ if (-not $NodeCommand) {
 }
 
 $NodeArguments = @($Builder, "--source", $SourceRoot, "--output", $OutputRoot, "--id-map", $IdMapPath)
+
+if ($TargetsFile) {
+    $NodeArguments += @("--targets-file", $TargetsFile)
+}
 
 if ($Publish) {
     $NodeArguments += "--publish"
