@@ -924,6 +924,461 @@ function sameValues(left, right) {
   return left.length === right.length && left.every((value, index) => value === right[index])
 }
 
+
+function readTargetPlan(filePath) {
+  const parsed = JSON.parse(fs.readFileSync(filePath, "utf8"))
+
+  if (
+    !parsed ||
+    parsed.version !== 1 ||
+    !Array.isArray(parsed.write) ||
+    !Array.isArray(parsed.delete)
+  ) {
+    fail("差分対象ファイルの形式が不正です")
+  }
+
+  const validate = (values, label) => {
+    const result = []
+    const seen = new Set()
+
+    for (const value of values) {
+      if (
+        typeof value !== "string" ||
+        !value ||
+        value.includes("\\") ||
+        path.posix.isAbsolute(value) ||
+        value.split("/").includes("..") ||
+        !value.toLowerCase().endsWith(".md")
+      ) {
+        fail(
+          "差分対象パスが不正です: " +
+            label +
+            ": " +
+            String(value),
+        )
+      }
+
+      if (seen.has(value)) {
+        fail(
+          "差分対象パスが重複しています: " +
+            label +
+            ": " +
+            value,
+        )
+      }
+
+      seen.add(value)
+      result.push(value)
+    }
+
+    return result
+  }
+
+  const write = validate(parsed.write, "write")
+  const remove = validate(parsed.delete, "delete")
+  const writeSet = new Set(write)
+
+  for (const value of remove) {
+    if (writeSet.has(value)) {
+      fail(
+        "WRITEとDELETEの両方に含まれています: " +
+          value,
+      )
+    }
+  }
+
+  return { write, delete: remove }
+}
+
+function renderTarget(
+  relativePath,
+  records,
+  booksByAuthor,
+  stats,
+) {
+  const record = records.find(
+    (item) => item.relativePath === relativePath,
+  )
+
+  if (record) {
+    return record.type === "author"
+      ? transformAuthor(record, booksByAuthor)
+      : transformBook(record, stats)
+  }
+
+  if (relativePath === "index.md") {
+    return makeIndex(records)
+  }
+
+  const books = records.filter(
+    (item) => item.type === "book",
+  )
+
+  const authors = records.filter(
+    (item) => item.type === "author",
+  )
+
+  const readingMatch = relativePath.match(
+    /^(01 一般書籍|11 著者)\/([^/]+)\/index\.md$/,
+  )
+
+  if (readingMatch) {
+    const root = readingMatch[1]
+    const row = readingMatch[2]
+
+    const subset =
+      root === AUTHOR_ROOT ? authors : books
+
+    if (row === SPECIAL_ROW) {
+      return makeSpecialRowPage(root, subset)
+    }
+
+    if (KANA_FOLDERS.includes(row)) {
+      const page = makeReadingRowPage(
+        root,
+        row,
+        subset,
+        stats,
+      )
+
+      return page ? page.content : null
+    }
+
+    return null
+  }
+
+  const seriesBooks = books.filter((book) =>
+    book.relativePath.startsWith(
+      SERIES_ROOT + "/",
+    ),
+  )
+
+  if (relativePath === SERIES_ROOT + "/index.md") {
+    return seriesBooks.length
+      ? makeSeriesRootPage(seriesBooks)
+      : null
+  }
+
+  const seriesRowMatch = relativePath.match(
+    /^03 シリーズ 出版社順\/([^/]+)\/index\.md$/,
+  )
+
+  if (seriesRowMatch) {
+    const row = seriesRowMatch[1]
+
+    const rowGroups =
+      publisherGroups(seriesBooks).get(row)
+
+    return rowGroups
+      ? makeSeriesRowPage(row, rowGroups)
+      : null
+  }
+
+  const publisherMatch = relativePath.match(
+    /^03 シリーズ 出版社順\/([^/]+)\/([^/]+)\/index\.md$/,
+  )
+
+  if (publisherMatch) {
+    const row = publisherMatch[1]
+    const publisher = publisherMatch[2]
+
+    const rowGroups =
+      publisherGroups(seriesBooks).get(row)
+
+    const publisherBooks =
+      rowGroups && rowGroups.get(publisher)
+
+    return publisherBooks
+      ? makePublisherPage(
+          row,
+          publisher,
+          publisherBooks,
+        )
+      : null
+  }
+
+  for (const ndcClass of NDC_CLASSES) {
+    const target =
+      "NDC/" +
+      ndcClass.code +
+      " " +
+      ndcClass.label +
+      ".md"
+
+    if (relativePath === target) {
+      const classBooks = books.filter((book) =>
+        book.ndcCodes.some((code) =>
+          code.startsWith(ndcClass.digit),
+        ),
+      )
+
+      return makeNdcPage(
+        ndcClass,
+        classBooks,
+      )
+    }
+  }
+
+  return null
+}
+
+function runTargetBuild({
+  targetPlanPath,
+  records,
+  booksByAuthor,
+  stats,
+  outputRoot,
+  idMap,
+  idMapPath,
+  beforeHashes,
+  sourceFiles,
+  stageRoot,
+  backupRoot,
+}) {
+  if (
+    !fs.existsSync(outputRoot) ||
+    !fs.statSync(outputRoot).isDirectory()
+  ) {
+    fail(
+      "差分buildの既存出力先がありません: " +
+        outputRoot,
+    )
+  }
+
+  const plan = readTargetPlan(targetPlanPath)
+
+  for (const relativePath of plan.write) {
+    const rendered = renderTarget(
+      relativePath,
+      records,
+      booksByAuthor,
+      stats,
+    )
+
+    if (rendered === null) {
+      fail(
+        "WRITE対象を現在のデータから生成できません: " +
+          relativePath,
+      )
+    }
+
+    writeUtf8(
+      path.join(
+        stageRoot,
+        ...relativePath.split("/"),
+      ),
+      rendered,
+    )
+  }
+
+  for (const relativePath of plan.delete) {
+    const rendered = renderTarget(
+      relativePath,
+      records,
+      booksByAuthor,
+      stats,
+    )
+
+    if (rendered !== null) {
+      fail(
+        "DELETE対象は現在も生成対象です: " +
+          relativePath,
+      )
+    }
+  }
+
+  fs.mkdirSync(
+    backupRoot,
+    { recursive: false },
+  )
+
+  const touched = [
+    ...new Set([
+      ...plan.write,
+      ...plan.delete,
+    ]),
+  ]
+
+  const originallyPresent = new Set()
+
+  for (const relativePath of touched) {
+    const destination = path.join(
+      outputRoot,
+      ...relativePath.split("/"),
+    )
+
+    if (!fs.existsSync(destination)) {
+      continue
+    }
+
+    if (!fs.statSync(destination).isFile()) {
+      fail(
+        "差分対象がファイルではありません: " +
+          relativePath,
+      )
+    }
+
+    originallyPresent.add(relativePath)
+
+    const backupPath = path.join(
+      backupRoot,
+      ...relativePath.split("/"),
+    )
+
+    fs.mkdirSync(
+      path.dirname(backupPath),
+      { recursive: true },
+    )
+
+    fs.copyFileSync(
+      destination,
+      backupPath,
+    )
+  }
+
+  const rollback = () => {
+    for (const relativePath of touched) {
+      const destination = path.join(
+        outputRoot,
+        ...relativePath.split("/"),
+      )
+
+      if (originallyPresent.has(relativePath)) {
+        const backupPath = path.join(
+          backupRoot,
+          ...relativePath.split("/"),
+        )
+
+        fs.mkdirSync(
+          path.dirname(destination),
+          { recursive: true },
+        )
+
+        fs.copyFileSync(
+          backupPath,
+          destination,
+        )
+      } else if (fs.existsSync(destination)) {
+        fs.rmSync(
+          destination,
+          { force: true },
+        )
+      }
+    }
+  }
+
+  try {
+    for (const relativePath of plan.write) {
+      const staged = path.join(
+        stageRoot,
+        ...relativePath.split("/"),
+      )
+
+      const destination = path.join(
+        outputRoot,
+        ...relativePath.split("/"),
+      )
+
+      fs.mkdirSync(
+        path.dirname(destination),
+        { recursive: true },
+      )
+
+      fs.copyFileSync(
+        staged,
+        destination,
+      )
+    }
+
+    for (const relativePath of plan.delete) {
+      const destination = path.join(
+        outputRoot,
+        ...relativePath.split("/"),
+      )
+
+      if (fs.existsSync(destination)) {
+        fs.rmSync(
+          destination,
+          { force: true },
+        )
+      }
+    }
+
+    const auditResult = auditStage(
+      records,
+      outputRoot,
+      idMap,
+    )
+
+    const changedSources = sourceFiles.filter(
+      (file) =>
+        beforeHashes.get(file) !==
+        sha256File(file),
+    )
+
+    if (changedSources.length) {
+      fail(
+        "変換元ファイルの変化を検出しました: " +
+          changedSources.join(", "),
+      )
+    }
+
+    fs.mkdirSync(
+      path.dirname(idMapPath),
+      { recursive: true },
+    )
+
+    writeUtf8(
+      idMapPath,
+      JSON.stringify(idMap, null, 2) + "\n",
+    )
+
+    fs.rmSync(
+      stageRoot,
+      { recursive: true, force: true },
+    )
+
+    fs.rmSync(
+      backupRoot,
+      { recursive: true, force: true },
+    )
+
+    return {
+      ...auditResult,
+      writeCount: plan.write.length,
+      deleteCount: plan.delete.length,
+    }
+  } catch (error) {
+    try {
+      rollback()
+    } catch (rollbackError) {
+      throw new Error(
+        "差分build失敗後のロールバックにも失敗しました: " +
+          "ORIGINAL=" +
+          error.message +
+          " ROLLBACK=" +
+          rollbackError.message,
+      )
+    }
+
+    if (fs.existsSync(stageRoot)) {
+      fs.rmSync(
+        stageRoot,
+        { recursive: true, force: true },
+      )
+    }
+
+    if (fs.existsSync(backupRoot)) {
+      fs.rmSync(
+        backupRoot,
+        { recursive: true, force: true },
+      )
+    }
+
+    throw error
+  }
+}
+
 function auditStage(records, stageRoot, idMap) {
   const issues = []
   const expectedPaths = records.map((record) => record.relativePath)
@@ -1135,6 +1590,63 @@ function main() {
     authorReadingsUnconfirmed: 0,
   }
   try {
+    if (args["targets-file"]) {
+      const targetResult = runTargetBuild({
+        targetPlanPath: path.resolve(
+          args["targets-file"],
+        ),
+        records,
+        booksByAuthor,
+        stats,
+        outputRoot,
+        idMap,
+        idMapPath,
+        beforeHashes,
+        sourceFiles,
+        stageRoot,
+        backupRoot,
+      })
+
+      console.log(
+        "ぷ庫OPAC用差分データを生成しました。",
+      )
+
+      console.log(
+        "  WRITE: " +
+          targetResult.writeCount +
+          "件",
+      )
+
+      console.log(
+        "  DELETE: " +
+          targetResult.deleteCount +
+          "件",
+      )
+
+      console.log(
+        "  ステージ監査: 原典 " +
+          targetResult.sourceCount +
+          "件 / ID " +
+          targetResult.idMapCount +
+          "件 / 公開書誌 " +
+          targetResult.publicRecordCount +
+          "件 / 一意ID " +
+          targetResult.uniqueIdCount +
+          "件",
+      )
+
+      console.log(
+        "  出力先: " +
+          outputRoot,
+      )
+
+      console.log(
+        "  変換元: ハッシュ照合済み（変更なし）",
+      )
+
+      return
+    }
+
     for (const record of records) {
       const transformed =
         record.type === "author"
