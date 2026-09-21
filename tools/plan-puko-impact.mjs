@@ -2,7 +2,18 @@ import fs from "node:fs"
 import path from "node:path"
 import crypto from "node:crypto"
 
-const [sourceRoot, contentRoot, baselinePath] = process.argv.slice(2)
+const argv = process.argv.slice(2)
+const [sourceRoot, contentRoot, baselinePath] = argv
+
+const jsonOutIndex = argv.indexOf("--json-out")
+const jsonOutPath =
+  jsonOutIndex >= 0
+    ? argv[jsonOutIndex + 1]
+    : null
+
+if (jsonOutIndex >= 0 && !jsonOutPath) {
+  throw new Error("--json-out の出力先が指定されていません")
+}
 
 const PUBLIC_ROOTS = [
   "01 一般書籍",
@@ -570,6 +581,51 @@ for (const item of renames) {
   planChange(oldMeta, newMeta, "rename")
 }
 
+const planStatus =
+  ambiguous.length
+    ? "STOP_AMBIGUOUS"
+    : deletions.length
+      ? "STOP_DELETION"
+      : fullBuildRecommended
+        ? "FULL_BUILD"
+        : "DIFF_PLAN_OK"
+
+const planJson = {
+  version: 1,
+  currentSource: current.size,
+  baseline: previous.size,
+  changedSamePath: [...changedPaths].sort(),
+  newSources: [...actualNew].sort(),
+  renames: renames
+    .map(item => ({
+      from: item.from,
+      to: item.to,
+      sha256: item.sha256,
+    }))
+    .sort((a, b) => a.from.localeCompare(b.from, "ja")),
+  deletions: [...deletions].sort(),
+  ambiguous: ambiguous.map(item => ({
+    sha256: item.hash,
+    oldPaths: [...item.oldList].sort(),
+    newPaths: [...item.newList].sort(),
+  })),
+  write: [...writeTargets].sort(),
+  delete: [...deleteTargets].sort(),
+  warnings: [...warnings],
+  fullBuildRecommended,
+  status: planStatus,
+}
+
+if (jsonOutPath) {
+  const resolved = path.resolve(jsonOutPath)
+  fs.mkdirSync(path.dirname(resolved), { recursive: true })
+  fs.writeFileSync(
+    resolved,
+    JSON.stringify(planJson, null, 2) + "\n",
+    "utf8",
+  )
+}
+
 console.log("=== IMPACT PLANNER ===")
 console.log(`CURRENT_SOURCE=${current.size}`)
 console.log(`BASELINE=${previous.size}`)
@@ -635,14 +691,4 @@ for (const w of warnings) console.log(`WARNING: ${w}`)
 
 console.log("")
 console.log(`FULL_BUILD_RECOMMENDED=${fullBuildRecommended}`)
-console.log(
-  `PLAN_STATUS=${
-    ambiguous.length
-      ? "STOP_AMBIGUOUS"
-      : deletions.length
-        ? "STOP_DELETION"
-        : fullBuildRecommended
-          ? "FULL_BUILD"
-          : "DIFF_PLAN_OK"
-  }`
-)
+console.log(`PLAN_STATUS=${planStatus}`)
