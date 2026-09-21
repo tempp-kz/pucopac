@@ -4,6 +4,19 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "content/**"
+      - "quartz/**"
+      - "quartz.config*.yaml"
+      - "quartz.ts"
+      - "package*.json"
+      - "quartz.lock.json"
+      - ".quartz/**"
+      - "tsconfig.json"
+      - "*.d.ts"
+      - ".npmrc"
+      - ".node-version"
+      - ".github/workflows/deploy.yml"
 
 permissions:
   contents: read
