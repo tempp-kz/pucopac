@@ -765,6 +765,8 @@ function makeIndex(records) {
     "",
     "# ぷ庫OPAC",
     "",
+    "![ぷ庫OPAC](./static/og-image.png)",
+    "",
     "ここは個人図書館の蔵書検索用OPACです。",
     "目的：僕の資料検索（外出時・創作資料検索時）",
     "仕様：",
