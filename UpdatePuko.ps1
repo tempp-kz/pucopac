@@ -613,20 +613,17 @@ try {
             exit 10
         }
 
-        $GitTop = (
-            & $GitCommand.Source -C $ProjectRoot rev-parse --show-toplevel |
+        $GitPrefix = (
+            & $GitCommand.Source -C $ProjectRoot rev-parse --show-prefix |
             Out-String
         ).Trim()
 
-        if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($GitTop)) {
+        if ($LASTEXITCODE -ne 0) {
             Stop-WithLog "GIT_PREFLIGHT" "Git作業ツリーを確認できません"
             exit 10
         }
 
-        $ResolvedGitTop = (Resolve-Path -LiteralPath $GitTop).Path
-        $ResolvedProjectRoot = (Resolve-Path -LiteralPath $ProjectRoot).Path
-
-        if ($ResolvedGitTop -ne $ResolvedProjectRoot) {
+        if (-not [string]::IsNullOrWhiteSpace($GitPrefix)) {
             Stop-WithLog `
                 "GIT_PREFLIGHT" `
                 "UpdatePuko.ps1 がGitリポジトリ直下にありません"
