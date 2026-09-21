@@ -19,6 +19,7 @@ const GENERAL_BOOK_ROOT = "01 一般書籍"
 const SERIES_ROOT = "03 シリーズ 出版社順"
 const ALLOWED_OUTPUT_NAMES = new Set(["content-preview", "content"])
 const KANA_FOLDERS = ["あ", "か", "さ", "た", "な", "は", "ま", "や", "ら", "わ"]
+const SPECIAL_ROW = "数字・英語"
 const KANA_HEADINGS = {
   あ: ["あ", "い", "う", "え", "お"],
   か: ["か", "き", "く", "け", "こ"],
@@ -557,6 +558,75 @@ function makeReadingRowPage(root, row, records, stats) {
   return { content: lines.join("\n"), confirmedCount, unconfirmedCount: unconfirmed.length }
 }
 
+function specialIndexPlacement(record) {
+  const normalized = String(record.title).normalize("NFKC").trim()
+  if (!normalized) return { heading: "その他", sortKey: "" }
+
+  const sortKey = normalized.replace(/\s+/gu, "")
+  const initial = [...normalized][0]
+  if (/^[0-9]$/u.test(initial)) {
+    return { heading: "数字", sortKey }
+  }
+  if (/^[A-Za-z]$/u.test(initial)) {
+    return { heading: initial.toUpperCase(), sortKey }
+  }
+  return { heading: "その他", sortKey }
+}
+
+function specialHeadingCompare(left, right) {
+  if (left === "数字") return right === "数字" ? 0 : -1
+  if (right === "数字") return 1
+  if (left === "その他") return right === "その他" ? 0 : 1
+  if (right === "その他") return -1
+  return left.localeCompare(right, "en", { sensitivity: "base" })
+}
+
+function makeSpecialRowPage(root, records) {
+  const rowRecords = directRowRecords(records, root, SPECIAL_ROW)
+  if (!rowRecords.length) return null
+
+  const itemLabel = root === AUTHOR_ROOT ? "名" : "冊"
+  const title = `${root === AUTHOR_ROOT ? "著者" : "一般書籍"} ${SPECIAL_ROW}`
+  const groups = new Map()
+
+  for (const record of rowRecords) {
+    const placement = specialIndexPlacement(record)
+    const items = groups.get(placement.heading) || []
+    items.push({ record, sortKey: placement.sortKey })
+    groups.set(placement.heading, items)
+  }
+
+  const lines = [
+    "---",
+    `title: ${yamlQuote(title)}`,
+    "cssclasses:",
+    "  - puko-custom-folder-index",
+    "---",
+    "",
+    `# ${title}`,
+    "",
+    `**${rowRecords.length}${itemLabel}**`,
+    "",
+    "タイトルの先頭文字を正規化し、数字、A–Z、その他の順に掲載しています。",
+  ]
+
+  const headings = [...groups.keys()].sort(specialHeadingCompare)
+
+  for (const heading of headings) {
+    const items = groups.get(heading).sort((left, right) => {
+      const byTitle = naturalCompare(left.sortKey, right.sortKey)
+      if (byTitle !== 0) return byTitle
+      return naturalCompare(left.record.title, right.record.title)
+    })
+
+    lines.push("", `## ${heading}　${items.length}${itemLabel}`, "")
+    lines.push(...items.map(({ record }) => readingIndexEntry(record)))
+  }
+
+  lines.push("")
+  return lines.join("\n")
+}
+
 function unicodeCompare(left, right) {
   if (left < right) return -1
   if (left > right) return 1
@@ -1038,6 +1108,7 @@ function main() {
     warnings: [],
     readingWarnings: [],
     readingIndexPageCount: 0,
+    specialIndexPageCount: 0,
     bookReadingsConfirmed: 0,
     bookReadingsUnconfirmed: 0,
     authorReadingsConfirmed: 0,
@@ -1072,6 +1143,19 @@ function main() {
       }
     }
 
+    for (const [root, subset] of [
+      [GENERAL_BOOK_ROOT, books],
+      [AUTHOR_ROOT, authors],
+    ]) {
+      const specialIndex = makeSpecialRowPage(root, subset)
+      if (specialIndex) {
+        writeUtf8(
+          path.join(stageRoot, root, SPECIAL_ROW, "index.md"),
+          specialIndex,
+        )
+        stats.specialIndexPageCount += 1
+      }
+    }
     let seriesIndexPageCount = 0
     const seriesBooks = books.filter((book) => book.relativePath.startsWith(`${SERIES_ROOT}/`))
     if (seriesBooks.length) {
@@ -1151,6 +1235,7 @@ function main() {
   console.log(`  NDC分類済: ${ndcClassifiedCount}件`)
   console.log(`  シリーズ索引: ${stats.seriesIndexPageCount || 0}件`)
   console.log(`  読み索引: ${stats.readingIndexPageCount}件`)
+  console.log(`  数字・英語索引: ${stats.specialIndexPageCount}件`)
   console.log(
     `  一般書籍の書名読み: 確認済み ${stats.bookReadingsConfirmed}件 / 未確認 ${stats.bookReadingsUnconfirmed}件`,
   )
