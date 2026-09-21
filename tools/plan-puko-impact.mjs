@@ -297,6 +297,21 @@ function addTarget(p) {
   if (p) writeTargets.add(p)
 }
 
+function targetReadingRowIndex(meta) {
+  const target = indexPath(meta)
+  if (!target) return
+
+  const existsNow = [...current.values()]
+    .some(item => indexPath(item.meta) === target)
+
+  if (existsNow) {
+    addTarget(target)
+    deleteTargets.delete(target)
+  } else {
+    writeTargets.delete(target)
+    deleteTargets.add(target)
+  }
+}
 function addAuthorTargets(names) {
   for (const name of new Set(names)) {
     const p = currentAuthors.get(name) ?? oldAuthors.get(name)
@@ -467,13 +482,11 @@ function planChange(oldMeta, newMeta, kind) {
       addAuthorTargets(newMeta.authors)
       addNdcTargets(newMeta)
 
-      const idx = indexPath(newMeta)
-      if (idx) addTarget(idx)
+      targetReadingRowIndex(newMeta)
 
       addSeriesTargetsForNew(newMeta)
     } else {
-      const idx = indexPath(newMeta)
-      if (idx) addTarget(idx)
+      targetReadingRowIndex(newMeta)
     }
 
     return
@@ -510,17 +523,14 @@ function planChange(oldMeta, newMeta, kind) {
       addNdcTargets(newMeta)
     }
 
-    const oldIndex = indexPath(oldMeta)
-    const newIndex = indexPath(newMeta)
-
     if (
       titleReadingChanged ||
       authorsChanged ||
       pathChanged ||
       titleChanged
     ) {
-      addTarget(oldIndex)
-      addTarget(newIndex)
+      targetReadingRowIndex(oldMeta)
+      targetReadingRowIndex(newMeta)
     }
 
     if (
@@ -538,8 +548,8 @@ function planChange(oldMeta, newMeta, kind) {
       pathChanged ||
       titleChanged
     ) {
-      addTarget(indexPath(oldMeta))
-      addTarget(indexPath(newMeta))
+      targetReadingRowIndex(oldMeta)
+      targetReadingRowIndex(newMeta)
     }
   }
 }
