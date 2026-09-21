@@ -1,4 +1,4 @@
-#requires -Version 5.1
+﻿#requires -Version 5.1
 
 [CmdletBinding()]
 param(
@@ -6,6 +6,8 @@ param(
     [string]$SourceRoot,
 
     [string]$OutputRoot,
+
+    [string]$IdMapPath,
 
     [switch]$Publish
 )
@@ -15,7 +17,9 @@ Set-StrictMode -Version Latest
 
 $ProjectRoot = $PSScriptRoot
 $Builder = Join-Path $ProjectRoot "tools\build-puko.mjs"
-$IdMap = Join-Path $ProjectRoot "data\opac-id-map.json"
+if (-not $IdMapPath) {
+    $IdMapPath = Join-Path $ProjectRoot "data\opac-id-map.json"
+}
 
 if (-not $OutputRoot) {
     if ($Publish) {
@@ -35,7 +39,7 @@ if (-not $NodeCommand) {
     throw "Node.js was not found."
 }
 
-$NodeArguments = @($Builder, "--source", $SourceRoot, "--output", $OutputRoot, "--id-map", $IdMap)
+$NodeArguments = @($Builder, "--source", $SourceRoot, "--output", $OutputRoot, "--id-map", $IdMapPath)
 
 if ($Publish) {
     $NodeArguments += "--publish"

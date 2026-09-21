@@ -830,6 +830,139 @@ function transformAuthor(record, booksByAuthor) {
   return `${formatFrontmatter(frontmatter, record.title, record.opacId, internalDir)}\n\n${transformedBody}`
 }
 
+function sameValues(left, right) {
+  return left.length === right.length && left.every((value, index) => value === right[index])
+}
+
+function auditStage(records, stageRoot, idMap) {
+  const issues = []
+  const expectedPaths = records.map((record) => record.relativePath)
+  const expectedSet = new Set(expectedPaths)
+  const idMapPaths = Object.keys(idMap.records)
+
+  if (idMapPaths.length !== records.length) {
+    issues.push(`原典数とIDマップ数が一致しません: source=${records.length} idMap=${idMapPaths.length}`)
+  }
+
+  for (const relativePath of idMapPaths) {
+    if (!expectedSet.has(relativePath)) {
+      issues.push(`IDマップに現在の原典が存在しないパスがあります: ${relativePath}`)
+    }
+  }
+
+  const seenIds = new Map()
+
+  for (const record of records) {
+    const mappedId = idMap.records[record.relativePath]
+
+    if (mappedId !== record.opacId) {
+      issues.push(
+        `IDマップと生成レコードのOPAC_IDが一致しません: ${record.relativePath} map=${mappedId || "<none>"} record=${record.opacId}`,
+      )
+    }
+
+    if (seenIds.has(record.opacId)) {
+      issues.push(
+        `OPAC_IDが重複しています: ${record.opacId} / ${seenIds.get(record.opacId)} / ${record.relativePath}`,
+      )
+    } else {
+      seenIds.set(record.opacId, record.relativePath)
+    }
+
+    const publicPath = path.join(stageRoot, ...record.relativePath.split("/"))
+    if (!fs.existsSync(publicPath)) {
+      issues.push(`公開書誌レコードがありません: ${record.relativePath}`)
+      continue
+    }
+
+    const publicText = fs.readFileSync(publicPath, "utf8")
+    const publicParts = splitFrontmatter(publicText, publicPath)
+    const sourceParts = splitFrontmatter(record.sourceText, record.sourcePath)
+
+    const publicIds = getYamlValues(publicParts.frontmatter, "OPAC_ID")
+    if (publicIds.length !== 1 || publicIds[0] !== record.opacId) {
+      issues.push(
+        `公開側OPAC_IDが不正です: ${record.relativePath} expected=${record.opacId} actual=${publicIds.join(",") || "<none>"}`,
+      )
+    }
+
+    for (const key of ["関連キーワード", "固有名詞"]) {
+      const sourceValues = getYamlValues(sourceParts.frontmatter, key)
+      const publicValues = getYamlValues(publicParts.frontmatter, key)
+
+      if (!sameValues(sourceValues, publicValues)) {
+        issues.push(
+          `${key}が原典と公開側で一致しません: ${record.relativePath}`,
+        )
+      }
+    }
+
+    if (record.type === "book") {
+      const publicNdcCodes = ndcCodesFor(
+        getYamlValues(publicParts.frontmatter, "NDC"),
+      )
+
+      if (!sameValues(record.ndcCodes, publicNdcCodes)) {
+        issues.push(
+          `NDC先頭3桁が原典と公開側で一致しません: ${record.relativePath} source=${record.ndcCodes.join(",")} public=${publicNdcCodes.join(",")}`,
+        )
+      }
+    }
+
+    for (const line of publicParts.frontmatter) {
+      const keyMatch = line.match(/^([^\s#][^:]*):/)
+      if (keyMatch && keyMatch[1].trim().startsWith("初版・底本")) {
+        issues.push(
+          `公開側に初版・底本項目が残っています: ${record.relativePath} / ${keyMatch[1].trim()}`,
+        )
+      }
+    }
+
+    if (
+      normalizeNewlines(publicParts.body)
+        .split("\n")
+        .some((line) => /^\s*■\s*目次一覧\s*$/.test(line))
+    ) {
+      issues.push(`公開側に目次一覧が残っています: ${record.relativePath}`)
+    }
+  }
+
+  let publicRecordCount = 0
+  for (const stagedPath of listMarkdownFiles(stageRoot)) {
+    const stagedText = fs.readFileSync(stagedPath, "utf8")
+    const { frontmatter } = splitFrontmatter(stagedText, stagedPath)
+    const ids = getYamlValues(frontmatter, "OPAC_ID")
+
+    if (ids.length > 0) publicRecordCount += 1
+  }
+
+  if (publicRecordCount !== records.length) {
+    issues.push(
+      `公開書誌レコード数が原典数と一致しません: source=${records.length} public=${publicRecordCount}`,
+    )
+  }
+
+  if (issues.length) {
+    const limit = 50
+    const shown = issues.slice(0, limit)
+    const omitted =
+      issues.length > limit
+        ? `\n- ほか ${issues.length - limit}件`
+        : ""
+
+    fail(
+      `ステージ監査に失敗しました（${issues.length}件）:\n- ${shown.join("\n- ")}${omitted}`,
+    )
+  }
+
+  return {
+    sourceCount: records.length,
+    idMapCount: idMapPaths.length,
+    publicRecordCount,
+    uniqueIdCount: seenIds.size,
+  }
+}
+
 function main() {
   const args = parseArgs(process.argv.slice(2))
   const sourceRoot = path.resolve(args.source)
@@ -971,6 +1104,19 @@ function main() {
     }
     stats.seriesIndexPageCount = seriesIndexPageCount
 
+    const auditResult = auditStage(records, stageRoot, idMap)
+
+    const changedSources = sourceFiles.filter(
+      (file) => beforeHashes.get(file) !== sha256File(file),
+    )
+    if (changedSources.length) {
+      fail(`変換元ファイルの変化を検出しました: ${changedSources.join(", ")}`)
+    }
+
+    console.log(
+      `  ステージ監査: 原典 ${auditResult.sourceCount}件 / ID ${auditResult.idMapCount}件 / 公開書誌 ${auditResult.publicRecordCount}件 / 一意ID ${auditResult.uniqueIdCount}件`,
+    )
+
     fs.mkdirSync(path.dirname(idMapPath), { recursive: true })
     writeUtf8(idMapPath, `${JSON.stringify(idMap, null, 2)}\n`)
 
@@ -992,11 +1138,6 @@ function main() {
       }
     }
     throw error
-  }
-
-  const changedSources = sourceFiles.filter((file) => beforeHashes.get(file) !== sha256File(file))
-  if (changedSources.length) {
-    fail(`変換元ファイルの変化を検出しました: ${changedSources.join(", ")}`)
   }
 
   const bookCount = records.filter((record) => record.type === "book").length
