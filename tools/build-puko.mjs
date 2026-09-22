@@ -776,12 +776,13 @@ function makeIndex(records) {
   const books = records.filter((record) => record.type === "book")
   const authors = records.filter((record) => record.type === "author")
   const classifiedBooks = books.filter((book) => book.ndcClass)
+  const updateDate = new Intl.DateTimeFormat("ja-JP", {
+    timeZone: "Asia/Tokyo",
+  }).format(new Date())
   const lines = [
     "---",
     'title: "ぷ庫OPAC"',
     "---",
-    "",
-    "# ぷ庫OPAC",
     "",
     "![ぷ庫OPAC](./static/og-image.png)",
     "",
@@ -803,7 +804,8 @@ function makeIndex(records) {
     "",
     "現在の作業進捗状況：",
     "",
-    "　2026/9/20　2818冊/10136冊（内1203冊は非公開雑誌）",
+    `　最終更新日：${updateDate}`,
+    `　公開冊数：${books.length}冊`,
     "",
     "おまけ：",
     "",

@@ -460,7 +460,10 @@ function readOldMeta(relativePath) {
 }
 
 function planChange(oldMeta, newMeta, kind) {
-  if (newMeta) addTarget(newMeta.relativePath)
+  if (newMeta) {
+    addTarget(newMeta.relativePath)
+    addTarget("index.md")
+  }
 
   const pathChanged =
     oldMeta && newMeta &&
