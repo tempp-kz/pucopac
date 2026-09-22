@@ -52,6 +52,16 @@ $GitStageCreated = $false
 $GitCommitCreated = $false
 $Pushed = $false
 $ResumePendingPush = $false
+$ManagedDirtyAtStart = $false
+$BuildStatePath = Join-Path $env:LOCALAPPDATA "PukoUpdate\state\opac-build-state.json"
+$BuildStateChanged = $false
+$BuildMode = "NOT_SELECTED"
+$BuildStateReason = "NOT_CHECKED"
+$BuildFingerprintInfo = $null
+$ImpactPlanPath = $null
+$ImpactPlan = $null
+$FailureStage = "UNHANDLED_ERROR"
+$BuildStateUpdateStarted = $false
 
 function Write-Log {
     param([string]$Text = "")
@@ -573,6 +583,9 @@ function Stop-WithLog {
     Write-Log "ID_MAP_CHANGED=$IdMapChanged"
     Write-Log "BASELINE_CHANGED=$BaselineChanged"
     Write-Log "CONTENT_CHANGED=$ContentChanged"
+    Write-Log "BUILD_MODE=$BuildMode"
+    Write-Log "BUILD_STATE_REASON=$BuildStateReason"
+    Write-Log "BUILD_STATE_CHANGED=$BuildStateChanged"
     Write-Log "GIT_COMMIT_CREATED=$GitCommitCreated"
     Write-Log "PUSHED=$Pushed"
     Write-Log ""
@@ -902,7 +915,9 @@ try {
         foreach ($RequiredTrackedFile in @(
             "BuildPuko.ps1",
             "UpdatePuko.ps1",
-            "tools/build-puko.mjs"
+            "tools/build-puko.mjs",
+            "tools/plan-puko-impact.mjs",
+            "data/ndc10-labels.json"
         )) {
             & $GitCommand.Source `
                 -C $ProjectRoot `
@@ -958,6 +973,23 @@ try {
         elseif ($OutsideDiffExit -ne 0) {
             throw "Git差分の確認に失敗しました"
         }
+
+        $InitialManagedStatus = @(
+            & $GitCommand.Source `
+                -C $ProjectRoot `
+                -c core.quotepath=false `
+                status --porcelain=v1 --untracked-files=all -- `
+                content `
+                data/opac-id-map.json
+        )
+
+        if ($LASTEXITCODE -ne 0) {
+            throw "DailyUpdate開始時の公開対象Git status取得に失敗しました"
+        }
+
+        $ManagedDirtyAtStart = ($InitialManagedStatus.Count -gt 0)
+        Write-Log "MANAGED_DIRTY_AT_START=$ManagedDirtyAtStart"
+        Write-Log "MANAGED_DIRTY_AT_START_COUNT=$($InitialManagedStatus.Count)"
 
         Write-Log ""
         Write-Log "=== GIT REMOTE PREFLIGHT ==="
@@ -1245,26 +1277,218 @@ try {
     }
     if ($DailyUpdate) {
         $BuildScript = Join-Path $ProjectRoot "BuildPuko.ps1"
+        $PlannerScript = Join-Path $ProjectRoot "tools\plan-puko-impact.mjs"
         $DailyContentOutput = Join-Path $ProjectRoot "content"
 
         if (-not (Test-Path -LiteralPath $BuildScript -PathType Leaf)) {
             throw "BuildPuko.ps1 が見つかりません: $BuildScript"
         }
 
+        if (-not (Test-Path -LiteralPath $PlannerScript -PathType Leaf)) {
+            throw "plan-puko-impact.mjs が見つかりません: $PlannerScript"
+        }
+
+        $BuildFingerprintInfo = Get-BuildFingerprint `
+            -ProjectRoot $ProjectRoot
+
+        $BuildStateStatus = Get-BuildStateStatus `
+            -StatePath $BuildStatePath
+
+        Write-Log ""
+        Write-Log "=== BUILD MODE SELECTION ==="
+        Write-Log "BUILD_STATE_PATH=$BuildStatePath"
+        Write-Log "BUILD_FINGERPRINT=$($BuildFingerprintInfo.Fingerprint)"
+        Write-Log "BUILD_STATE_STATUS=$($BuildStateStatus.Reason)"
+
+        $BuildMode = "FULL"
+
+        if ($ManagedDirtyAtStart) {
+            $BuildStateReason = "MANAGED_DIRTY_AT_START"
+        }
+        elseif (-not (Test-Path -LiteralPath $DailyContentOutput -PathType Container)) {
+            $BuildStateReason = "CONTENT_MISSING"
+        }
+        elseif (-not $BuildStateStatus.Valid) {
+            $BuildStateReason = $BuildStateStatus.Reason
+        }
+        elseif (
+            [string]$BuildStateStatus.State.fingerprint -ne
+            [string]$BuildFingerprintInfo.Fingerprint
+        ) {
+            $BuildStateReason = "FINGERPRINT_MISMATCH"
+        }
+        else {
+            $BuildStateReason = "FINGERPRINT_MATCH"
+
+            Assert-SourceSnapshotUnchanged `
+                -SourceRoot $SourceRoot `
+                -Roots $Roots `
+                -ExpectedRecords $Current
+
+            $ImpactPlanPath = Join-Path `
+                $env:TEMP `
+                ("puko-impact-plan-" + $PID + "-" + $Stamp + ".json")
+
+            if (Test-Path -LiteralPath $ImpactPlanPath) {
+                Remove-Item -LiteralPath $ImpactPlanPath -Force
+            }
+
+            $NodeCommand = Get-Command node -ErrorAction SilentlyContinue
+
+            if (-not $NodeCommand) {
+                throw "impact planner実行に必要なNode.jsが見つかりません"
+            }
+
+            & $NodeCommand.Source `
+                $PlannerScript `
+                $SourceRoot `
+                $DailyContentOutput `
+                $BaselinePath `
+                --json-out `
+                $ImpactPlanPath
+
+            if ($LASTEXITCODE -ne 0) {
+                throw "impact planner の実行に失敗しました。Exit code: $LASTEXITCODE"
+            }
+
+            if (-not (Test-Path -LiteralPath $ImpactPlanPath -PathType Leaf)) {
+                throw "impact planner JSON が生成されませんでした: $ImpactPlanPath"
+            }
+
+            try {
+                $ImpactPlan = Get-Content `
+                    -LiteralPath $ImpactPlanPath `
+                    -Raw `
+                    -Encoding UTF8 |
+                    ConvertFrom-Json
+            }
+            catch {
+                throw "impact planner JSON を読み取れません: $($_.Exception.Message)"
+            }
+
+            $RequiredPlanProperties = @(
+                "version",
+                "currentSource",
+                "baseline",
+                "write",
+                "delete",
+                "warnings",
+                "fullBuildRecommended",
+                "status"
+            )
+
+            foreach ($PropertyName in $RequiredPlanProperties) {
+                if (
+                    -not (
+                        $ImpactPlan.PSObject.Properties.Name `
+                            -contains $PropertyName
+                    )
+                ) {
+                    throw "impact planner JSON に必須項目がありません: $PropertyName"
+                }
+            }
+
+            if ([int]$ImpactPlan.version -ne 1) {
+                throw "impact planner JSON のversionが不正です: $($ImpactPlan.version)"
+            }
+
+            if ([int]$ImpactPlan.currentSource -ne $Current.Count) {
+                throw "impact plannerとDailyUpdateの原典件数が一致しません: PLANNER=$($ImpactPlan.currentSource) DAILY=$($Current.Count)"
+            }
+
+            if ([int]$ImpactPlan.baseline -ne $Previous.Count) {
+                throw "impact plannerとDailyUpdateのbaseline件数が一致しません: PLANNER=$($ImpactPlan.baseline) DAILY=$($Previous.Count)"
+            }
+
+            Assert-SourceSnapshotUnchanged `
+                -SourceRoot $SourceRoot `
+                -Roots $Roots `
+                -ExpectedRecords $Current
+
+            $PlanWarnings = @($ImpactPlan.warnings)
+            $PlanWrite = @($ImpactPlan.write)
+            $PlanDelete = @($ImpactPlan.delete)
+            $PlanStatus = [string]$ImpactPlan.status
+            $PlanFullRecommended = [bool]$ImpactPlan.fullBuildRecommended
+
+            Write-Log "PLAN_STATUS=$PlanStatus"
+            Write-Log "PLAN_WARNINGS=$($PlanWarnings.Count)"
+            Write-Log "PLAN_WRITE=$($PlanWrite.Count)"
+            Write-Log "PLAN_DELETE=$($PlanDelete.Count)"
+            Write-Log "PLAN_FULL_BUILD_RECOMMENDED=$PlanFullRecommended"
+
+            if (
+                $PlanStatus -eq "DIFF_PLAN_OK" -and
+                $PlanWarnings.Count -eq 0 -and
+                -not $PlanFullRecommended
+            ) {
+                $BuildMode = "DIFF"
+                $BuildStateReason = "FINGERPRINT_MATCH_DIFF_PLAN_OK"
+            }
+            elseif (
+                $PlanStatus -eq "FULL_BUILD" -or
+                $PlanFullRecommended -or
+                (
+                    $PlanStatus -eq "DIFF_PLAN_OK" -and
+                    $PlanWarnings.Count -gt 0
+                )
+            ) {
+                $BuildMode = "FULL"
+
+                if ($PlanWarnings.Count -gt 0) {
+                    $BuildStateReason = "PLANNER_WARNINGS"
+                }
+                else {
+                    $BuildStateReason = "PLANNER_FULL_BUILD"
+                }
+            }
+            else {
+                Stop-WithLog `
+                    "IMPACT_PLANNER" `
+                    "impact plannerが自動Build可能な状態を返しませんでした: STATUS=$PlanStatus WARNINGS=$($PlanWarnings.Count)"
+                exit 12
+            }
+        }
+
         $IdMapHashBeforeDaily = (
             Get-FileHash -LiteralPath $IdMapPath -Algorithm SHA256
         ).Hash
 
+        Write-Log "BUILD_MODE=$BuildMode"
+        Write-Log "BUILD_STATE_REASON=$BuildStateReason"
         Write-Log ""
         Write-Log "=== DAILY PUBLISH BUILD ==="
         Write-Log "CONTENT_OUTPUT=$DailyContentOutput"
         Write-Log "PUBLISH_BUILD_STARTED=True"
 
-        & $BuildScript `
-            -SourceRoot $SourceRoot `
-            -OutputRoot $DailyContentOutput `
-            -IdMapPath $IdMapPath `
-            -Publish
+        try {
+            if ($BuildMode -eq "DIFF") {
+                & $BuildScript `
+                    -SourceRoot $SourceRoot `
+                    -OutputRoot $DailyContentOutput `
+                    -IdMapPath $IdMapPath `
+                    -TargetsFile $ImpactPlanPath `
+                    -Publish
+            }
+            elseif ($BuildMode -eq "FULL") {
+                & $BuildScript `
+                    -SourceRoot $SourceRoot `
+                    -OutputRoot $DailyContentOutput `
+                    -IdMapPath $IdMapPath `
+                    -Publish
+            }
+            else {
+                throw "未定義のBuild modeです: $BuildMode"
+            }
+        }
+        finally {
+            if (
+                $ImpactPlanPath -and
+                (Test-Path -LiteralPath $ImpactPlanPath)
+            ) {
+                Remove-Item -LiteralPath $ImpactPlanPath -Force
+            }
+        }
 
         $PublishBuilt = $true
         Write-Log "PUBLISH_BUILD_SUCCEEDED=True"
@@ -1482,6 +1706,18 @@ try {
 
         Write-Log "FINAL_SOURCE_SNAPSHOT_UNCHANGED=True"
 
+        $FinalBuildFingerprintInfo = Get-BuildFingerprint `
+            -ProjectRoot $ProjectRoot
+
+        if (
+            [string]$FinalBuildFingerprintInfo.Fingerprint -ne
+            [string]$BuildFingerprintInfo.Fingerprint
+        ) {
+            throw "DailyUpdate中にbuild fingerprint対象が変更されました。baseline/build stateは更新しません。"
+        }
+
+        Write-Log "FINAL_BUILD_FINGERPRINT_UNCHANGED=True"
+
         # Build後に再読込した最新IDマップを使い、
         # 公開成功後の状態だけを次回基準表として保存する。
         $BaselineResult = Write-SourceBaseline `
@@ -1489,6 +1725,31 @@ try {
             -CurrentIdMap $IdMap
 
         $BaselineChanged = $true
+
+        $BuildStateBackupRoot = Join-Path `
+            $env:LOCALAPPDATA `
+            "PukoUpdate\backups\$Stamp"
+
+        $FailureStage = "BUILD_STATE_UPDATE"
+        $BuildStateUpdateStarted = $true
+        Write-Log "BUILD_STATE_UPDATE_STARTED=True"
+        Write-Log "PUSHED=$Pushed"
+        Write-Log "BASELINE_CHANGED=$BaselineChanged"
+
+        $BuildStateResult = Write-BuildState `
+            -StatePath $BuildStatePath `
+            -FingerprintInfo $FinalBuildFingerprintInfo `
+            -BackupRoot $BuildStateBackupRoot
+
+        $BuildStateChanged = $true
+        Write-Log "BUILD_STATE_UPDATED=True"
+        $FailureStage = "FINAL_RESULT"
+
+        Write-Log "BUILD_STATE_SAVED=True"
+        Write-Log "BUILD_STATE_SAVED_PATH=$($BuildStateResult.Path)"
+        if ($BuildStateResult.Backup) {
+            Write-Log "BUILD_STATE_BACKUP=$($BuildStateResult.Backup)"
+        }
 
         Write-Log ""
         Write-Log "=== DAILY UPDATE RESULT ==="
@@ -1498,6 +1759,9 @@ try {
         Write-Log "BASELINE_CHANGED=$BaselineChanged"
         Write-Log "PUBLISH_BUILD_SUCCEEDED=$PublishBuilt"
         Write-Log "CONTENT_CHANGED=$ContentChanged"
+        Write-Log "BUILD_MODE=$BuildMode"
+        Write-Log "BUILD_STATE_REASON=$BuildStateReason"
+        Write-Log "BUILD_STATE_CHANGED=$BuildStateChanged"
         Write-Log "GIT_AUDIT_PASSED=$GitAuditPassed"
         Write-Log "GIT_COMMIT_CREATED=$GitCommitCreated"
         Write-Log "PUSHED=$Pushed"
@@ -1814,6 +2078,16 @@ try {
     Write-Log "LOG=$LogPath"
 }
 catch {
+    if (
+        $ImpactPlanPath -and
+        (Test-Path -LiteralPath $ImpactPlanPath)
+    ) {
+        Remove-Item `
+            -LiteralPath $ImpactPlanPath `
+            -Force `
+            -ErrorAction SilentlyContinue
+    }
+
     if ($DailyUpdate -and $GitStageCreated -and -not $GitCommitCreated) {
         $CleanupGit = Get-Command git -ErrorAction SilentlyContinue
 
@@ -1828,12 +2102,17 @@ catch {
 
     Write-Log ""
     Write-Log "RESULT=STOP"
-    Write-Log "STAGE=UNHANDLED_ERROR"
+    Write-Log "STAGE=$FailureStage"
     Write-Log "REASON=$($_.Exception.Message)"
     Write-Log "SOURCE_CHANGED=$SourceChanged"
     Write-Log "ID_MAP_CHANGED=$IdMapChanged"
     Write-Log "BASELINE_CHANGED=$BaselineChanged"
     Write-Log "CONTENT_CHANGED=$ContentChanged"
+    Write-Log "BUILD_MODE=$BuildMode"
+    Write-Log "BUILD_STATE_REASON=$BuildStateReason"
+    Write-Log "BUILD_STATE_UPDATE_STARTED=$BuildStateUpdateStarted"
+    Write-Log "BUILD_STATE_UPDATED=$BuildStateChanged"
+    Write-Log "BUILD_STATE_CHANGED=$BuildStateChanged"
     Write-Log "GIT_AUDIT_PASSED=$GitAuditPassed"
     Write-Log "GIT_COMMIT_CREATED=$GitCommitCreated"
     Write-Log "PUSHED=$Pushed"

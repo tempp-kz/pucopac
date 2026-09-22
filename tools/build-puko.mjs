@@ -1187,11 +1187,6 @@ function runTargetBuild({
     }
   }
 
-  fs.mkdirSync(
-    backupRoot,
-    { recursive: false },
-  )
-
   const touched = [
     ...new Set([
       ...plan.write,
@@ -1200,43 +1195,19 @@ function runTargetBuild({
   ]
 
   const originallyPresent = new Set()
+  const idMapOriginallyPresent =
+    fs.existsSync(idMapPath)
+  const idMapBackupPath = path.join(
+    backupRoot,
+    "__opac-id-map.json",
+  )
 
-  for (const relativePath of touched) {
-    const destination = path.join(
-      outputRoot,
-      ...relativePath.split("/"),
-    )
+  let outputMutationStarted = false
+  let idMapWriteAttempted = false
 
-    if (!fs.existsSync(destination)) {
-      continue
-    }
+  const rollbackOutput = () => {
+    if (!outputMutationStarted) return
 
-    if (!fs.statSync(destination).isFile()) {
-      fail(
-        "差分対象がファイルではありません: " +
-          relativePath,
-      )
-    }
-
-    originallyPresent.add(relativePath)
-
-    const backupPath = path.join(
-      backupRoot,
-      ...relativePath.split("/"),
-    )
-
-    fs.mkdirSync(
-      path.dirname(backupPath),
-      { recursive: true },
-    )
-
-    fs.copyFileSync(
-      destination,
-      backupPath,
-    )
-  }
-
-  const rollback = () => {
     for (const relativePath of touched) {
       const destination = path.join(
         outputRoot,
@@ -1267,7 +1238,106 @@ function runTargetBuild({
     }
   }
 
+  const rollbackIdMap = () => {
+    if (!idMapWriteAttempted) return
+
+    if (idMapOriginallyPresent) {
+      if (!fs.existsSync(idMapBackupPath)) {
+        fail(
+          "ID対応表のロールバック用バックアップがありません",
+        )
+      }
+
+      fs.mkdirSync(
+        path.dirname(idMapPath),
+        { recursive: true },
+      )
+
+      fs.copyFileSync(
+        idMapBackupPath,
+        idMapPath,
+      )
+    } else if (fs.existsSync(idMapPath)) {
+      fs.rmSync(
+        idMapPath,
+        { force: true },
+      )
+    }
+  }
+
+  const cleanup = () => {
+    if (fs.existsSync(stageRoot)) {
+      fs.rmSync(
+        stageRoot,
+        { recursive: true, force: true },
+      )
+    }
+
+    if (fs.existsSync(backupRoot)) {
+      fs.rmSync(
+        backupRoot,
+        { recursive: true, force: true },
+      )
+    }
+  }
+
   try {
+    fs.mkdirSync(
+      backupRoot,
+      { recursive: false },
+    )
+
+    for (const relativePath of touched) {
+      const destination = path.join(
+        outputRoot,
+        ...relativePath.split("/"),
+      )
+
+      if (!fs.existsSync(destination)) {
+        continue
+      }
+
+      if (!fs.statSync(destination).isFile()) {
+        fail(
+          "差分対象がファイルではありません: " +
+            relativePath,
+        )
+      }
+
+      const backupPath = path.join(
+        backupRoot,
+        ...relativePath.split("/"),
+      )
+
+      fs.mkdirSync(
+        path.dirname(backupPath),
+        { recursive: true },
+      )
+
+      fs.copyFileSync(
+        destination,
+        backupPath,
+      )
+
+      originallyPresent.add(relativePath)
+    }
+
+    if (idMapOriginallyPresent) {
+      if (!fs.statSync(idMapPath).isFile()) {
+        fail(
+          "ID対応表がファイルではありません: " +
+            idMapPath,
+        )
+      }
+
+      fs.copyFileSync(
+        idMapPath,
+        idMapBackupPath,
+      )
+    }
+
+    outputMutationStarted = true
+
     for (const relativePath of plan.write) {
       const staged = path.join(
         stageRoot,
@@ -1328,20 +1398,14 @@ function runTargetBuild({
       { recursive: true },
     )
 
+    idMapWriteAttempted = true
+
     writeUtf8(
       idMapPath,
       JSON.stringify(idMap, null, 2) + "\n",
     )
 
-    fs.rmSync(
-      stageRoot,
-      { recursive: true, force: true },
-    )
-
-    fs.rmSync(
-      backupRoot,
-      { recursive: true, force: true },
-    )
+    cleanup()
 
     return {
       ...auditResult,
@@ -1349,29 +1413,39 @@ function runTargetBuild({
       deleteCount: plan.delete.length,
     }
   } catch (error) {
+    const rollbackErrors = []
+
     try {
-      rollback()
+      rollbackOutput()
     } catch (rollbackError) {
+      rollbackErrors.push(
+        "OUTPUT=" + rollbackError.message,
+      )
+    }
+
+    try {
+      rollbackIdMap()
+    } catch (rollbackError) {
+      rollbackErrors.push(
+        "ID_MAP=" + rollbackError.message,
+      )
+    }
+
+    try {
+      cleanup()
+    } catch (cleanupError) {
+      rollbackErrors.push(
+        "CLEANUP=" + cleanupError.message,
+      )
+    }
+
+    if (rollbackErrors.length) {
       throw new Error(
-        "差分build失敗後のロールバックにも失敗しました: " +
+        "差分build失敗後の復元処理にも失敗しました: " +
           "ORIGINAL=" +
           error.message +
           " ROLLBACK=" +
-          rollbackError.message,
-      )
-    }
-
-    if (fs.existsSync(stageRoot)) {
-      fs.rmSync(
-        stageRoot,
-        { recursive: true, force: true },
-      )
-    }
-
-    if (fs.existsSync(backupRoot)) {
-      fs.rmSync(
-        backupRoot,
-        { recursive: true, force: true },
+          rollbackErrors.join(" | "),
       )
     }
 
