@@ -298,9 +298,13 @@ function removeDataviewBlocks(body) {
   return result.join("\n")
 }
 
-function withTitle(body, title) {
+function withTitle(body, title, replaceExisting = false) {
   const trimmed = normalizeNewlines(body).trim()
-  if (/^#\s+/.test(trimmed)) return `${trimmed}\n`
+  if (/^#\s+/.test(trimmed)) {
+    if (!replaceExisting) return `${trimmed}\n`
+    const replaced = trimmed.replace(/^#\s+.*$/m, `# ${title}`)
+    return `${replaced}\n`
+  }
   if (!trimmed) return `# ${title}\n`
   return `# ${title}\n\n${trimmed}\n`
 }
@@ -345,6 +349,7 @@ function formatFrontmatter(originalLines, title, opacId, internalDir) {
     "ID",
     "OPAC_ID",
     "初版・底本の発行年",
+    "公開書名",
     "内部区分",
     "AI生成",
   ])
@@ -659,7 +664,7 @@ function seriesLocation(record) {
 }
 
 function seriesDisplayTitle(record) {
-  return path.posix.basename(record.relativePath, path.posix.extname(record.relativePath))
+  return record.title
 }
 
 function publisherGroups(records) {
@@ -899,7 +904,7 @@ function transformBook(record, stats) {
     if (classic.missingRange) stats.warnings.push(`■ レンジがない古典: ${record.relativePath}`)
   }
   const toc = removeTocSection(transformedBody)
-  transformedBody = withTitle(toc.body, record.title)
+  transformedBody = withTitle(toc.body, record.title, record.title !== record.fileTitle)
   if (toc.removed) stats.tocsRemoved += 1
 
   const internalDir = path.posix.dirname(record.relativePath)
@@ -1500,6 +1505,11 @@ function auditStage(records, stageRoot, idMap) {
     const publicParts = splitFrontmatter(publicText, publicPath)
     const sourceParts = splitFrontmatter(record.sourceText, record.sourcePath)
 
+    const publicDisplayTitles = getYamlValues(publicParts.frontmatter, "公開書名")
+    if (publicDisplayTitles.length > 0) {
+      issues.push(`公開側に公開書名が残っています: ${record.relativePath}`)
+    }
+
     const publicIds = getYamlValues(publicParts.frontmatter, "OPAC_ID")
     if (publicIds.length !== 1 || publicIds[0] !== record.opacId) {
       issues.push(
@@ -1609,7 +1619,11 @@ function main() {
     const relativePath = normalizedRelative(sourceRoot, sourcePath)
     const { frontmatter } = splitFrontmatter(sourceText, sourcePath)
     const type = relativePath.startsWith(`${AUTHOR_ROOT}/`) ? "author" : "book"
-    const title = path.basename(sourcePath, path.extname(sourcePath))
+    const fileTitle = path.basename(sourcePath, path.extname(sourcePath))
+    const title =
+      type === "book"
+        ? getYamlValues(frontmatter, "公開書名")[0] || fileTitle
+        : fileTitle
     const authors = type === "book" ? getYamlValues(frontmatter, "著者") : []
     const titleReading =
       type === "book"
@@ -1627,6 +1641,7 @@ function main() {
       sourceText,
       relativePath,
       type,
+      fileTitle,
       title,
       titleReading,
       authorReading,
