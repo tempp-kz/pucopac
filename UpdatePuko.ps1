@@ -1122,25 +1122,23 @@ try {
         $ValidatedDeletions = New-Object System.Collections.Generic.List[object]
 
         foreach ($Path in $DeletionCandidates) {
-            $OldRecord = $Previous[$Path]
-
-            if ($null -eq $OldRecord) {
+            if (-not $Previous.ContainsKey($Path)) {
                 Stop-WithLog "DELETION_APPLY" "baselineから削除候補を取得できません: $Path"
-                exit 5
-            }
-
-            $OpacId = [string]$OldRecord.opacId
-            $ExpectedPrefix = if ($Path.StartsWith("11 著者/")) { "A" } else { "B" }
-
-            if ($OpacId -notmatch "^$ExpectedPrefix\d+$") {
-                Stop-WithLog "DELETION_APPLY" "削除候補のOPAC_IDが不正です: OPAC_ID=$OpacId PATH=$Path"
                 exit 5
             }
 
             $OldProperty = $IdMap.records.PSObject.Properties[$Path]
 
-            if ($null -ne $OldProperty -and [string]$OldProperty.Value -ne $OpacId) {
-                Stop-WithLog "DELETION_APPLY" "削除候補のIDマップが一致しません: EXPECTED=$OpacId ACTUAL=$($OldProperty.Value) PATH=$Path"
+            if ($null -eq $OldProperty) {
+                Stop-WithLog "DELETION_APPLY" "削除候補のIDマップ登録がありません: $Path"
+                exit 5
+            }
+
+            $OpacId = [string]$OldProperty.Value
+            $ExpectedPrefix = if ($Path.StartsWith("11 著者/")) { "A" } else { "B" }
+
+            if ($OpacId -notmatch "^$ExpectedPrefix\d+$") {
+                Stop-WithLog "DELETION_APPLY" "削除候補のOPAC_IDが不正です: OPAC_ID=$OpacId PATH=$Path"
                 exit 5
             }
 
