@@ -62,6 +62,7 @@ $ImpactPlanPath = $null
 $ImpactPlan = $null
 $FailureStage = "UNHANDLED_ERROR"
 $BuildStateUpdateStarted = $false
+$ApprovedDeletionCount = 0
 
 function Write-Log {
     param([string]$Text = "")
@@ -870,10 +871,8 @@ try {
 
     if ($DailyUpdate) {
         if ($DeletionCandidates.Count -gt 0) {
-            Stop-WithLog `
-                "DELETION_DETECTION" `
-                "原典の削除候補があります。自動削除は行わず停止します。"
-            exit 5
+            Write-Log ""
+            Write-Log "DELETION_APPROVAL_REQUIRED=True"
         }
 
         $ExpectedIdMapPath = Join-Path $ProjectRoot "data\opac-id-map.json"
@@ -1119,6 +1118,145 @@ try {
         Write-Log "DAILY_PREFLIGHT=PASS"
     }
 
+    if ($DailyUpdate -and $DeletionCandidates.Count -gt 0) {
+        $ValidatedDeletions = New-Object System.Collections.Generic.List[object]
+
+        foreach ($Path in $DeletionCandidates) {
+            $OldRecord = $Previous[$Path]
+
+            if ($null -eq $OldRecord) {
+                Stop-WithLog "DELETION_APPLY" "baselineから削除候補を取得できません: $Path"
+                exit 5
+            }
+
+            $OpacId = [string]$OldRecord.opacId
+            $ExpectedPrefix = if ($Path.StartsWith("11 著者/")) { "A" } else { "B" }
+
+            if ($OpacId -notmatch "^$ExpectedPrefix\d+$") {
+                Stop-WithLog "DELETION_APPLY" "削除候補のOPAC_IDが不正です: OPAC_ID=$OpacId PATH=$Path"
+                exit 5
+            }
+
+            $OldProperty = $IdMap.records.PSObject.Properties[$Path]
+
+            if ($null -ne $OldProperty -and [string]$OldProperty.Value -ne $OpacId) {
+                Stop-WithLog "DELETION_APPLY" "削除候補のIDマップが一致しません: EXPECTED=$OpacId ACTUAL=$($OldProperty.Value) PATH=$Path"
+                exit 5
+            }
+
+            $OtherSameIdPaths = @(
+                $IdMap.records.PSObject.Properties |
+                    Where-Object {
+                        [string]$_.Value -eq $OpacId -and
+                        [string]$_.Name -ne $Path
+                    } |
+                    ForEach-Object { [string]$_.Name }
+            )
+
+            if ($OtherSameIdPaths.Count -gt 0) {
+                Stop-WithLog "DELETION_APPLY" "削除対象OPAC_IDが別パスにも存在します: OPAC_ID=$OpacId PATHS=$($OtherSameIdPaths -join ',')"
+                exit 5
+            }
+
+            Write-Log ""
+            Write-Log "削除候補"
+            Write-Log "OPAC_ID=$OpacId"
+            Write-Log "PATH=$Path"
+
+            $ExpectedAnswer = "DELETE $OpacId"
+            $Answer = Read-Host "削除を承認する場合は $ExpectedAnswer と入力"
+
+            if ([string]$Answer -cne $ExpectedAnswer) {
+                Stop-WithLog "DELETION_CONFIRMATION" "利用者が削除を明示承認しなかったため停止しました"
+                exit 5
+            }
+
+            $ValidatedDeletions.Add([PSCustomObject]@{
+                path = $Path
+                opacId = $OpacId
+                mapEntryExists = ($null -ne $OldProperty)
+            })
+        }
+
+        if ($ValidatedDeletions.Count -gt 0) {
+            $BackupRoot = Join-Path $env:LOCALAPPDATA "PukoUpdate\backups\$Stamp"
+            New-Item -ItemType Directory -Path $BackupRoot -Force | Out-Null
+
+            $BackupIdMap = Join-Path $BackupRoot (Split-Path -Leaf $IdMapPath)
+            Copy-Item -LiteralPath $IdMapPath -Destination $BackupIdMap -Force
+
+            $BeforeCount = @($IdMap.records.PSObject.Properties).Count
+            $RemovedMapEntries = 0
+
+            foreach ($Item in $ValidatedDeletions) {
+                if ($Item.mapEntryExists) {
+                    $IdMap.records.PSObject.Properties.Remove([string]$Item.path)
+                    $RemovedMapEntries++
+                }
+            }
+
+            $TempIdMap = Join-Path `
+                (Split-Path -Parent $IdMapPath) `
+                ("opac-id-map.delete-" + $PID + ".json")
+
+            try {
+                $Json = $IdMap | ConvertTo-Json -Depth 100
+                $Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+
+                [System.IO.File]::WriteAllText(
+                    $TempIdMap,
+                    $Json + [Environment]::NewLine,
+                    $Utf8NoBom
+                )
+
+                $TestMap = Get-Content -LiteralPath $TempIdMap -Raw -Encoding UTF8 |
+                    ConvertFrom-Json
+
+                $ExpectedCount = $BeforeCount - $RemovedMapEntries
+
+                if (@($TestMap.records.PSObject.Properties).Count -ne $ExpectedCount) {
+                    throw "削除後のIDマップ件数が想定と一致しません"
+                }
+
+                foreach ($Item in $ValidatedDeletions) {
+                    if ($null -ne $TestMap.records.PSObject.Properties[[string]$Item.path]) {
+                        throw "削除対象パスがIDマップに残っています: $($Item.path)"
+                    }
+
+                    $SameIdAfter = @(
+                        $TestMap.records.PSObject.Properties |
+                            Where-Object { [string]$_.Value -eq [string]$Item.opacId }
+                    )
+
+                    if ($SameIdAfter.Count -gt 0) {
+                        throw "削除対象OPAC_IDがIDマップに残っています: $($Item.opacId)"
+                    }
+                }
+
+                Move-Item -LiteralPath $TempIdMap -Destination $IdMapPath -Force
+            }
+            catch {
+                if (Test-Path -LiteralPath $TempIdMap) {
+                    Remove-Item -LiteralPath $TempIdMap -Force
+                }
+
+                Copy-Item -LiteralPath $BackupIdMap -Destination $IdMapPath -Force
+                throw
+            }
+
+            if ($RemovedMapEntries -gt 0) {
+                $IdMapChanged = $true
+            }
+
+            $ApprovedDeletionCount = $ValidatedDeletions.Count
+
+            Write-Log ""
+            Write-Log "DELETIONS_APPROVED=$ApprovedDeletionCount"
+            Write-Log "ID_MAP_ENTRIES_REMOVED=$RemovedMapEntries"
+            Write-Log "ID_MAP_BACKUP=$BackupIdMap"
+        }
+    }
+
     if (($ApplyRenameCandidates -or $DailyUpdate) -and $RenameCandidates.Count -gt 0) {
         $ValidatedRenames = New-Object System.Collections.Generic.List[object]
         $AlreadyMigratedRenames = New-Object System.Collections.Generic.List[object]
@@ -1302,7 +1440,10 @@ try {
 
         $BuildMode = "FULL"
 
-        if ($ManagedDirtyAtStart) {
+        if ($ApprovedDeletionCount -gt 0) {
+            $BuildStateReason = "APPROVED_DELETION_FULL_BUILD"
+        }
+        elseif ($ManagedDirtyAtStart) {
             $BuildStateReason = "MANAGED_DIRTY_AT_START"
         }
         elseif (-not (Test-Path -LiteralPath $DailyContentOutput -PathType Container)) {
