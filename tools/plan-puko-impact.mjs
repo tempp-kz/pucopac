@@ -17,6 +17,7 @@ if (jsonOutIndex >= 0 && !jsonOutPath) {
 
 const PUBLIC_ROOTS = [
   "01 一般書籍",
+  "02 市販雑誌 雑誌名順",
   "03 シリーズ 出版社順",
   "05 古典 著者出生地分類",
   "07 外国語書籍",
@@ -24,6 +25,7 @@ const PUBLIC_ROOTS = [
 ]
 
 const GENERAL_ROOT = "01 一般書籍"
+const MAGAZINE_ROOT = "02 市販雑誌 雑誌名順"
 const SERIES_ROOT = "03 シリーズ 出版社順"
 const AUTHOR_ROOT = "11 著者"
 const KANA_ROWS = new Set(["あ","か","さ","た","な","は","ま","や","ら","わ","数字・英語"])
@@ -182,7 +184,7 @@ function ndcDigits(meta) {
 
 function indexPath(meta) {
   if (!meta) return null
-  if (meta.root !== GENERAL_ROOT && meta.root !== AUTHOR_ROOT) return null
+  if (meta.root !== GENERAL_ROOT && meta.root !== MAGAZINE_ROOT && meta.root !== AUTHOR_ROOT) return null
   if (!KANA_ROWS.has(meta.folder)) return null
 
   const parts = meta.relativePath.split("/")

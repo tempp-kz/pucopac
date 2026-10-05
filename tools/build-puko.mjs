@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url"
 
 const PUBLIC_ROOTS = [
   "01 一般書籍",
+  "02 市販雑誌 雑誌名順",
   "03 シリーズ 出版社順",
   "05 古典 著者出生地分類",
   "07 外国語書籍",
@@ -16,6 +17,7 @@ const PUBLIC_ROOTS = [
 const AUTHOR_ROOT = "11 著者"
 const CLASSICS_ROOT = "05 古典 著者出生地分類"
 const GENERAL_BOOK_ROOT = "01 一般書籍"
+const MAGAZINE_ROOT = "02 市販雑誌 雑誌名順"
 const SERIES_ROOT = "03 シリーズ 出版社順"
 const ALLOWED_OUTPUT_NAMES = new Set(["content-preview", "content"])
 const KANA_FOLDERS = ["あ", "か", "さ", "た", "な", "は", "ま", "や", "ら", "わ"]
@@ -546,7 +548,7 @@ function makeReadingRowPage(root, row, records, stats) {
   const confirmedCount = rowRecords.length - unconfirmed.length
   const itemLabel = root === AUTHOR_ROOT ? "名" : "冊"
   const readingLabel = root === AUTHOR_ROOT ? "ふりがな" : "書名読み"
-  const title = `${root === AUTHOR_ROOT ? "著者" : "一般書籍"} ${folderLabel(row)}`
+  const title = `${root === AUTHOR_ROOT ? "著者" : root === MAGAZINE_ROOT ? "市販雑誌" : "一般書籍"} ${folderLabel(row)}`
   const lines = [
     "---",
     `title: ${yamlQuote(title)}`,
@@ -608,7 +610,7 @@ function makeSpecialRowPage(root, records) {
   if (!rowRecords.length) return null
 
   const itemLabel = root === AUTHOR_ROOT ? "名" : "冊"
-  const title = `${root === AUTHOR_ROOT ? "著者" : "一般書籍"} ${SPECIAL_ROW}`
+  const title = `${root === AUTHOR_ROOT ? "著者" : root === MAGAZINE_ROOT ? "市販雑誌" : "一般書籍"} ${SPECIAL_ROW}`
   const groups = new Map()
 
   for (const record of rowRecords) {
@@ -780,6 +782,8 @@ function makeRootSection(records, root) {
 function makeIndex(records) {
   const books = records.filter((record) => record.type === "book")
   const authors = records.filter((record) => record.type === "author")
+  const magazines = books.filter((book) => book.relativePath.startsWith(`${MAGAZINE_ROOT}/`))
+  const bookCount = books.length - magazines.length
   const classifiedBooks = books.filter((book) => book.ndcClass)
   const updateDate = new Intl.DateTimeFormat("ja-JP", {
     timeZone: "Asia/Tokyo",
@@ -803,14 +807,15 @@ function makeIndex(records) {
     ">",
     "> ・出版年は手持ち蔵書の出版年で、増版の場合はその版の出版年を記載しています。",
     ">",
-    "> ・雑誌は特殊なものが含まれるため、公開していません。",
+    "> ・市販雑誌フォルダの所蔵資料を公開しています。",
     ">",
-    "> ・書籍本文・図版は公開していません。",
+    "> ・書籍・雑誌の本文・図版は公開していません。",
     "",
     "現在の作業進捗状況：",
     "",
     `　最終更新日：${updateDate}`,
-    `　公開冊数：${books.length}冊`,
+    `　公開書籍：${bookCount}冊`,
+    `　公開雑誌：${magazines.length}冊`,
     "",
     "おまけ：",
     "",
@@ -830,7 +835,7 @@ function makeIndex(records) {
     "",
     "| 集計 | 冊数 |",
     "| --- | ---: |",
-    `| 合計冊数 | ${books.length} |`,
+    `| 合計資料数（書籍・雑誌） | ${books.length} |`,
     `| 分類済冊数 | ${classifiedBooks.length} |`,
   )
   for (const ndcClass of NDC_CLASSES) {
@@ -1026,7 +1031,7 @@ function renderTarget(
   )
 
   const readingMatch = relativePath.match(
-    /^(01 一般書籍|11 著者)\/([^/]+)\/index\.md$/,
+    /^(01 一般書籍|02 市販雑誌 雑誌名順|11 著者)\/([^/]+)\/index\.md$/,
   )
 
   if (readingMatch) {
@@ -1757,6 +1762,12 @@ function main() {
         stats.bookReadingsUnconfirmed += bookIndex.unconfirmedCount
       }
 
+      const magazineIndex = makeReadingRowPage(MAGAZINE_ROOT, row, books, stats)
+      if (magazineIndex) {
+        writeUtf8(path.join(stageRoot, MAGAZINE_ROOT, row, "index.md"), magazineIndex.content)
+        stats.readingIndexPageCount += 1
+      }
+
       const authorIndex = makeReadingRowPage(AUTHOR_ROOT, row, authors, stats)
       if (authorIndex) {
         writeUtf8(path.join(stageRoot, AUTHOR_ROOT, row, "index.md"), authorIndex.content)
@@ -1768,6 +1779,7 @@ function main() {
 
     for (const [root, subset] of [
       [GENERAL_BOOK_ROOT, books],
+      [MAGAZINE_ROOT, books],
       [AUTHOR_ROOT, authors],
     ]) {
       const specialIndex = makeSpecialRowPage(root, subset)
@@ -1848,12 +1860,14 @@ function main() {
   }
 
   const bookCount = records.filter((record) => record.type === "book").length
+  const magazineCount = records.filter((record) => record.relativePath.startsWith(`${MAGAZINE_ROOT}/`)).length
   const authorCount = records.filter((record) => record.type === "author").length
   const ndcClassifiedCount = records.filter(
     (record) => record.type === "book" && record.ndcClass,
   ).length
   console.log("ぷ庫OPAC用データを生成しました。")
-  console.log(`  書籍: ${bookCount}件`)
+  console.log(`  書籍: ${bookCount - magazineCount}件`)
+  console.log(`  市販雑誌: ${magazineCount}件`)
   console.log(`  著者: ${authorCount}件`)
   console.log(`  NDC分類済: ${ndcClassifiedCount}件`)
   console.log(`  シリーズ索引: ${stats.seriesIndexPageCount || 0}件`)
