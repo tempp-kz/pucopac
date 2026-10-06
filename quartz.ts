@@ -101,6 +101,26 @@ const searchableProperties: QuartzTransformerPluginInstance = {
   margin: 0.6em 0;
 }
 
+#puko-random-refresh {
+  border: 1px solid var(--secondary);
+  border-radius: 0.35rem;
+  background: var(--light);
+  color: var(--secondary);
+  cursor: pointer;
+  font: inherit;
+  padding: 0.25em 0.8em;
+}
+
+#puko-random-refresh:hover,
+#puko-random-refresh:focus-visible {
+  background: var(--highlight);
+}
+
+#puko-random-refresh:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
 .explorer .puko-kouzu-wiki > a {
   color: var(--secondary);
   font-family: var(--headerFont);
@@ -175,9 +195,8 @@ function pukoTopField(content, name) {
   return match ? match[1].trim() : "記載なし"
 }
 
-async function initializePukoRandomBook() {
-  const target = document.getElementById("puko-random-book")
-  if (!target) return
+async function renderPukoRandomBook(target, button) {
+  button.disabled = true
   try {
     const data = await fetchData
     if (!target.isConnected) return
@@ -192,14 +211,15 @@ async function initializePukoRandomBook() {
       /^概要::[ \\t]*.+$/m.test(entry.content) &&
       /^読みやすさ::[ \\t]*.+$/m.test(entry.content)
     )
-    target.replaceChildren()
     if (!books.length) {
       target.textContent = "対象の書誌がありません。"
       return
     }
+    const otherBooks = books.filter((entry) => entry.filePath !== target.dataset.currentPath)
+    const choices = otherBooks.length ? otherBooks : books
     const bytes = new Uint32Array(1)
     crypto.getRandomValues(bytes)
-    const book = books[bytes[0] % books.length]
+    const book = choices[bytes[0] % choices.length]
     const title = document.createElement("a")
     title.textContent = book.title
     const urlPath = book.slug.split("/").map(encodeURIComponent).join("/")
@@ -208,10 +228,21 @@ async function initializePukoRandomBook() {
     summary.textContent = "概要：" + pukoTopField(book.content, "概要")
     const reading = document.createElement("p")
     reading.textContent = "読みやすさ：" + pukoTopField(book.content, "読みやすさ")
-    target.append(title, summary, reading)
+    target.replaceChildren(title, summary, reading)
+    target.dataset.currentPath = book.filePath
   } catch {
     if (target.isConnected) target.textContent = "ランダム書誌を読み込めませんでした。"
+  } finally {
+    if (button.isConnected) button.disabled = false
   }
+}
+
+function initializePukoRandomBook() {
+  const target = document.getElementById("puko-random-book")
+  const button = document.getElementById("puko-random-refresh")
+  if (!target || !button) return
+  button.addEventListener("click", () => renderPukoRandomBook(target, button))
+  void renderPukoRandomBook(target, button)
 }
 
 document.addEventListener("nav", initializePukoRandomBook)
@@ -233,6 +264,11 @@ function placePukoWikiLink(list) {
     link.href = "https://tempp-kz.github.io/tempp/"
     link.textContent = "■神津wiki"
     item.append(link)
+  }
+  const link = item.querySelector("a")
+  if (link) {
+    link.target = "_blank"
+    link.rel = "noopener noreferrer"
   }
 
   const end = list.querySelector(":scope > li.overflow-end")
