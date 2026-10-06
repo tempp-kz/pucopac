@@ -96,6 +96,18 @@ const searchableProperties: QuartzTransformerPluginInstance = {
   color: var(--tertiary);
   text-decoration-style: solid;
 }
+
+#puko-random-book p {
+  margin: 0.6em 0;
+}
+
+.explorer .puko-kouzu-wiki > a {
+  color: var(--secondary);
+  font-family: var(--headerFont);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
 `,
           inline: true,
         },
@@ -152,6 +164,99 @@ function initializePukoPropertyLookup() {
 const schedulePukoPropertyLookup = () => requestAnimationFrame(initializePukoPropertyLookup)
 document.addEventListener("nav", schedulePukoPropertyLookup)
 document.addEventListener("render", schedulePukoPropertyLookup)
+`,
+        },
+        {
+          loadTime: "afterDOMReady",
+          contentType: "inline",
+          script: `
+function pukoTopField(content, name) {
+  const match = content.match(new RegExp("^" + name + "::[ \\t]*(.+)$", "m"))
+  return match ? match[1].trim() : "記載なし"
+}
+
+async function initializePukoRandomBook() {
+  const target = document.getElementById("puko-random-book")
+  if (!target) return
+  try {
+    const data = await fetchData
+    if (!target.isConnected) return
+    const excluded = new Set([target.dataset.excludeNew, target.dataset.excludeReading])
+    const roots = ["01 一般書籍/", "02 市販雑誌 雑誌名順/", "03 シリーズ 出版社順/", "05 古典 著者出生地分類/", "07 外国語書籍/"]
+    const books = Object.values(data).filter((entry) =>
+      entry && typeof entry.filePath === "string" &&
+      roots.some((root) => entry.filePath.startsWith(root)) &&
+      !entry.filePath.endsWith("/index.md") &&
+      !excluded.has(entry.filePath) &&
+      typeof entry.content === "string" &&
+      /^概要::[ \\t]*.+$/m.test(entry.content) &&
+      /^読みやすさ::[ \\t]*.+$/m.test(entry.content)
+    )
+    target.replaceChildren()
+    if (!books.length) {
+      target.textContent = "対象の書誌がありません。"
+      return
+    }
+    const bytes = new Uint32Array(1)
+    crypto.getRandomValues(bytes)
+    const book = books[bytes[0] % books.length]
+    const title = document.createElement("a")
+    title.textContent = book.title
+    const urlPath = book.slug.split("/").map(encodeURIComponent).join("/")
+    title.href = new URL(urlPath, new URL("./", location.href)).href
+    const summary = document.createElement("p")
+    summary.textContent = "概要：" + pukoTopField(book.content, "概要")
+    const reading = document.createElement("p")
+    reading.textContent = "読みやすさ：" + pukoTopField(book.content, "読みやすさ")
+    target.append(title, summary, reading)
+  } catch {
+    if (target.isConnected) target.textContent = "ランダム書誌を読み込めませんでした。"
+  }
+}
+
+document.addEventListener("nav", initializePukoRandomBook)
+`,
+        },
+        {
+          loadTime: "afterDOMReady",
+          contentType: "inline",
+          script: `
+const pukoWikiObservers = new WeakMap()
+
+function placePukoWikiLink(list) {
+  let item = list.querySelector(":scope > li.puko-kouzu-wiki")
+  if (!item) {
+    item = document.createElement("li")
+    item.className = "puko-kouzu-wiki"
+    const link = document.createElement("a")
+    link.className = "nav-file-title tree-item-self"
+    link.href = "https://tempp-kz.github.io/tempp/"
+    link.textContent = "■神津wiki"
+    item.append(link)
+  }
+
+  const end = list.querySelector(":scope > li.overflow-end")
+  if (end) {
+    if (end !== list.lastElementChild) list.append(end)
+    if (item.nextElementSibling !== end) list.insertBefore(item, end)
+  } else if (item !== list.lastElementChild) {
+    list.append(item)
+  }
+}
+
+function initializePukoWikiLink() {
+  for (const list of document.querySelectorAll(".explorer .explorer-content > ul.explorer-ul")) {
+    placePukoWikiLink(list)
+    if (pukoWikiObservers.has(list)) continue
+    const observer = new MutationObserver(() => placePukoWikiLink(list))
+    observer.observe(list, { childList: true })
+    pukoWikiObservers.set(list, observer)
+    window.addCleanup(() => observer.disconnect())
+  }
+}
+
+document.addEventListener("nav", initializePukoWikiLink)
+document.addEventListener("render", initializePukoWikiLink)
 `,
         },
       ],

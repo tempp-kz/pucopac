@@ -4,6 +4,7 @@ import crypto from "node:crypto"
 import fs from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { execFileSync } from "node:child_process"
 
 const PUBLIC_ROOTS = [
   "01 一般書籍",
@@ -779,6 +780,121 @@ function makeRootSection(records, root) {
   return lines
 }
 
+function bookDetail(record, name) {
+  const body = splitFrontmatter(record.sourceText, record.sourcePath).body
+  const match = body.match(new RegExp(`^${name}::[ \\t]*(.+)$`, "m"))
+  return match ? match[1].trim() : "記載なし"
+}
+
+function latestInBatch(candidates, kind) {
+  if (!candidates.length) return null
+  return [...candidates].sort((a, b) =>
+    kind === "new"
+      ? a.opacId.localeCompare(b.opacId) || a.relativePath.localeCompare(b.relativePath, "ja")
+      : a.relativePath.localeCompare(b.relativePath, "ja"),
+  ).at(-1)
+}
+
+function gitText(args) {
+  try {
+    return execFileSync("git", ["-C", REPO_ROOT, "-c", "core.quotepath=false", ...args], {
+      encoding: "utf8", stdio: ["ignore", "pipe", "ignore"], maxBuffer: 8 * 1024 * 1024,
+    }).trim()
+  } catch {
+    return null
+  }
+}
+
+function latestPublishedPicks(booksByPath) {
+  const picks = { newest: null, reading: null }
+  const commits = gitText(["log", "--format=%H", "-n", "100", "--", "content"])
+  if (!commits) return picks
+  for (const commit of commits.split("\n")) {
+    const parent = gitText(["rev-parse", `${commit}^`])
+    if (!parent) continue
+    const changes = gitText(["diff", "--name-status", "-M", parent, commit, "--", "content"])
+    if (!changes) continue
+    const added = []
+    const changed = []
+    for (const line of changes.split("\n")) {
+      const parts = line.split("\t")
+      const status = parts[0]
+      const newPath = parts.at(-1)?.replace(/^content\//, "")
+      const record = booksByPath.get(newPath)
+      if (!record) continue
+      if (status === "A") {
+        added.push(record)
+      } else if (status === "M" || status?.startsWith("R")) {
+        changed.push({ record, oldPath: parts[1], newPath: parts.at(-1) })
+      }
+    }
+    if (!picks.newest) picks.newest = latestInBatch(added, "new")
+    if (!picks.reading) {
+      changed.sort((a, b) => b.record.relativePath.localeCompare(a.record.relativePath, "ja"))
+      for (const item of changed) {
+        const oldText = gitText(["show", `${parent}:${item.oldPath}`])
+        const newText = gitText(["show", `${commit}:${item.newPath}`])
+        if (!oldText || !newText) continue
+        const oldReading = getYamlValues(splitFrontmatter(oldText, item.oldPath).frontmatter, "書名読み")[0] || ""
+        const newReading = getYamlValues(splitFrontmatter(newText, item.newPath).frontmatter, "書名読み")[0] || ""
+        if (newReading && oldReading !== newReading) {
+          picks.reading = item.record
+          break
+        }
+      }
+    }
+    if (picks.newest && picks.reading) break
+  }
+  return picks
+}
+
+function topPicks(records) {
+  const books = records.filter((record) => record.type === "book")
+  const booksByPath = new Map(books.map((record) => [record.relativePath, record]))
+  const currentNew = []
+  const currentReading = []
+  for (const record of books) {
+    const oldPath = path.join(REPO_ROOT, "content", ...record.relativePath.split("/"))
+    if (!fs.existsSync(oldPath)) {
+      currentNew.push(record)
+      continue
+    }
+    const oldText = fs.readFileSync(oldPath, "utf8")
+    const oldReading = getYamlValues(splitFrontmatter(oldText, oldPath).frontmatter, "書名読み")[0] || ""
+    if (record.titleReading && record.titleReading !== oldReading) currentReading.push(record)
+  }
+  const oldIndex = path.join(REPO_ROOT, "content", "index.md")
+  const oldText = fs.existsSync(oldIndex) ? fs.readFileSync(oldIndex, "utf8") : ""
+  const match = oldText.match(/<!-- puko-top-state:([^\n]+) -->/)
+  let previous = {}
+  if (match) {
+    try { previous = JSON.parse(match[1]) } catch { /* Use published history. */ }
+  }
+  const published = (!previous.newest || !previous.reading) ? latestPublishedPicks(booksByPath) : {}
+  return {
+    newest: latestInBatch(currentNew, "new") || booksByPath.get(previous.newest) || published.newest || null,
+    reading: latestInBatch(currentReading, "reading") || booksByPath.get(previous.reading) || published.reading || null,
+  }
+}
+
+function topBookLines(label, record) {
+  if (!record) return [`### ${label}`, "", "該当する公開履歴を確認できません。", ""]
+  return [
+    `### ${label}`,
+    "",
+    recordLink(record, "index.md"),
+    "",
+    `概要：${bookDetail(record, "概要")}`,
+    "",
+    `読みやすさ：${bookDetail(record, "読みやすさ")}`,
+    "",
+  ]
+}
+
+function htmlAttribute(value) {
+  return String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+}
+
 function makeIndex(records) {
   const books = records.filter((record) => record.type === "book")
   const authors = records.filter((record) => record.type === "author")
@@ -795,7 +911,7 @@ function makeIndex(records) {
     "",
     "![ぷ庫OPAC](./static/og-image.png)",
     "",
-    "ここは個人図書館の蔵書検索用OPACです。",
+    "ここは個人書庫の蔵書検索用OPACです。",
     "目的：僕の資料検索（外出時・創作資料検索時）",
     "仕様：",
     "",
@@ -814,12 +930,8 @@ function makeIndex(records) {
     "現在の作業進捗状況：",
     "",
     `　最終更新日：${updateDate}`,
-    `　公開書籍：${bookCount}冊`,
-    `　公開雑誌：${magazines.length}冊`,
-    "",
-    "おまけ：",
-    "",
-    "小説wiki：https://tempp-kz.github.io/tempp/",
+    `　整理済書籍：${bookCount}冊`,
+    `　整理済雑誌：${magazines.length}冊`,
     "",
     "## 所蔵区分から探す",
   ]
@@ -846,7 +958,24 @@ function makeIndex(records) {
       `| [[NDC/${ndcClass.code} ${ndcClass.label}\\|${ndcClass.code}]]　${ndcClass.label} | ${count} |`,
     )
   }
-  lines.push("")
+  const picks = topPicks(records)
+  const state = JSON.stringify({
+    newest: picks.newest?.relativePath || null,
+    reading: picks.reading?.relativePath || null,
+  })
+  lines.push(
+    "",
+    "## 書誌ピックアップ",
+    "",
+    ...topBookLines("最新の追加", picks.newest),
+    ...topBookLines("最新の書名読み更新", picks.reading),
+    "### ランダム",
+    "",
+    `<div id="puko-random-book" data-exclude-new="${htmlAttribute(picks.newest?.relativePath || "")}" data-exclude-reading="${htmlAttribute(picks.reading?.relativePath || "")}">読み込み中…</div>`,
+    "",
+    `<!-- puko-top-state:${state} -->`,
+    "",
+  )
   return lines.join("\n")
 }
 
