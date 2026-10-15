@@ -6,12 +6,14 @@ cssclasses:
 
 # 学研
 
-**22件**
+**24件**
 
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 2 神道の本|Books Esoterica 2 神道の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 3 禅の本|Books Esoterica 3 禅の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 4 道教の本|Books Esoterica 4 道教の本]]
+- [[03 シリーズ 出版社順/か/学研/Books Esoterica 5 日蓮の本|Books Esoterica 5 日蓮の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 6 陰陽道の本|Books Esoterica 6 陰陽道の本]]
+- [[03 シリーズ 出版社順/か/学研/Books Esoterica 8 修験道の本|Books Esoterica 8 修験道の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 9 釈迦の本|Books Esoterica 9 釈迦の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 10 古神道の本|Books Esoterica 10 古神道の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 11 密教の本|Books Esoterica 11 密教の本]]
