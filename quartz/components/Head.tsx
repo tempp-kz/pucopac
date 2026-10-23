@@ -104,6 +104,12 @@ export default (() => {
             return resource
           }
         })}
+        <script
+          type="module"
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "4d5fc53e77f74098b80266fed00de5f9"}'
+          data-persist="true"
+        ></script>
       </head>
     )
   }
