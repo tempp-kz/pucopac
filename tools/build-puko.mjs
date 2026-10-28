@@ -259,10 +259,15 @@ function removeTocSection(body) {
 
 function removeClassicIntro(body) {
   const lines = normalizeNewlines(body).split("\n")
-  const rangeIndex = lines.findIndex((line) => /^\s*■\s*レンジ\s*$/.test(line))
+  const rangePattern = /■\s*レンジ/
+  const rangeIndex = lines.findIndex((line) => rangePattern.test(line))
   if (rangeIndex < 0) return { body, removed: false, missingRange: true }
-  const removed = lines.slice(0, rangeIndex).some((line) => line.trim() !== "")
-  return { body: lines.slice(rangeIndex).join("\n"), removed, missingRange: false }
+  const markerIndex = lines[rangeIndex].search(rangePattern)
+  const inlineIntro = lines[rangeIndex].slice(0, markerIndex).trim() !== ""
+  const kept = lines.slice(rangeIndex)
+  if (inlineIntro) kept[0] = kept[0].slice(markerIndex)
+  const removed = lines.slice(0, rangeIndex).some((line) => line.trim() !== "") || inlineIntro
+  return { body: kept.join("\n"), removed, missingRange: false }
 }
 
 function removeMarkdownSection(body, sectionTitle) {
