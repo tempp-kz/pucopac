@@ -11,6 +11,10 @@ param(
 
     [string]$TargetsFile,
 
+    [string]$PublicTitlesPath,
+    [string]$TitleBatch,
+    [string]$TitlesPreviewOutput,
+
     [switch]$Publish
 )
 
@@ -50,6 +54,10 @@ if (-not $NodeCommand) {
 }
 
 $NodeArguments = @($Builder, "--source", $SourceRoot, "--output", $OutputRoot, "--id-map", $IdMapPath)
+
+if ($PublicTitlesPath) { $NodeArguments += @('--public-titles', $PublicTitlesPath) }
+if ($TitleBatch) { $NodeArguments += @('--title-batch', $TitleBatch) }
+if ($TitlesPreviewOutput) { $NodeArguments += @('--titles-preview-output', $TitlesPreviewOutput) }
 
 if ($TargetsFile) {
     $NodeArguments += @("--targets-file", $TargetsFile)

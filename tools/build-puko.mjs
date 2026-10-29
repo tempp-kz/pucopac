@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+import { readTitles, validateResolved, applyDirectives, writeTitles } from "./puko-public-titles.mjs"
 
 import crypto from "node:crypto"
 import fs from "node:fs"
@@ -1276,6 +1276,7 @@ function renderTarget(
 
 function runTargetBuild({
   targetPlanPath,
+  verifyTitles,
   records,
   booksByAuthor,
   stats,
@@ -1488,6 +1489,7 @@ function runTargetBuild({
       )
     }
 
+    verifyTitles()
     outputMutationStarted = true
 
     for (const relativePath of plan.write) {
@@ -1746,6 +1748,15 @@ function main() {
   const idMapPath = path.resolve(args["id-map"])
   assertSafePaths(sourceRoot, outputRoot, idMapPath, Boolean(args.publish))
 
+  const titlesPath = path.resolve(args["public-titles"] || path.join(REPO_ROOT, "data", "opac-public-titles.json"))
+  const titlesInputHash = sha256File(titlesPath)
+  const verifyTitles = () => { if (sha256File(titlesPath) !== titlesInputHash) fail("公開書名設定がビルド中に変更されました") }
+  let publicTitles = readTitles(titlesPath)
+  if (Boolean(args["title-batch"]) !== Boolean(args["titles-preview-output"])) fail("公開書名Preview引数が不完全です")
+  if (args["title-batch"] && (args.publish || path.basename(outputRoot) !== "content-preview" ||
+      path.resolve(args["titles-preview-output"]) !== path.join(path.dirname(outputRoot), "opac-public-titles-preview.json") ||
+      path.resolve(args["titles-preview-output"]) === titlesPath)) fail("公開書名Previewは隔離出力だけに使用できます")
+
   const sourceFiles = []
   for (const publicRoot of PUBLIC_ROOTS) {
     const rootPath = path.join(sourceRoot, publicRoot)
@@ -1798,6 +1809,16 @@ function main() {
     }
   })
 
+  validateResolved(publicTitles, records)
+  if (args["title-batch"]) {
+    const batch = JSON.parse(fs.readFileSync(path.resolve(args["title-batch"]), "utf8").replace(/^\uFEFF/, ""))
+    publicTitles = applyDirectives(publicTitles, batch, records)
+  }
+  for (const record of records) {
+    if (record.type === "book" && Object.hasOwn(publicTitles.records, record.opacId)) record.title = publicTitles.records[record.opacId]
+  }
+  if (args["titles-preview-output"]) writeTitles(path.resolve(args["titles-preview-output"]), publicTitles)
+
   records.sort((a, b) => a.title.localeCompare(b.title, "ja"))
   const booksByAuthor = new Map()
   for (const book of records.filter((record) => record.type === "book")) {
@@ -1831,6 +1852,7 @@ function main() {
         targetPlanPath: path.resolve(
           args["targets-file"],
         ),
+        verifyTitles,
         records,
         booksByAuthor,
         stats,
@@ -1976,6 +1998,7 @@ function main() {
       `  ステージ監査: 原典 ${auditResult.sourceCount}件 / ID ${auditResult.idMapCount}件 / 公開書誌 ${auditResult.publicRecordCount}件 / 一意ID ${auditResult.uniqueIdCount}件`,
     )
 
+    verifyTitles()
     fs.mkdirSync(path.dirname(idMapPath), { recursive: true })
     writeUtf8(idMapPath, `${JSON.stringify(idMap, null, 2)}\n`)
 

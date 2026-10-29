@@ -313,6 +313,8 @@ function Get-BuildFingerprint {
         "BuildPuko.ps1",
         "UpdatePuko.ps1",
         "tools/build-puko.mjs",
+        "tools/puko-public-titles.mjs",
+        "data/opac-public-titles.json",
         "tools/plan-puko-impact.mjs",
         "data/ndc10-labels.json"
     )
@@ -916,6 +918,8 @@ try {
             "BuildPuko.ps1",
             "UpdatePuko.ps1",
             "tools/build-puko.mjs",
+            "tools/puko-public-titles.mjs",
+            "data/opac-public-titles.json",
             "tools/plan-puko-impact.mjs",
             "data/ndc10-labels.json"
         )) {
@@ -960,14 +964,15 @@ try {
             -C $ProjectRoot `
             diff --quiet -- . `
             ':(exclude)content/**' `
-            ':(exclude)data/opac-id-map.json'
+            ':(exclude)data/opac-id-map.json' `
+            ':(exclude)data/opac-public-titles.json'
 
         $OutsideDiffExit = $LASTEXITCODE
 
         if ($OutsideDiffExit -eq 1) {
             Stop-WithLog `
                 "GIT_PREFLIGHT" `
-                "contentとIDマップ以外に追跡済みの変更があります"
+                "content・IDマップ・公開書名設定以外に追跡済みの変更があります"
             exit 10
         }
         elseif ($OutsideDiffExit -ne 0) {
@@ -980,7 +985,8 @@ try {
                 -c core.quotepath=false `
                 status --porcelain=v1 --untracked-files=all -- `
                 content `
-                data/opac-id-map.json
+                data/opac-id-map.json `
+                data/opac-public-titles.json
         )
 
         if ($LASTEXITCODE -ne 0) {
@@ -1047,7 +1053,8 @@ try {
                 -C $ProjectRoot `
                 diff --quiet -- `
                 content `
-                data/opac-id-map.json
+                data/opac-id-map.json `
+                data/opac-public-titles.json
 
             $PendingManagedDiffExit = $LASTEXITCODE
 
@@ -1066,7 +1073,8 @@ try {
                 -C $ProjectRoot `
                 diff --quiet origin/main..HEAD -- . `
                 ':(exclude)content/**' `
-                ':(exclude)data/opac-id-map.json'
+                ':(exclude)data/opac-id-map.json' `
+                ':(exclude)data/opac-public-titles.json'
 
             $PendingOutsideDiffExit = $LASTEXITCODE
 
@@ -1085,7 +1093,8 @@ try {
                 -C $ProjectRoot `
                 diff --quiet origin/main..HEAD -- `
                 content `
-                data/opac-id-map.json
+                data/opac-id-map.json `
+                data/opac-public-titles.json
 
             $PendingManagedCommitExit = $LASTEXITCODE
 
@@ -1687,12 +1696,13 @@ try {
             -C $ProjectRoot `
             diff --quiet -- . `
             ':(exclude)content/**' `
-            ':(exclude)data/opac-id-map.json'
+            ':(exclude)data/opac-id-map.json' `
+            ':(exclude)data/opac-public-titles.json'
 
         $PostBuildOutsideExit = $LASTEXITCODE
 
         if ($PostBuildOutsideExit -eq 1) {
-            throw "Build中にcontentとIDマップ以外の追跡済みファイルが変更されました"
+            throw "Build中にcontent・IDマップ・公開書名設定以外の追跡済みファイルが変更されました"
         }
         elseif ($PostBuildOutsideExit -ne 0) {
             throw "Build後のGit差分確認に失敗しました"
@@ -1704,7 +1714,8 @@ try {
                 -c core.quotepath=false `
                 status --porcelain=v1 --untracked-files=all -- `
                 content `
-                data/opac-id-map.json
+                data/opac-id-map.json `
+                data/opac-public-titles.json
         )
 
         if ($LASTEXITCODE -ne 0) {
@@ -1745,24 +1756,25 @@ try {
             Write-Log ""
             Write-Log "=== GIT STAGE ==="
 
+            $GitStageCreated = $true
             & $GitCommand.Source `
                 -C $ProjectRoot `
                 add -A -- `
                 content `
-                data/opac-id-map.json
+                data/opac-id-map.json `
+                data/opac-public-titles.json
 
             if ($LASTEXITCODE -ne 0) {
                 throw "Git stage に失敗しました"
             }
 
-            $GitStageCreated = $true
-
-            # stage済み範囲がcontentとIDマップだけかGit自身に確認させる。
+            # stage済み範囲がcontent・IDマップ・公開書名設定だけかGit自身に確認させる。
             & $GitCommand.Source `
                 -C $ProjectRoot `
                 diff --cached --quiet -- . `
                 ':(exclude)content/**' `
-                ':(exclude)data/opac-id-map.json'
+                ':(exclude)data/opac-id-map.json' `
+                ':(exclude)data/opac-public-titles.json'
 
             $UnexpectedStageExit = $LASTEXITCODE
 
@@ -1777,7 +1789,8 @@ try {
                 -C $ProjectRoot `
                 diff --cached --quiet -- `
                 content `
-                data/opac-id-map.json
+                data/opac-id-map.json `
+                data/opac-public-titles.json
 
             $ManagedStageExit = $LASTEXITCODE
 
@@ -1794,7 +1807,8 @@ try {
                     -c core.quotepath=false `
                     diff --cached --name-only -- `
                     content `
-                    data/opac-id-map.json
+                    data/opac-id-map.json `
+                    data/opac-public-titles.json
             )
 
             Write-Log "STAGED_FILES=$($StagedNames.Count)"
@@ -2059,6 +2073,8 @@ try {
             "BuildPuko.ps1",
             "UpdatePuko.ps1",
             "tools/build-puko.mjs",
+            "tools/puko-public-titles.mjs",
+            "data/opac-public-titles.json",
             "data/opac-id-map.json",
             "data/opac-source-state.json"
         )
@@ -2236,7 +2252,8 @@ catch {
                 -C $ProjectRoot `
                 reset -q HEAD -- `
                 content `
-                data/opac-id-map.json *> $null
+                data/opac-id-map.json `
+                data/opac-public-titles.json *> $null
         }
     }
 
