@@ -314,7 +314,9 @@ function Get-BuildFingerprint {
         "UpdatePuko.ps1",
         "tools/build-puko.mjs",
         "tools/puko-public-titles.mjs",
+        "tools/puko-index-groups.mjs",
         "data/opac-public-titles.json",
+        "data/opac-index-groups.json",
         "tools/plan-puko-impact.mjs",
         "data/ndc10-labels.json"
     )
@@ -919,7 +921,9 @@ try {
             "UpdatePuko.ps1",
             "tools/build-puko.mjs",
             "tools/puko-public-titles.mjs",
+            "tools/puko-index-groups.mjs",
             "data/opac-public-titles.json",
+            "data/opac-index-groups.json",
             "tools/plan-puko-impact.mjs",
             "data/ndc10-labels.json"
         )) {
@@ -965,7 +969,8 @@ try {
             diff --quiet -- . `
             ':(exclude)content/**' `
             ':(exclude)data/opac-id-map.json' `
-            ':(exclude)data/opac-public-titles.json'
+            ':(exclude)data/opac-public-titles.json' `
+            ':(exclude)data/opac-index-groups.json'
 
         $OutsideDiffExit = $LASTEXITCODE
 
@@ -986,7 +991,8 @@ try {
                 status --porcelain=v1 --untracked-files=all -- `
                 content `
                 data/opac-id-map.json `
-                data/opac-public-titles.json
+                data/opac-public-titles.json `
+                data/opac-index-groups.json
         )
 
         if ($LASTEXITCODE -ne 0) {
@@ -1054,7 +1060,8 @@ try {
                 diff --quiet -- `
                 content `
                 data/opac-id-map.json `
-                data/opac-public-titles.json
+                data/opac-public-titles.json `
+                data/opac-index-groups.json
 
             $PendingManagedDiffExit = $LASTEXITCODE
 
@@ -1074,7 +1081,8 @@ try {
                 diff --quiet origin/main..HEAD -- . `
                 ':(exclude)content/**' `
                 ':(exclude)data/opac-id-map.json' `
-                ':(exclude)data/opac-public-titles.json'
+                ':(exclude)data/opac-public-titles.json' `
+                ':(exclude)data/opac-index-groups.json'
 
             $PendingOutsideDiffExit = $LASTEXITCODE
 
@@ -1094,7 +1102,8 @@ try {
                 diff --quiet origin/main..HEAD -- `
                 content `
                 data/opac-id-map.json `
-                data/opac-public-titles.json
+                data/opac-public-titles.json `
+                data/opac-index-groups.json
 
             $PendingManagedCommitExit = $LASTEXITCODE
 
@@ -1697,7 +1706,8 @@ try {
             diff --quiet -- . `
             ':(exclude)content/**' `
             ':(exclude)data/opac-id-map.json' `
-            ':(exclude)data/opac-public-titles.json'
+            ':(exclude)data/opac-public-titles.json' `
+            ':(exclude)data/opac-index-groups.json'
 
         $PostBuildOutsideExit = $LASTEXITCODE
 
@@ -1715,7 +1725,8 @@ try {
                 status --porcelain=v1 --untracked-files=all -- `
                 content `
                 data/opac-id-map.json `
-                data/opac-public-titles.json
+                data/opac-public-titles.json `
+                data/opac-index-groups.json
         )
 
         if ($LASTEXITCODE -ne 0) {
@@ -1762,7 +1773,8 @@ try {
                 add -A -- `
                 content `
                 data/opac-id-map.json `
-                data/opac-public-titles.json
+                data/opac-public-titles.json `
+                data/opac-index-groups.json
 
             if ($LASTEXITCODE -ne 0) {
                 throw "Git stage に失敗しました"
@@ -1774,7 +1786,8 @@ try {
                 diff --cached --quiet -- . `
                 ':(exclude)content/**' `
                 ':(exclude)data/opac-id-map.json' `
-                ':(exclude)data/opac-public-titles.json'
+                ':(exclude)data/opac-public-titles.json' `
+                ':(exclude)data/opac-index-groups.json'
 
             $UnexpectedStageExit = $LASTEXITCODE
 
@@ -1790,7 +1803,8 @@ try {
                 diff --cached --quiet -- `
                 content `
                 data/opac-id-map.json `
-                data/opac-public-titles.json
+                data/opac-public-titles.json `
+                data/opac-index-groups.json
 
             $ManagedStageExit = $LASTEXITCODE
 
@@ -1808,7 +1822,8 @@ try {
                     diff --cached --name-only -- `
                     content `
                     data/opac-id-map.json `
-                    data/opac-public-titles.json
+                    data/opac-public-titles.json `
+                    data/opac-index-groups.json
             )
 
             Write-Log "STAGED_FILES=$($StagedNames.Count)"
@@ -2074,7 +2089,9 @@ try {
             "UpdatePuko.ps1",
             "tools/build-puko.mjs",
             "tools/puko-public-titles.mjs",
+            "tools/puko-index-groups.mjs",
             "data/opac-public-titles.json",
+            "data/opac-index-groups.json",
             "data/opac-id-map.json",
             "data/opac-source-state.json"
         )
@@ -2253,7 +2270,8 @@ catch {
                 reset -q HEAD -- `
                 content `
                 data/opac-id-map.json `
-                data/opac-public-titles.json *> $null
+                data/opac-public-titles.json `
+                data/opac-index-groups.json *> $null
         }
     }
 

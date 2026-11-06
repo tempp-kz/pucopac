@@ -1,3 +1,4 @@
+import { CLASSIC_FOLDERS } from "./puko-index-groups.mjs"
 import fs from "node:fs"
 import path from "node:path"
 import crypto from "node:crypto"
@@ -151,6 +152,7 @@ function metaFromText(relativePath, text) {
     folder: folderOf(relativePath),
     title: path.posix.basename(relativePath, path.posix.extname(relativePath)),
     authors: type === "book" ? yamlValues(fm, "著者") : [],
+    series: type === "book" ? yamlValues(fm, "シリーズ") : [],
     titleReading:
       type === "book"
         ? yamlValues(fm, "書名読み")[0] ||
@@ -184,6 +186,7 @@ function ndcDigits(meta) {
 
 function indexPath(meta) {
   if (!meta) return null
+  if (meta.root === "05 古典 著者出生地分類" && CLASSIC_FOLDERS.includes(meta.folder) && meta.relativePath.split("/").length===3) return `${meta.root}/${meta.folder}/index.md`
   if (meta.root !== GENERAL_ROOT && meta.root !== MAGAZINE_ROOT && meta.root !== AUTHOR_ROOT) return null
   if (!KANA_ROWS.has(meta.folder)) return null
 
@@ -555,7 +558,7 @@ function planChange(oldMeta, newMeta, kind) {
       addTarget("index.md")
     }
 
-    if (pathChanged || titleChanged) {
+    if (pathChanged || titleChanged || titleReadingChanged || !sameSet(oldMeta.series,newMeta.series)) {
       addSeriesTargetsForMove(oldMeta, newMeta)
     }
   } else {

@@ -1,11 +1,14 @@
 #!/usr/bin/env node
 
 import crypto from "node:crypto"
+import {fileURLToPath} from "node:url"
+import {readGroups} from "./puko-index-groups.mjs"
 import fs from "node:fs"
 import path from "node:path"
 
 const PUBLIC_BOOK_ROOTS = [
   "01 一般書籍",
+  "02 市販雑誌 雑誌名順",
   "03 シリーズ 出版社順",
   "05 古典 著者出生地分類",
   "07 外国語書籍",
@@ -186,7 +189,14 @@ function main() {
 
   const books = bookFiles.map((sourcePath) => makeBook(sourceRoot, sourcePath))
   const authors = authorFiles.map((sourcePath) => makeAuthor(sourceRoot, sourcePath))
+  const repository=path.resolve(path.dirname(fileURLToPath(import.meta.url)),"..")
+  const groupPath=path.join(repository,"data","opac-index-groups.json")
+  const indexGroupSettings=readGroups(groupPath)
+  const map=JSON.parse(fs.readFileSync(path.join(repository,"data","opac-id-map.json"),"utf8").replace(/^\uFEFF/,""))
+  for(const book of books) book.opacId=map.records[book.relativePath] || null
   const inventory = {
+    indexGroupSettings,
+    indexGroupSettingsSha256: sha256(fs.readFileSync(groupPath)),
     version: 1,
     generatedAt: new Date().toISOString(),
     publicBookRoots: PUBLIC_BOOK_ROOTS,

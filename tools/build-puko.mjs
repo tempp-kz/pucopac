@@ -1,3 +1,4 @@
+import { readGroups, applyGroupDirectives, resolveIndexGroups, writeGroups, CLASSIC_FOLDERS, normalizeGroupReading, stableBookCompare } from "./puko-index-groups.mjs"
 import { readTitles, validateResolved, applyDirectives, writeTitles } from "./puko-public-titles.mjs"
 
 import crypto from "node:crypto"
@@ -504,7 +505,7 @@ function readingValue(record) {
 function compareByReading(left, right) {
   const byReading = naturalCompare(left.sortKey, right.sortKey)
   if (byReading !== 0) return byReading
-  return naturalCompare(left.record.title, right.record.title)
+  return naturalCompare(left.record.title, right.record.title) || String(left.record.opacId).localeCompare(String(right.record.opacId), "en")
 }
 
 function markdownLinkLabel(value) {
@@ -646,7 +647,7 @@ function makeSpecialRowPage(root, records) {
     const items = groups.get(heading).sort((left, right) => {
       const byTitle = naturalCompare(left.sortKey, right.sortKey)
       if (byTitle !== 0) return byTitle
-      return naturalCompare(left.record.title, right.record.title)
+      return naturalCompare(left.record.title, right.record.title) || String(left.record.opacId).localeCompare(String(right.record.opacId), "en")
     })
 
     lines.push("", `## ${heading}　${items.length}${itemLabel}`, "")
@@ -742,28 +743,45 @@ function makeSeriesRowPage(row, rowGroups) {
   ].join("\n")
 }
 
-function makePublisherPage(row, publisher, books) {
-  const sortedBooks = [...books].sort((left, right) =>
-    naturalCompare(seriesDisplayTitle(left), seriesDisplayTitle(right)),
-  )
-  const lines = [
-    "---",
-    `title: ${yamlQuote(publisher)}`,
-    "cssclasses:",
-    "  - puko-custom-folder-index",
-    "---",
-    "",
-    `# ${publisher}`,
-    "",
-    `**${sortedBooks.length}件**`,
-    "",
-  ]
-  for (const book of sortedBooks) {
-    const pageRelativePath = `${SERIES_ROOT}/${row}/${publisher}/index.md`
-    lines.push(`- ${recordLink(book, pageRelativePath, seriesDisplayTitle(book))}`)
+function makeGroupedIndex(title, books, pagePath) {
+  const groups = new Map(), unconfirmed = []
+  for (const record of books) {
+    if (!record.titleReading) { unconfirmed.push(record); continue }
+    if (!record.indexGroup) fail(`誌名・シリーズ名の本人確認が必要です: ${record.relativePath}`)
+    const name = record.indexGroup.groupName
+    const group = groups.get(name) || {name, reading:record.indexGroup.reading, books:[]}
+    group.books.push(record); groups.set(name, group)
   }
-  lines.push("")
-  return lines.join("\n")
+  const sorted = [...groups.values()].sort((a,b) => naturalCompare(normalizeGroupReading(a.reading), normalizeGroupReading(b.reading)) || naturalCompare(a.name,b.name))
+  const lines = ["---", `title: ${yamlQuote(title)}`, "cssclasses:", "  - puko-custom-folder-index", "---", "", `# ${title}`, "",
+    `**${books.length}件**（読み確認済み ${books.length-unconfirmed.length}件・未整理・未確認 ${unconfirmed.length}件）`, ""]
+  if (sorted.length) lines.push(...markdownTable(sorted.map(g => `[[#${g.name}\\|${g.name}]]　${g.books.length}件`),4))
+  for (const g of sorted) {
+    lines.push("", `## ${g.name}`, "", `${g.books.length}件`, "", ...g.books.sort(stableBookCompare).map(b=>`- ${recordLink(b,pagePath)}`))
+  }
+  if (unconfirmed.length) lines.push("", "## 未整理・未確認", "", ...unconfirmed.sort(stableBookCompare).map(b=>`- ${recordLink(b,pagePath)}`))
+  lines.push(""); return lines.join("\n")
+}
+function makeMagazinePage(row, books) {
+  const items=directRowRecords(books,MAGAZINE_ROOT,row)
+  if (!items.length) return null
+  return makeGroupedIndex(`市販雑誌 ${folderLabel(row)}`,items,`${MAGAZINE_ROOT}/${row}/index.md`)
+}
+function makePublisherPage(row, publisher, books) {
+  return makeGroupedIndex(publisher,books,`${SERIES_ROOT}/${row}/${publisher}/index.md`)
+}
+function makeClassicPage(folder, books) {
+  const items=books.filter(b=>b.relativePath.startsWith(`${CLASSICS_ROOT}/${folder}/`) && b.relativePath.split("/").length===3)
+  if (!items.length) return null
+  const confirmed=items.filter(b=>b.titleReading).sort((a,b)=>naturalCompare(normalizeReading(a.titleReading),normalizeReading(b.titleReading))||stableBookCompare(a,b))
+  const pending=items.filter(b=>!b.titleReading).sort(stableBookCompare)
+  const page=`${CLASSICS_ROOT}/${folder}/index.md`
+  const lines=["---",`title: ${yamlQuote(folder)}`,"cssclasses:","  - puko-custom-folder-index","---","",`# ${folder}`,"",`**${items.length}件**（読み確認済み ${confirmed.length}件・未確認 ${pending.length}件）`,""]
+  const headings=new Map()
+  for(const b of confirmed){const key=readingHeading(b.titleReading);const list=headings.get(key)||[];list.push(b);headings.set(key,list)}
+  for(const [heading,list] of headings)lines.push("",`## ${heading}`,"",...list.map(b=>readingIndexEntry(b,page)))
+  if(pending.length)lines.push("","## 読み未確認","",...pending.map(b=>readingIndexEntry(b,page)))
+  lines.push("");return lines.join("\n")
 }
 
 function makeRootSection(records, root) {
@@ -1181,6 +1199,7 @@ function renderTarget(
     const subset =
       root === AUTHOR_ROOT ? authors : books
 
+    if (root === MAGAZINE_ROOT && (KANA_FOLDERS.includes(row) || row === SPECIAL_ROW)) return makeMagazinePage(row, subset)
     if (row === SPECIAL_ROW) {
       return makeSpecialRowPage(root, subset)
     }
@@ -1197,6 +1216,10 @@ function renderTarget(
     }
 
     return null
+  }
+
+  for (const folder of CLASSIC_FOLDERS) {
+    if (relativePath === `${CLASSICS_ROOT}/${folder}/index.md`) return makeClassicPage(folder, books)
   }
 
   const seriesBooks = books.filter((book) =>
@@ -1751,6 +1774,10 @@ function main() {
   const titlesPath = path.resolve(args["public-titles"] || path.join(REPO_ROOT, "data", "opac-public-titles.json"))
   const titlesInputHash = sha256File(titlesPath)
   const verifyTitles = () => { if (sha256File(titlesPath) !== titlesInputHash) fail("公開書名設定がビルド中に変更されました") }
+  const groupsPath=path.resolve(args["index-groups"] || path.join(REPO_ROOT,"data","opac-index-groups.json"))
+  const groupsInputHash=sha256File(groupsPath)
+  let indexGroups=readGroups(groupsPath)
+  const verifyGroups=()=>{ if(sha256File(groupsPath)!==groupsInputHash)fail("索引グループ設定がビルド中に変更されました") }
   let publicTitles = readTitles(titlesPath)
   if (Boolean(args["title-batch"]) !== Boolean(args["titles-preview-output"])) fail("公開書名Preview引数が不完全です")
   if (args["title-batch"] && (args.publish || path.basename(outputRoot) !== "content-preview" ||
@@ -1800,6 +1827,7 @@ function main() {
       fileTitle,
       title,
       titleReading,
+      series: type === "book" ? getYamlValues(frontmatter,"シリーズ") : [],
       authorReading,
       authors,
       ndcValues,
@@ -1813,11 +1841,17 @@ function main() {
   if (args["title-batch"]) {
     const batch = JSON.parse(fs.readFileSync(path.resolve(args["title-batch"]), "utf8").replace(/^\uFEFF/, ""))
     publicTitles = applyDirectives(publicTitles, batch, records)
+    indexGroups = applyGroupDirectives(indexGroups, batch, records)
   }
   for (const record of records) {
     if (record.type === "book" && Object.hasOwn(publicTitles.records, record.opacId)) record.title = publicTitles.records[record.opacId]
   }
-  if (args["titles-preview-output"]) writeTitles(path.resolve(args["titles-preview-output"]), publicTitles)
+  const resolvedGroups=resolveIndexGroups(records,indexGroups)
+  for(const record of records) record.indexGroup=resolvedGroups.get(record.relativePath)
+  if (args["titles-preview-output"]) {
+    writeTitles(path.resolve(args["titles-preview-output"]), publicTitles)
+    writeGroups(path.join(path.dirname(outputRoot),"opac-index-groups-preview.json"),indexGroups)
+  }
 
   records.sort((a, b) => a.title.localeCompare(b.title, "ja"))
   const booksByAuthor = new Map()
@@ -1852,7 +1886,7 @@ function main() {
         targetPlanPath: path.resolve(
           args["targets-file"],
         ),
-        verifyTitles,
+        verifyTitles: () => {verifyTitles();verifyGroups()},
         records,
         booksByAuthor,
         stats,
@@ -1924,9 +1958,9 @@ function main() {
         stats.bookReadingsUnconfirmed += bookIndex.unconfirmedCount
       }
 
-      const magazineIndex = makeReadingRowPage(MAGAZINE_ROOT, row, books, stats)
+      const magazineIndex = makeMagazinePage(row, books)
       if (magazineIndex) {
-        writeUtf8(path.join(stageRoot, MAGAZINE_ROOT, row, "index.md"), magazineIndex.content)
+        writeUtf8(path.join(stageRoot, MAGAZINE_ROOT, row, "index.md"), magazineIndex)
         stats.readingIndexPageCount += 1
       }
 
@@ -1944,7 +1978,7 @@ function main() {
       [MAGAZINE_ROOT, books],
       [AUTHOR_ROOT, authors],
     ]) {
-      const specialIndex = makeSpecialRowPage(root, subset)
+      const specialIndex = root === MAGAZINE_ROOT ? makeMagazinePage(SPECIAL_ROW, subset) : makeSpecialRowPage(root, subset)
       if (specialIndex) {
         writeUtf8(
           path.join(stageRoot, root, SPECIAL_ROW, "index.md"),
@@ -1974,6 +2008,10 @@ function main() {
         }
       }
     }
+    for (const folder of CLASSIC_FOLDERS) {
+      const index=makeClassicPage(folder,books)
+      if(index) writeUtf8(path.join(stageRoot,CLASSICS_ROOT,folder,"index.md"),index)
+    }
     for (const ndcClass of NDC_CLASSES) {
       const classBooks = books.filter((book) =>
         book.ndcCodes.some((code) => code.startsWith(ndcClass.digit)),
@@ -1998,7 +2036,7 @@ function main() {
       `  ステージ監査: 原典 ${auditResult.sourceCount}件 / ID ${auditResult.idMapCount}件 / 公開書誌 ${auditResult.publicRecordCount}件 / 一意ID ${auditResult.uniqueIdCount}件`,
     )
 
-    verifyTitles()
+    verifyTitles(); verifyGroups()
     fs.mkdirSync(path.dirname(idMapPath), { recursive: true })
     writeUtf8(idMapPath, `${JSON.stringify(idMap, null, 2)}\n`)
 
