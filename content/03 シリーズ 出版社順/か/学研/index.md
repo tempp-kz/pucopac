@@ -6,7 +6,10 @@ cssclasses:
 
 # 学研
 
-**24件**
+**24件**（読み確認済み 0件・未整理・未確認 24件）
+
+
+## 未整理・未確認
 
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 2 神道の本|Books Esoterica 2 神道の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 3 禅の本|Books Esoterica 3 禅の本]]

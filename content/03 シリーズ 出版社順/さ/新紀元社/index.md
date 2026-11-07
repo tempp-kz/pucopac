@@ -6,7 +6,10 @@ cssclasses:
 
 # 新紀元社
 
-**31件**
+**32件**（読み確認済み 0件・未整理・未確認 32件）
+
+
+## 未整理・未確認
 
 - [[03 シリーズ 出版社順/さ/新紀元社/F FILES 007 図解 近接武器|F FILES 007 図解 近接武器]]
 - [[03 シリーズ 出版社順/さ/新紀元社/F FILES 018 図解日本の装|F FILES 018 図解日本の装]]
@@ -17,6 +20,7 @@ cssclasses:
 - [[03 シリーズ 出版社順/さ/新紀元社/Truth In Fantasy 5 幻想都市物語 中世編|Truth In Fantasy 5 幻想都市物語 中世編]]
 - [[03 シリーズ 出版社順/さ/新紀元社/Truth In Fantasy 6 虚空の神々|Truth In Fantasy 6 虚空の神々]]
 - [[03 シリーズ 出版社順/さ/新紀元社/Truth In Fantasy 7 幻想世界の住人たち 3 中国編|Truth In Fantasy 7 幻想世界の住人たち 3 中国編]]
+- [[03 シリーズ 出版社順/さ/新紀元社/Truth In Fantasy 8 武勲の刃|Truth In Fantasy 8 武勲の刃]]
 - [[03 シリーズ 出版社順/さ/新紀元社/Truth In Fantasy 9 幻想世界の住人たち 4 日本編|Truth In Fantasy 9 幻想世界の住人たち 4 日本編]]
 - [[03 シリーズ 出版社順/さ/新紀元社/Truth In Fantasy 10 タオの神々|Truth In Fantasy 10 タオの神々]]
 - [[03 シリーズ 出版社順/さ/新紀元社/Truth In Fantasy 11 魔術への旅|Truth In Fantasy 11 魔術への旅]]
