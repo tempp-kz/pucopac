@@ -1,4 +1,65 @@
 {
   "version": 1,
-  "records": []
+  "records": [
+    {
+      "kind": "magazine",
+      "publisher": "",
+      "titlePrefix": "NHKカルチャーアワー歴史再発見",
+      "groupName": "NHKカルチャーアワー歴史再発見",
+      "readingPrefix": "エヌエイチケー カルチャー アワー レキシ サイハッケン",
+      "basis": {
+        "opacId": "B003158"
+      },
+      "batchId": "60556542812F",
+      "confirmedAt": "2026-11-07T06:20:40.957Z"
+    },
+    {
+      "kind": "magazine",
+      "publisher": "",
+      "titlePrefix": "NHK市民大学",
+      "groupName": "NHK市民大学",
+      "readingPrefix": "エヌエイチケー シミン ダイガク",
+      "basis": {
+        "opacId": "B003159"
+      },
+      "batchId": "60556542812F",
+      "confirmedAt": "2026-11-07T06:20:40.957Z"
+    },
+    {
+      "kind": "magazine",
+      "publisher": "",
+      "titlePrefix": "NHK市民大学1983.4-9",
+      "groupName": "NHK市民大学",
+      "readingPrefix": "エヌエイチケー シミン ダイガク",
+      "basis": {
+        "opacId": "B004241"
+      },
+      "batchId": "60556542812F",
+      "confirmedAt": "2026-11-07T06:20:40.957Z"
+    },
+    {
+      "kind": "magazine",
+      "publisher": "",
+      "titlePrefix": "現代のエスプリ別冊 S61.11",
+      "groupName": "現代のエスプリ別冊",
+      "readingPrefix": "ゲンダイ ノ エスプリ ベッサツ",
+      "basis": {
+        "opacId": "B003189"
+      },
+      "batchId": "60556542812F",
+      "confirmedAt": "2026-11-07T06:20:40.957Z"
+    },
+    {
+      "kind": "magazine",
+      "publisher": "",
+      "titlePrefix": "現代農業増刊1996",
+      "groupName": "現代農業増刊",
+      "readingPrefix": "ゲンダイ ノウギョウ ゾウカン",
+      "basis": {
+        "opacId": "B003636"
+      },
+      "batchId": "60556542812F",
+      "confirmedAt": "2026-11-07T06:20:40.957Z"
+    }
+  ]
 }
