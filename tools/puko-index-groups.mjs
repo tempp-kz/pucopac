@@ -3,6 +3,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import { rejectSourceRenames } from './puko-public-titles.mjs';
+import { PukoMagazine } from './puko-magazine-core.mjs';
 
 const fail = message => { throw Error(message); };
 export const ROOTS = {general:'01 一般書籍',magazine:'02 市販雑誌 雑誌名順',series:'03 シリーズ 出版社順',classic:'05 古典 著者出生地分類'};
@@ -42,11 +43,15 @@ function parseUnique(raw) {
   const value=()=>{ws();if(s[i]==='{'){i++;ws();const seen=new Set();if(s[i]==='}'){i++;return;}while(i<s.length){if(s[i]!=='"')fail('INDEX_GROUP_JSON_KEY');const k=str();if(seen.has(k))fail('INDEX_GROUP_DUPLICATE_KEY='+k);seen.add(k);ws();if(s[i++]!==':')fail('INDEX_GROUP_JSON_COLON');value();ws();if(s[i]==='}'){i++;return;}if(s[i++]!==',')fail('INDEX_GROUP_JSON_COMMA');ws();}fail('INDEX_GROUP_JSON_OBJECT');}else if(s[i]==='['){i++;ws();if(s[i]===']'){i++;return;}while(i<s.length){value();ws();if(s[i]===']'){i++;return;}if(s[i++]!==',')fail('INDEX_GROUP_JSON_COMMA');}fail('INDEX_GROUP_JSON_ARRAY');}else if(s[i]==='"'){str();}else{const start=i;while(i<s.length&&!/[\s,}\]]/u.test(s[i]))i++;if(i===start)fail('INDEX_GROUP_JSON_VALUE');JSON.parse(s.slice(start,i));}};
   value();ws();if(i!==s.length)fail('INDEX_GROUP_JSON_TRAILING');return JSON.parse(s);
 }
-const ruleKey = r => JSON.stringify([r.kind,r.publisher,r.titlePrefix]);
+const ruleKey = r => r.match==='item' ? JSON.stringify([r.kind,'item',r.basis.opacId]) : JSON.stringify([r.kind,r.publisher,r.titlePrefix]);
 export function validateGroups(data) {
-  if (!plain(data) || data.version!==1 || !Array.isArray(data.records) || Object.keys(data).some(k=>!['version','records'].includes(k))) fail('INDEX_GROUP_SCHEMA');
+  if (!plain(data) || ![1,2].includes(data.version) || !Array.isArray(data.records) || Object.keys(data).some(k=>!['version','records'].includes(k))) fail('INDEX_GROUP_SCHEMA');
   const keys=new Set();
   for(const r of data.records) {
+    if (r?.match==='item') {
+      if(data.version!==2 || Object.keys(r).some(k=>!['match','kind','publisher','groupName','readingPrefix','basis','batchId','confirmedAt'].includes(k)) || r.kind!=='magazine' || r.publisher!=='' || !text(r.groupName) || !text(r.readingPrefix) || !readingRow(r.readingPrefix) || !plain(r.basis) || Object.keys(r.basis).length!==1 || !/^B[0-9]{6}$/u.test(r.basis.opacId) || !/^[A-F0-9]{12}$/u.test(r.batchId) || typeof r.confirmedAt!=='string' || !Number.isFinite(Date.parse(r.confirmedAt)))fail('INDEX_GROUP_ITEM_INVALID');
+      if(keys.has(ruleKey(r)))fail('INDEX_GROUP_DUPLICATE_SCOPE');keys.add(ruleKey(r));continue;
+    }
     if (!plain(r) || Object.keys(r).some(k=>!['kind','publisher','titlePrefix','groupName','readingPrefix','basis','batchId','confirmedAt'].includes(k)) || !['magazine','series'].includes(r.kind) ||
         !text(r.titlePrefix) || !text(r.groupName) || !text(r.readingPrefix) || !readingRow(r.readingPrefix) ||
         (r.kind==='magazine' ? r.publisher!=='' : typeof r.publisher!=='string' || !r.publisher.startsWith(ROOTS.series+'/') || r.publisher.split('/').length!==3 || !rows.includes(r.publisher.split('/')[1])) ||
@@ -66,7 +71,7 @@ export function writeGroups(file,data) {
 }
 const scopeMatches = (rule,record) => {
   let loc;try{loc=bookLocation(record.relativePath);}catch{return false;}
-  return loc.kind===rule.kind && loc.publisher===rule.publisher && starts(record.fileTitle||loc.fileTitle,rule.titlePrefix);
+  return rule.match==='item' ? loc.kind===rule.kind && record.opacId===rule.basis.opacId : loc.kind===rule.kind && loc.publisher===rule.publisher && starts(record.fileTitle||loc.fileTitle,rule.titlePrefix);
 };
 export function validateGroupBasis(data,records) {
   validateGroups(data);const ids=new Map();
@@ -78,11 +83,21 @@ export function validateGroupBasis(data,records) {
 }
 export function applyGroupDirectives(formal,batch,records) {
   validateGroups(formal);rejectSourceRenames({},batch);
+  if(batch.version===2)for(const b of batch.books||[])if(b.relativePath?.startsWith(ROOTS.magazine+'/')&&!b.indexGroupDecision)fail('INDEX_GROUP_FINAL_MISSING_OR_INVALID='+b.index);
   const result=structuredClone(formal), byPath=new Map(records.map(r=>[r.relativePath,r]));
   const adopted=new Map();
   for(const b of batch.books||[]) {
     if(b.indexGroupDecision==null)continue;
     const d=b.indexGroupDecision,r=byPath.get(b.relativePath);
+    if(batch.version===2 && b.relativePath.startsWith(ROOTS.magazine+'/')) {
+      if(b.humanConfirmed!==true || !r || !plain(d) || Object.keys(d).some(k=>!['kind','groupName','readingPrefix'].includes(k)) || d.kind!=='magazine')fail('INDEX_GROUP_UNAPPROVED='+b.index);
+      const error=PukoMagazine.decisionError({...r,titleReading:b.titleReading},d);
+      if(error)fail('INDEX_GROUP_DIRECTIVE_CONFLICT='+b.index+': '+error);
+      const rule={match:'item',kind:'magazine',publisher:'',groupName:d.groupName,readingPrefix:d.readingPrefix,basis:{opacId:r.opacId},batchId:batch.batchId,confirmedAt:batch.confirmedAt};
+      const existing=result.records.findIndex(x=>x.match==='item' && x.basis.opacId===r.opacId);
+      if(existing<0)result.records.push(rule);else result.records[existing]=rule;
+      result.version=2;continue;
+    }
     if(b.humanConfirmed!==true || !r || !plain(d) || Object.keys(d).some(k=>!['kind','publisher','titlePrefix','groupName','readingPrefix'].includes(k)))fail('INDEX_GROUP_UNAPPROVED='+b.index);
     const rule={...d,basis:{opacId:r.opacId},batchId:batch.batchId,confirmedAt:batch.confirmedAt};
     validateGroups({version:1,records:[rule]});
@@ -121,7 +136,8 @@ export function resolveIndexGroups(records,settings) {
   for(const record of records) {
     let loc;try{loc=bookLocation(record.relativePath);}catch{continue;}
     if(!['magazine','series'].includes(loc.kind) || !record.titleReading)continue;
-    const rules=settings.records.filter(r=>scopeMatches(r,record));
+    const item=settings.records.find(r=>r.match==='item'&&scopeMatches(r,record));
+    const rules=item?[item]:settings.records.filter(r=>r.match===undefined&&scopeMatches(r,record));
     if(rules.length>1)fail('INDEX_GROUP_AMBIGUOUS_PREFIX='+record.relativePath);
     let group;
     if(rules.length===1)group={groupName:rules[0].groupName,reading:rules[0].readingPrefix};
@@ -155,9 +171,13 @@ export function resolveIndexGroups(records,settings) {
 export function validateBatchShape(batch,config) {
   rejectSourceRenames(config,batch);
   const n=config.indexRange??(config.targets===100?100:NaN),m=config.targets,e=config.excludedIndexes??[];
-  if(batch.version!==1 || batch.kind!=='puko-title-reading-final-review' || !/^[A-F0-9]{12}$/u.test(batch.batchId) || batch.batchId!==config.batchId || !Number.isInteger(n)||n<1||n>100||!Number.isInteger(m)||m<1||m>n||!Array.isArray(e)||e.length!==n-m||new Set(e).size!==e.length||e.some(x=>!Number.isInteger(x)||x<1||x>n)||!Array.isArray(batch.books)||batch.books.length!==m)fail('BATCH_COUNT_OR_ID_INVALID');
+  if(![1,2].includes(batch.version) || batch.kind!=='puko-title-reading-final-review' || !/^[A-F0-9]{12}$/u.test(batch.batchId) || batch.batchId!==config.batchId || !Number.isInteger(n)||n<1||n>100||!Number.isInteger(m)||m<1||m>n||!Array.isArray(e)||e.length!==n-m||new Set(e).size!==e.length||e.some(x=>!Number.isInteger(x)||x<1||x>n)||!Array.isArray(batch.books)||batch.books.length!==m)fail('BATCH_COUNT_OR_ID_INVALID');
   const indexes=new Set(),paths=new Set();
   for(const b of batch.books){bookLocation(b.relativePath);if(!Number.isInteger(b.index)||b.index<1||b.index>n||e.includes(b.index)||indexes.has(b.index)||paths.has(b.relativePath)||b.humanConfirmed!==true||!text(b.titleReading)||!/^[a-f0-9]{64}$/iu.test(b.sourceSha256))fail('BATCH_TARGET_INVALID='+b.index);indexes.add(b.index);paths.add(b.relativePath);}
+  if(batch.version===2)for(const b of batch.books)if(b.relativePath.startsWith(ROOTS.magazine+'/')){
+    const d=b.indexGroupDecision;
+    if(!plain(d)||d.kind!=='magazine'||Object.keys(d).some(k=>!['kind','groupName','readingPrefix'].includes(k))||PukoMagazine.decisionError({...b,fileTitle:path.posix.basename(b.relativePath,'.md')},d))fail('INDEX_GROUP_FINAL_MISSING_OR_INVALID='+b.index);
+  }
   return {selected:n,excluded:e.length,applied:m};
 }
 
@@ -185,11 +205,16 @@ export function prepareGroupReview(candidate,inventory) {
   const formal=inventory.indexGroupSettings;validateGroups(formal);
   const all=(inventory.books||[]).filter(b=>Object.values(ROOTS).some(root=>b.relativePath?.startsWith(root+'/'))).map((b,i)=>({...b,fileTitle:path.posix.basename(b.relativePath,'.md'),opacId:b.opacId||'B'+String(900000+i).padStart(6,'0'),type:'book',series:b.series||[]}));
   const byPath=new Map(all.map(b=>[b.relativePath,b]));const result=structuredClone(candidate);
+  result.magazineSettings=structuredClone(formal);
   for(const b of result.books) {
     const loc=bookLocation(b.relativePath);if(!['magazine','series'].includes(loc.kind))continue;
     const base=byPath.get(b.relativePath);if(!base||base.sha256?.toLowerCase()!==b.sha256?.toLowerCase())fail('INDEX_GROUP_INVENTORY_TARGET_MISMATCH='+b.relativePath);
     const proposed=b.reviewAid?.suggestions?.[0]?.reading||b.proposal?.titleReading||'';
     const target={...base,titleReading:proposed},context=all.map(x=>x.relativePath===b.relativePath?target:x);
+    if(loc.kind==='magazine'){
+      b.opacId=base.opacId;b.magazineReview=PukoMagazine.review(target,formal);
+      delete b.indexGroupReview;delete b.indexGroupIssue;delete b.indexGroupResolved;continue;
+    }
     try {const resolved=resolveIndexGroups(context,formal).get(b.relativePath);if(resolved){b.indexGroupResolved=resolved;delete b.indexGroupReview;continue;}}
     catch(error){if(!/INDEX_GROUP_REVIEW_REQUIRED|INDEX_GROUP_READING|INDEX_GROUP_AMBIGUOUS|MAGAZINE_ROW_MISMATCH/u.test(error.message))throw error;b.indexGroupIssue=error.message;if(/MAGAZINE_ROW_MISMATCH/u.test(error.message)){delete b.indexGroupReview;continue;}}
     const matched=formal.records.filter(r=>scopeMatches(r,target)),metadata=[...new Set((base.series||[]).filter(x=>text(x)&&starts(base.fileTitle,x)))],normal=numbered(target);
