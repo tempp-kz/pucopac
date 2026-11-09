@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "records": [
     {
       "kind": "magazine",
@@ -60,6 +60,1086 @@
       },
       "batchId": "60556542812F",
       "confirmedAt": "2026-11-07T06:20:40.957Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "國文學 解釈と教材の研究",
+      "readingPrefix": "コクブンガク カイシャク ト キョウザイ ノ ケンキュウ",
+      "basis": {
+        "opacId": "B003199"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "國文學 解釈と教材の研究",
+      "readingPrefix": "コクブンガク カイシャク ト キョウザイ ノ ケンキュウ",
+      "basis": {
+        "opacId": "B003200"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "國文學 解釈と教材の研究",
+      "readingPrefix": "コクブンガク カイシャク ト キョウザイ ノ ケンキュウ",
+      "basis": {
+        "opacId": "B003201"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "國文學 解釈と鑑賞",
+      "readingPrefix": "コクブンガク カイシャクトカンショウ",
+      "basis": {
+        "opacId": "B003202"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "史林",
+      "readingPrefix": "シリン",
+      "basis": {
+        "opacId": "B003203"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "史學雑誌",
+      "readingPrefix": "シガク ザッシ",
+      "basis": {
+        "opacId": "B003204"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "史學雑誌",
+      "readingPrefix": "シガク ザッシ",
+      "basis": {
+        "opacId": "B003205"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "史學雑誌",
+      "readingPrefix": "シガク ザッシ",
+      "basis": {
+        "opacId": "B003206"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "史學雑誌",
+      "readingPrefix": "シガク ザッシ",
+      "basis": {
+        "opacId": "B003207"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "史學雑誌",
+      "readingPrefix": "シガク ザッシ",
+      "basis": {
+        "opacId": "B003208"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "試行",
+      "readingPrefix": "シコウ",
+      "basis": {
+        "opacId": "B003209"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "試行",
+      "readingPrefix": "シコウ",
+      "basis": {
+        "opacId": "B003210"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "社会史研究",
+      "readingPrefix": "シャカイシ ケンキュウ",
+      "basis": {
+        "opacId": "B003211"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "週刊ビジュアル戦国王",
+      "readingPrefix": "シュウカン ビジュアル センゴクオウ",
+      "basis": {
+        "opacId": "B003212"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "集刊東洋学",
+      "readingPrefix": "シュウカン トウヨウガク",
+      "basis": {
+        "opacId": "B003213"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "集刊東洋学",
+      "readingPrefix": "シュウカン トウヨウガク",
+      "basis": {
+        "opacId": "B003214"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "集刊東洋学",
+      "readingPrefix": "シュウカン トウヨウガク",
+      "basis": {
+        "opacId": "B003215"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "植物と文化",
+      "readingPrefix": "ショクブツ ト ブンカ",
+      "basis": {
+        "opacId": "B003216"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "植物と文化",
+      "readingPrefix": "ショクブツ ト ブンカ",
+      "basis": {
+        "opacId": "B003217"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "植物と文化",
+      "readingPrefix": "ショクブツ ト ブンカ",
+      "basis": {
+        "opacId": "B003218"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "植物と文化",
+      "readingPrefix": "ショクブツ ト ブンカ",
+      "basis": {
+        "opacId": "B003219"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "植物と文化",
+      "readingPrefix": "ショクブツ ト ブンカ",
+      "basis": {
+        "opacId": "B003220"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "植物と文化",
+      "readingPrefix": "ショクブツ ト ブンカ",
+      "basis": {
+        "opacId": "B003221"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "真説 歴史の道",
+      "readingPrefix": "シンセツ レキシ ノ ミチ",
+      "basis": {
+        "opacId": "B003222"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "真説 歴史の道",
+      "readingPrefix": "シンセツ レキシ ノ ミチ",
+      "basis": {
+        "opacId": "B003223"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "神社協会雑誌",
+      "readingPrefix": "ジンジャ キョウカイ ザッシ",
+      "basis": {
+        "opacId": "B003224"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003225"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003226"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003227"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003228"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003229"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003230"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003231"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003232"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003233"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003234"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003235"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003236"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003237"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003238"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003239"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003240"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003241"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "世界画報",
+      "readingPrefix": "セカイ ガホウ",
+      "basis": {
+        "opacId": "B003242"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "正論",
+      "readingPrefix": "セイロン",
+      "basis": {
+        "opacId": "B003243"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "大航海",
+      "readingPrefix": "ダイコウカイ",
+      "basis": {
+        "opacId": "B003244"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "東洋古典學研究",
+      "readingPrefix": "トウヨウ コテンガク ケンキュウ",
+      "basis": {
+        "opacId": "B003245"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "東洋古典學研究",
+      "readingPrefix": "トウヨウ コテンガク ケンキュウ",
+      "basis": {
+        "opacId": "B003246"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "東洋古典學研究",
+      "readingPrefix": "トウヨウ コテンガク ケンキュウ",
+      "basis": {
+        "opacId": "B003247"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "東洋史研究",
+      "readingPrefix": "トウヨウシ ケンキュウ",
+      "basis": {
+        "opacId": "B003248"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "東洋史研究",
+      "readingPrefix": "トウヨウシ ケンキュウ",
+      "basis": {
+        "opacId": "B003249"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "東洋史研究",
+      "readingPrefix": "トウヨウシ ケンキュウ",
+      "basis": {
+        "opacId": "B003250"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "東洋史研究",
+      "readingPrefix": "トウヨウシ ケンキュウ",
+      "basis": {
+        "opacId": "B003251"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "集刊東洋学",
+      "readingPrefix": "シュウカン トウヨウガク",
+      "basis": {
+        "opacId": "B003252"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "集刊東洋学",
+      "readingPrefix": "シュウカン トウヨウガク",
+      "basis": {
+        "opacId": "B003253"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "集刊東洋学",
+      "readingPrefix": "シュウカン トウヨウガク",
+      "basis": {
+        "opacId": "B003254"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "徳川林政史研究所 研究紀要",
+      "readingPrefix": "トクガワ リンセイシ ケンキュウジョ ケンキュウ キヨウ",
+      "basis": {
+        "opacId": "B003255"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "徳川林政史研究所 研究紀要",
+      "readingPrefix": "トクガワ リンセイシ ケンキュウジョ ケンキュウ キヨウ",
+      "basis": {
+        "opacId": "B003256"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "徳川林政史研究所 研究紀要",
+      "readingPrefix": "トクガワ リンセイシ ケンキュウジョ ケンキュウ キヨウ",
+      "basis": {
+        "opacId": "B003257"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "徳川林政史研究所 研究紀要",
+      "readingPrefix": "トクガワ リンセイシ ケンキュウジョ ケンキュウ キヨウ",
+      "basis": {
+        "opacId": "B003258"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "徳川林政史研究所 研究紀要",
+      "readingPrefix": "トクガワ リンセイシ ケンキュウジョ ケンキュウ キヨウ",
+      "basis": {
+        "opacId": "B003259"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "徳川林政史研究所 研究紀要",
+      "readingPrefix": "トクガワ リンセイシ ケンキュウジョ ケンキュウ キヨウ",
+      "basis": {
+        "opacId": "B003260"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "徳川林政史研究所 研究紀要",
+      "readingPrefix": "トクガワ リンセイシ ケンキュウジョ ケンキュウ キヨウ",
+      "basis": {
+        "opacId": "B003261"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "徳川林政史研究所 研究紀要",
+      "readingPrefix": "トクガワ リンセイシ ケンキュウジョ ケンキュウ キヨウ",
+      "basis": {
+        "opacId": "B003262"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "傳説と奇談",
+      "readingPrefix": "デンセツ ト キダン",
+      "basis": {
+        "opacId": "B003263"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "傳説と奇談",
+      "readingPrefix": "デンセツ ト キダン",
+      "basis": {
+        "opacId": "B003264"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "傳説と奇談",
+      "readingPrefix": "デンセツ ト キダン",
+      "basis": {
+        "opacId": "B003265"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "傳説と奇談",
+      "readingPrefix": "デンセツ ト キダン",
+      "basis": {
+        "opacId": "B003266"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "傳説と奇談",
+      "readingPrefix": "デンセツ ト キダン",
+      "basis": {
+        "opacId": "B003267"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "傳説と奇談",
+      "readingPrefix": "デンセツ ト キダン",
+      "basis": {
+        "opacId": "B003268"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "傳説と奇談",
+      "readingPrefix": "デンセツ ト キダン",
+      "basis": {
+        "opacId": "B003269"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "傳説と奇談",
+      "readingPrefix": "デンセツ ト キダン",
+      "basis": {
+        "opacId": "B003270"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "傳説と奇談",
+      "readingPrefix": "デンセツ ト キダン",
+      "basis": {
+        "opacId": "B003271"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "傳説と奇談",
+      "readingPrefix": "デンセツ ト キダン",
+      "basis": {
+        "opacId": "B003272"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "奈良文化財研究所学報",
+      "readingPrefix": "ナラ ブンカザイ ケンキュウジョ ガクホウ",
+      "basis": {
+        "opacId": "B003273"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "日本史研究",
+      "readingPrefix": "ニホンシ ケンキュウ",
+      "basis": {
+        "opacId": "B003274"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "日本歴史",
+      "readingPrefix": "ニホン レキシ",
+      "basis": {
+        "opacId": "B003275"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "日本歴史",
+      "readingPrefix": "ニホン レキシ",
+      "basis": {
+        "opacId": "B003276"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "日本歴史",
+      "readingPrefix": "ニホン レキシ",
+      "basis": {
+        "opacId": "B003277"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "日本醫史學雜誌",
+      "readingPrefix": "ニホン イシガク ザッシ",
+      "basis": {
+        "opacId": "B003278"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "日本醫史學雜誌",
+      "readingPrefix": "ニホン イシガク ザッシ",
+      "basis": {
+        "opacId": "B003279"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "日本醫史學雜誌",
+      "readingPrefix": "ニホン イシガク ザッシ",
+      "basis": {
+        "opacId": "B003280"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "日本醫史學雜誌",
+      "readingPrefix": "ニホン イシガク ザッシ",
+      "basis": {
+        "opacId": "B003281"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "植物と文化",
+      "readingPrefix": "ショクブツ ト ブンカ",
+      "basis": {
+        "opacId": "B003357"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "知るを楽しむ 歴史に好奇心",
+      "readingPrefix": "シル ヲ タノシム レキシ ニ コウキシン",
+      "basis": {
+        "opacId": "B003481"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "知るを楽しむ 歴史に好奇心",
+      "readingPrefix": "シル ヲ タノシム レキシ ニ コウキシン",
+      "basis": {
+        "opacId": "B003482"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "國文學 解釈と教材の研究",
+      "readingPrefix": "コクブンガク カイシャク ト キョウザイ ノ ケンキュウ",
+      "basis": {
+        "opacId": "B003638"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "國文學 解釈と教材の研究",
+      "readingPrefix": "コクブンガク カイシャク ト キョウザイ ノ ケンキュウ",
+      "basis": {
+        "opacId": "B003639"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "月刊しにか",
+      "readingPrefix": "ゲッカン シニカ",
+      "basis": {
+        "opacId": "B004320"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "現代宗教",
+      "readingPrefix": "ゲンダイ シュウキョウ",
+      "basis": {
+        "opacId": "B004321"
+      },
+      "batchId": "8A8F32D2DD47",
+      "confirmedAt": "2026-11-09T01:34:20.208Z"
     }
   ]
 }
