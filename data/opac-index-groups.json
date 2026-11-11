@@ -1061,6 +1061,534 @@
       "match": "item",
       "kind": "magazine",
       "publisher": "",
+      "groupName": "日本醫史學雜誌",
+      "readingPrefix": "ニホン イシガク ザッシ",
+      "basis": {
+        "opacId": "B003282"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "日本醫史學雜誌",
+      "readingPrefix": "ニホン イシガク ザッシ",
+      "basis": {
+        "opacId": "B003283"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "東アジアの古代文化",
+      "readingPrefix": "ヒガシアジアノコダイブンカ",
+      "basis": {
+        "opacId": "B003284"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "東アジアの古代文化",
+      "readingPrefix": "ヒガシアジアノコダイブンカ",
+      "basis": {
+        "opacId": "B003285"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "風俗",
+      "readingPrefix": "フウゾク",
+      "basis": {
+        "opacId": "B003286"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "風俗",
+      "readingPrefix": "フウゾク",
+      "basis": {
+        "opacId": "B003287"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "民俗学論叢",
+      "readingPrefix": "ミンゾクガク ロンソウ",
+      "basis": {
+        "opacId": "B003288"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "無形の民俗文化財 記録",
+      "readingPrefix": "ムケイ ノ ミンゾク ブンカザイ キロク",
+      "basis": {
+        "opacId": "B003289"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "横浜開港資料館紀要",
+      "readingPrefix": "ヨコハマ カイコウ シリョウカン キヨウ",
+      "basis": {
+        "opacId": "B003290"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "横浜開港資料館紀要",
+      "readingPrefix": "ヨコハマ カイコウ シリョウカン キヨウ",
+      "basis": {
+        "opacId": "B003291"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "横浜開港資料館紀要",
+      "readingPrefix": "ヨコハマ カイコウ シリョウカン キヨウ",
+      "basis": {
+        "opacId": "B003292"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "理想",
+      "readingPrefix": "リソウ",
+      "basis": {
+        "opacId": "B003293"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史と旅",
+      "readingPrefix": "レキシ ト タビ",
+      "basis": {
+        "opacId": "B003294"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史と旅",
+      "readingPrefix": "レキシ ト タビ",
+      "basis": {
+        "opacId": "B003295"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史と旅",
+      "readingPrefix": "レキシ ト タビ",
+      "basis": {
+        "opacId": "B003296"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史と旅",
+      "readingPrefix": "レキシ ト タビ",
+      "basis": {
+        "opacId": "B003297"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史と旅臨時増刊",
+      "readingPrefix": "レキシトタビリンジゾウカン",
+      "basis": {
+        "opacId": "B003298"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史と旅臨時増刊",
+      "readingPrefix": "レキシトタビリンジゾウカン",
+      "basis": {
+        "opacId": "B003299"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史学研究",
+      "readingPrefix": "レキシガク ケンキュウ",
+      "basis": {
+        "opacId": "B003300"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史学研究",
+      "readingPrefix": "レキシガク ケンキュウ",
+      "basis": {
+        "opacId": "B003301"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史学研究",
+      "readingPrefix": "レキシガク ケンキュウ",
+      "basis": {
+        "opacId": "B003302"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史学研究",
+      "readingPrefix": "レキシガク ケンキュウ",
+      "basis": {
+        "opacId": "B003303"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史研究",
+      "readingPrefix": "レキシ ケンキュウ",
+      "basis": {
+        "opacId": "B003304"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史研究",
+      "readingPrefix": "レキシ ケンキュウ",
+      "basis": {
+        "opacId": "B003305"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史公論",
+      "readingPrefix": "レキシ コウロン",
+      "basis": {
+        "opacId": "B003306"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史公論",
+      "readingPrefix": "レキシ コウロン",
+      "basis": {
+        "opacId": "B003307"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史公論",
+      "readingPrefix": "レキシ コウロン",
+      "basis": {
+        "opacId": "B003308"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史公論",
+      "readingPrefix": "レキシ コウロン",
+      "basis": {
+        "opacId": "B003309"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史公論",
+      "readingPrefix": "レキシ コウロン",
+      "basis": {
+        "opacId": "B003310"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史公論",
+      "readingPrefix": "レキシ コウロン",
+      "basis": {
+        "opacId": "B003311"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史人",
+      "readingPrefix": "レキシジン",
+      "basis": {
+        "opacId": "B003312"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史人",
+      "readingPrefix": "レキシジン",
+      "basis": {
+        "opacId": "B003313"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本",
+      "readingPrefix": "レキシ ドクホン",
+      "basis": {
+        "opacId": "B003314"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本",
+      "readingPrefix": "レキシ ドクホン",
+      "basis": {
+        "opacId": "B003315"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本",
+      "readingPrefix": "レキシ ドクホン",
+      "basis": {
+        "opacId": "B003316"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本",
+      "readingPrefix": "レキシ ドクホン",
+      "basis": {
+        "opacId": "B003317"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本シリーズ「日本を探る」",
+      "readingPrefix": "レキシ ドクホン シリーズ ニホン ヲ サグル",
+      "basis": {
+        "opacId": "B003318"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本事典シリーズ",
+      "readingPrefix": "レキシ ドクホン ジテン シリーズ",
+      "basis": {
+        "opacId": "B003319"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本事典シリーズ",
+      "readingPrefix": "レキシ ドクホン ジテン シリーズ",
+      "basis": {
+        "opacId": "B003320"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本事典シリーズ",
+      "readingPrefix": "レキシ ドクホン ジテン シリーズ",
+      "basis": {
+        "opacId": "B003321"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本事典シリーズ",
+      "readingPrefix": "レキシ ドクホン ジテン シリーズ",
+      "basis": {
+        "opacId": "B003322"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本事典シリーズ",
+      "readingPrefix": "レキシ ドクホン ジテン シリーズ",
+      "basis": {
+        "opacId": "B003323"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本事典シリーズ",
+      "readingPrefix": "レキシ ドクホン ジテン シリーズ",
+      "basis": {
+        "opacId": "B003324"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本事典シリーズ",
+      "readingPrefix": "レキシ ドクホン ジテン シリーズ",
+      "basis": {
+        "opacId": "B003325"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
       "groupName": "植物と文化",
       "readingPrefix": "ショクブツ ト ブンカ",
       "basis": {
@@ -1097,6 +1625,30 @@
       "match": "item",
       "kind": "magazine",
       "publisher": "",
+      "groupName": "歴史と民俗",
+      "readingPrefix": "レキシ ト ミンゾク",
+      "basis": {
+        "opacId": "B003483"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史と民俗",
+      "readingPrefix": "レキシ ト ミンゾク",
+      "basis": {
+        "opacId": "B003484"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
       "groupName": "國文學 解釈と教材の研究",
       "readingPrefix": "コクブンガク カイシャク ト キョウザイ ノ ケンキュウ",
       "basis": {
@@ -1121,6 +1673,162 @@
       "match": "item",
       "kind": "magazine",
       "publisher": "",
+      "groupName": "別冊宝島 シリーズ歴史発見",
+      "readingPrefix": "ベッサツ タカラジマシリーズレキシハッケン",
+      "basis": {
+        "opacId": "B003640"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "民話と文学",
+      "readingPrefix": "ミンワ ト ブンガク",
+      "basis": {
+        "opacId": "B003641"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史と民俗",
+      "readingPrefix": "レキシ ト ミンゾク",
+      "basis": {
+        "opacId": "B003642"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史と民俗",
+      "readingPrefix": "レキシ ト ミンゾク",
+      "basis": {
+        "opacId": "B003643"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史と旅",
+      "readingPrefix": "レキシ ト タビ",
+      "basis": {
+        "opacId": "B003644"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史と旅臨時増刊",
+      "readingPrefix": "レキシトタビリンジゾウカン",
+      "basis": {
+        "opacId": "B003755"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本",
+      "readingPrefix": "レキシ ドクホン",
+      "basis": {
+        "opacId": "B003756"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "民俗宗教",
+      "readingPrefix": "ミンゾク シュウキョウ",
+      "basis": {
+        "opacId": "B003972"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "民俗宗教",
+      "readingPrefix": "ミンゾク シュウキョウ",
+      "basis": {
+        "opacId": "B003973"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史學研究 別冊特集",
+      "readingPrefix": "レキシガクケンキュウベッサツトクシュウ",
+      "basis": {
+        "opacId": "B003974"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本事典シリーズ",
+      "readingPrefix": "レキシ ドクホン ジテン シリーズ",
+      "basis": {
+        "opacId": "B003975"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "年報政治学",
+      "readingPrefix": "ネンポウ セイジガク",
+      "basis": {
+        "opacId": "B004242"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史公論",
+      "readingPrefix": "レキシ コウロン",
+      "basis": {
+        "opacId": "B004243"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
       "groupName": "月刊しにか",
       "readingPrefix": "ゲッカン シニカ",
       "basis": {
@@ -1140,6 +1848,186 @@
       },
       "batchId": "8A8F32D2DD47",
       "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "國語國文學會誌",
+      "readingPrefix": "コクゴコクブンガッカイシ",
+      "basis": {
+        "opacId": "B004322"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "比較日本文化研究",
+      "readingPrefix": "ヒカク ニホン ブンカ ケンキュウ",
+      "basis": {
+        "opacId": "B004323"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史と民俗",
+      "readingPrefix": "レキシ ト ミンゾク",
+      "basis": {
+        "opacId": "B004324"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史研究",
+      "readingPrefix": "レキシ ケンキュウ",
+      "basis": {
+        "opacId": "B004325"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史研究",
+      "readingPrefix": "レキシ ケンキュウ",
+      "basis": {
+        "opacId": "B004326"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史研究",
+      "readingPrefix": "レキシ ケンキュウ",
+      "basis": {
+        "opacId": "B004327"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史研究",
+      "readingPrefix": "レキシ ケンキュウ",
+      "basis": {
+        "opacId": "B004328"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史研究",
+      "readingPrefix": "レキシ ケンキュウ",
+      "basis": {
+        "opacId": "B004329"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史研究",
+      "readingPrefix": "レキシ ケンキュウ",
+      "basis": {
+        "opacId": "B004330"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史研究",
+      "readingPrefix": "レキシ ケンキュウ",
+      "basis": {
+        "opacId": "B004348"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史研究",
+      "readingPrefix": "レキシ ケンキュウ",
+      "basis": {
+        "opacId": "B004350"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史研究",
+      "readingPrefix": "レキシ ケンキュウ",
+      "basis": {
+        "opacId": "B004351"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史研究",
+      "readingPrefix": "レキシ ケンキュウ",
+      "basis": {
+        "opacId": "B004352"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史研究",
+      "readingPrefix": "レキシ ケンキュウ",
+      "basis": {
+        "opacId": "B004353"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史研究",
+      "readingPrefix": "レキシ ケンキュウ",
+      "basis": {
+        "opacId": "B004354"
+      },
+      "batchId": "AEEE4045E839",
+      "confirmedAt": "2026-11-11T12:42:23.762Z"
     }
   ]
 }
