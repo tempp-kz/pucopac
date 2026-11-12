@@ -49,7 +49,7 @@ export function validateGroups(data) {
   const keys=new Set();
   for(const r of data.records) {
     if (r?.match==='item') {
-      if(data.version!==2 || Object.keys(r).some(k=>!['match','kind','publisher','groupName','readingPrefix','basis','batchId','confirmedAt'].includes(k)) || r.kind!=='magazine' || r.publisher!=='' || !text(r.groupName) || !text(r.readingPrefix) || !readingRow(r.readingPrefix) || !plain(r.basis) || Object.keys(r.basis).length!==1 || !/^B[0-9]{6}$/u.test(r.basis.opacId) || !/^[A-F0-9]{12}$/u.test(r.batchId) || typeof r.confirmedAt!=='string' || !Number.isFinite(Date.parse(r.confirmedAt)))fail('INDEX_GROUP_ITEM_INVALID');
+      if(data.version!==2 || Object.keys(r).some(k=>!['match','kind','publisher','groupName','readingPrefix','basis','batchId','confirmedAt'].includes(k)) || !['magazine','series'].includes(r.kind) || (r.kind==='magazine' ? r.publisher!=='' : typeof r.publisher!=='string' || !r.publisher.startsWith(ROOTS.series+'/') || r.publisher.split('/').length!==3 || !rows.includes(r.publisher.split('/')[1])) || !text(r.groupName) || !text(r.readingPrefix) || !readingRow(r.readingPrefix) || !plain(r.basis) || Object.keys(r.basis).length!==1 || !/^B[0-9]{6}$/u.test(r.basis.opacId) || !/^[A-F0-9]{12}$/u.test(r.batchId) || typeof r.confirmedAt!=='string' || !Number.isFinite(Date.parse(r.confirmedAt)))fail('INDEX_GROUP_ITEM_INVALID');
       if(keys.has(ruleKey(r)))fail('INDEX_GROUP_DUPLICATE_SCOPE');keys.add(ruleKey(r));continue;
     }
     if (!plain(r) || Object.keys(r).some(k=>!['kind','publisher','titlePrefix','groupName','readingPrefix','basis','batchId','confirmedAt'].includes(k)) || !['magazine','series'].includes(r.kind) ||
@@ -71,7 +71,7 @@ export function writeGroups(file,data) {
 }
 const scopeMatches = (rule,record) => {
   let loc;try{loc=bookLocation(record.relativePath);}catch{return false;}
-  return rule.match==='item' ? loc.kind===rule.kind && record.opacId===rule.basis.opacId : loc.kind===rule.kind && loc.publisher===rule.publisher && starts(record.fileTitle||loc.fileTitle,rule.titlePrefix);
+  return rule.match==='item' ? loc.kind===rule.kind && loc.publisher===rule.publisher && record.opacId===rule.basis.opacId : loc.kind===rule.kind && loc.publisher===rule.publisher && starts(record.fileTitle||loc.fileTitle,rule.titlePrefix);
 };
 export function validateGroupBasis(data,records) {
   validateGroups(data);const ids=new Map();
@@ -89,11 +89,11 @@ export function applyGroupDirectives(formal,batch,records) {
   for(const b of batch.books||[]) {
     if(b.indexGroupDecision==null)continue;
     const d=b.indexGroupDecision,r=byPath.get(b.relativePath);
-    if(batch.version===2 && b.relativePath.startsWith(ROOTS.magazine+'/')) {
-      if(b.humanConfirmed!==true || !r || !plain(d) || Object.keys(d).some(k=>!['kind','groupName','readingPrefix'].includes(k)) || d.kind!=='magazine')fail('INDEX_GROUP_UNAPPROVED='+b.index);
+    if(batch.version===2 && (b.relativePath.startsWith(ROOTS.magazine+'/') || (b.relativePath.startsWith(ROOTS.series+'/') && !Object.hasOwn(d,'titlePrefix')))) {
+      if(b.humanConfirmed!==true || !r || !plain(d) || Object.keys(d).some(k=>!(b.relativePath.startsWith(ROOTS.series+'/')?['kind','publisher','groupName','readingPrefix']:['kind','groupName','readingPrefix']).includes(k)) || d.kind!==bookLocation(b.relativePath).kind || (d.kind==='series' && d.publisher!==bookLocation(b.relativePath).publisher))fail('INDEX_GROUP_UNAPPROVED='+b.index);
       const error=PukoMagazine.decisionError({...r,titleReading:b.titleReading},d);
       if(error)fail('INDEX_GROUP_DIRECTIVE_CONFLICT='+b.index+': '+error);
-      const rule={match:'item',kind:'magazine',publisher:'',groupName:d.groupName,readingPrefix:d.readingPrefix,basis:{opacId:r.opacId},batchId:batch.batchId,confirmedAt:batch.confirmedAt};
+      const rule={match:'item',kind:d.kind,publisher:bookLocation(b.relativePath).publisher,groupName:d.groupName,readingPrefix:d.readingPrefix,basis:{opacId:r.opacId},batchId:batch.batchId,confirmedAt:batch.confirmedAt};
       const existing=result.records.findIndex(x=>x.match==='item' && x.basis.opacId===r.opacId);
       if(existing<0)result.records.push(rule);else result.records[existing]=rule;
       result.version=2;continue;
@@ -142,11 +142,8 @@ export function resolveIndexGroups(records,settings) {
     let group;
     if(rules.length===1)group={groupName:rules[0].groupName,reading:rules[0].readingPrefix};
     else {
-      const numberedGroup=numbered(record);
-      const metadata=[...new Set((record.series||[]).filter(x=>text(x)&&starts(record.fileTitle,x)))];
-      if(metadata.length>1 || (numberedGroup&&metadata.length===1&&norm(metadata[0])!==norm(numberedGroup.groupName)))fail('INDEX_GROUP_REVIEW_REQUIRED='+record.relativePath+': 所属・区切りが一意ではありません');
-      group=numberedGroup || (metadata.length===1?{groupName:metadata[0],reading:compact(record.fileTitle)===compact(metadata[0])?record.titleReading:null}:null);
-      if(!group?.reading && group?.groupName && compact(record.titleReading).startsWith(compact(group.groupName)) && /^[\p{Script=Katakana}\p{Script=Hiragana}\sー・]+$/u.test(group.groupName))group.reading=group.groupName;
+      const candidate=PukoMagazine.review(record,settings);
+      group=candidate.groupName?{groupName:candidate.groupName,reading:candidate.readingPrefix||null}:null;
     }
     if(group?.reading) result.set(record.relativePath,{...group,...loc});
     else pending.push({record,loc,group});
@@ -172,11 +169,20 @@ export function validateBatchShape(batch,config) {
   rejectSourceRenames(config,batch);
   const n=config.indexRange??(config.targets===100?100:NaN),m=config.targets,e=config.excludedIndexes??[];
   if(![1,2].includes(batch.version) || batch.kind!=='puko-title-reading-final-review' || !/^[A-F0-9]{12}$/u.test(batch.batchId) || batch.batchId!==config.batchId || !Number.isInteger(n)||n<1||n>100||!Number.isInteger(m)||m<1||m>n||!Array.isArray(e)||e.length!==n-m||new Set(e).size!==e.length||e.some(x=>!Number.isInteger(x)||x<1||x>n)||!Array.isArray(batch.books)||batch.books.length!==m)fail('BATCH_COUNT_OR_ID_INVALID');
+  if(batch.groupDecisionVersion!==undefined && batch.groupDecisionVersion!==1)fail('GROUP_DECISION_VERSION_INVALID');
+  if(batch.groupDecisionVersion===1)for(const b of batch.books)if(['magazine','series'].includes(bookLocation(b.relativePath).kind)&&!b.indexGroupDecision)fail('INDEX_GROUP_FINAL_MISSING_OR_INVALID='+b.index);
   const indexes=new Set(),paths=new Set();
   for(const b of batch.books){bookLocation(b.relativePath);if(!Number.isInteger(b.index)||b.index<1||b.index>n||e.includes(b.index)||indexes.has(b.index)||paths.has(b.relativePath)||b.humanConfirmed!==true||!text(b.titleReading)||!/^[a-f0-9]{64}$/iu.test(b.sourceSha256))fail('BATCH_TARGET_INVALID='+b.index);indexes.add(b.index);paths.add(b.relativePath);}
-  if(batch.version===2)for(const b of batch.books)if(b.relativePath.startsWith(ROOTS.magazine+'/')){
-    const d=b.indexGroupDecision;
-    if(!plain(d)||d.kind!=='magazine'||Object.keys(d).some(k=>!['kind','groupName','readingPrefix'].includes(k))||PukoMagazine.decisionError({...b,fileTitle:path.posix.basename(b.relativePath,'.md')},d))fail('INDEX_GROUP_FINAL_MISSING_OR_INVALID='+b.index);
+  for(const b of batch.books){
+    if(b.needsSourceReview!==undefined && typeof b.needsSourceReview!=='boolean')fail('SOURCE_REVIEW_STATE_INVALID='+b.index);
+    if(b.needsSourceReview===true)fail('SOURCE_REVIEW_PENDING='+b.index);
+  }
+  if(batch.version===2)for(const b of batch.books){
+    const loc=bookLocation(b.relativePath),d=b.indexGroupDecision;
+    if(loc.kind==='magazine' || (loc.kind==='series' && d && !Object.hasOwn(d,'titlePrefix'))){
+      const fields=loc.kind==='series'?['kind','publisher','groupName','readingPrefix']:['kind','groupName','readingPrefix'];
+      if(!plain(d)||d.kind!==loc.kind||Object.keys(d).some(k=>!fields.includes(k))||(loc.kind==='series'&&d.publisher!==loc.publisher)||PukoMagazine.decisionError({...b,fileTitle:loc.fileTitle},d))fail('INDEX_GROUP_FINAL_MISSING_OR_INVALID='+b.index);
+    }
   }
   return {selected:n,excluded:e.length,applied:m};
 }
@@ -210,21 +216,30 @@ export function prepareGroupReview(candidate,inventory) {
     const loc=bookLocation(b.relativePath);if(!['magazine','series'].includes(loc.kind))continue;
     const base=byPath.get(b.relativePath);if(!base||base.sha256?.toLowerCase()!==b.sha256?.toLowerCase())fail('INDEX_GROUP_INVENTORY_TARGET_MISMATCH='+b.relativePath);
     const proposed=b.reviewAid?.suggestions?.[0]?.reading||b.proposal?.titleReading||'';
-    const target={...base,titleReading:proposed},context=all.map(x=>x.relativePath===b.relativePath?target:x);
-    if(loc.kind==='magazine'){
-      b.opacId=base.opacId;b.magazineReview=PukoMagazine.review(target,formal);
-      delete b.indexGroupReview;delete b.indexGroupIssue;delete b.indexGroupResolved;continue;
+    let carriedId=null;
+    if(b.referenceBinding?.opacId){
+      const link=b.referenceBinding,ctx=inventory.idContext;
+      const old=ctx?.baselineRecords?.filter(r=>r.relativePath===link.idOldPath);
+      if(link.index!==b.index || link.newPath!==b.relativePath || link.newSha256!==b.sha256 ||
+          ctx?.idMapRecords?.[link.idOldPath]!==link.opacId || old?.length!==1 ||
+          old[0].opacId!==link.opacId || old[0].sha256.toLowerCase()!==link.baselineOldSha256 ||
+          (ctx.idMapRecords[b.relativePath]!==undefined && ctx.idMapRecords[b.relativePath]!==link.opacId) ||
+          (link.idOldPath!==b.relativePath && (inventory.books||[]).some(r=>r.relativePath===link.idOldPath)))fail('REVIEW_ID_BINDING_INVALID='+b.index);
+      carriedId=link.opacId;
     }
-    try {const resolved=resolveIndexGroups(context,formal).get(b.relativePath);if(resolved){b.indexGroupResolved=resolved;delete b.indexGroupReview;continue;}}
-    catch(error){if(!/INDEX_GROUP_REVIEW_REQUIRED|INDEX_GROUP_READING|INDEX_GROUP_AMBIGUOUS|MAGAZINE_ROW_MISMATCH/u.test(error.message))throw error;b.indexGroupIssue=error.message;if(/MAGAZINE_ROW_MISMATCH/u.test(error.message)){delete b.indexGroupReview;continue;}}
-    const matched=formal.records.filter(r=>scopeMatches(r,target)),metadata=[...new Set((base.series||[]).filter(x=>text(x)&&starts(base.fileTitle,x)))],normal=numbered(target);
-    const name=matched.length===1?matched[0].groupName:metadata.length===1?metadata[0]:normal?.groupName||b.indexGroupReview?.groupName||'';
-    b.indexGroupReview={titlePrefix:matched.length===1?matched[0].titlePrefix:b.indexGroupReview?.titlePrefix||name,groupName:name,readingPrefix:matched.length===1?matched[0].readingPrefix:normal?.reading||b.indexGroupReview?.readingPrefix||'',reason:b.indexGroupIssue||'誌名・シリーズ名と読みの区切りを本人確認してください。'};
+    const target={...base,opacId:carriedId||base.opacId,titleReading:proposed},context=all.map(x=>x.relativePath===b.relativePath?target:x);
+    b.opacId=target.opacId;b.magazineReview=PukoMagazine.review(target,formal);
+    delete b.indexGroupReview;delete b.indexGroupIssue;delete b.indexGroupResolved;
   }
   return result;
 }
 if(process.argv[1] && import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href) {
-  if(process.argv[2]==='--prepare-review'){const input=JSON.parse(fs.readFileSync(0,'utf8'));process.stdout.write(JSON.stringify(prepareGroupReview(input.candidate,input.inventory)));} else {
+  if(process.argv[2]==='--workflow'){
+    const {runWorkflowAction}=await import('./puko-reading-workflow.mjs');
+    const input=parseUnique(fs.readFileSync(0,'utf8'));
+    const result=runWorkflowAction(process.argv[3],input,{bookLocation,readingRow,prepareGroupReview,validateBatchShape,applyGroupDirectives,resolveIndexGroups});
+    process.stdout.write(JSON.stringify(result));
+  } else if(process.argv[2]==='--prepare-review'){const input=parseUnique(fs.readFileSync(0,'utf8'));process.stdout.write(JSON.stringify(prepareGroupReview(input.candidate,input.inventory)));} else {
   const args=new Map();for(let i=2;i<process.argv.length;i+=2)args.set(process.argv[i],process.argv[i+1]);
   const source=args.get('--source'),repo=args.get('--repo'),batch=JSON.parse(fs.readFileSync(args.get('--batch'),'utf8').replace(/^\uFEFF/,'')),config=JSON.parse(fs.readFileSync(args.get('--config'),'utf8').replace(/^\uFEFF/,''));
   validateBatchShape(batch,config);
