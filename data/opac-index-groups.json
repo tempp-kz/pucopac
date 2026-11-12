@@ -1589,6 +1589,174 @@
       "match": "item",
       "kind": "magazine",
       "publisher": "",
+      "groupName": "歴史読本特別増刊 WORLD",
+      "readingPrefix": "レキシ ドクホン トクベツ ゾウカン ワールド",
+      "basis": {
+        "opacId": "B003326"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本特別増刊 WORLD",
+      "readingPrefix": "レキシ ドクホン トクベツ ゾウカン ワールド",
+      "basis": {
+        "opacId": "B003327"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本別冊",
+      "readingPrefix": "レキシ ドクホン ベッサツ",
+      "basis": {
+        "opacId": "B003328"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本別冊",
+      "readingPrefix": "レキシ ドクホン ベッサツ",
+      "basis": {
+        "opacId": "B003329"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本別冊",
+      "readingPrefix": "レキシ ドクホン ベッサツ",
+      "basis": {
+        "opacId": "B003330"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本別冊 これ一冊でまるごとわかる",
+      "readingPrefix": "レキシ ドクホン ベッサツ コレ イッサツ デ マルゴト ワカル",
+      "basis": {
+        "opacId": "B003331"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本別冊 絵解きシリーズ",
+      "readingPrefix": "レキシ ドクホンベッサツエトキシリーズ",
+      "basis": {
+        "opacId": "B003332"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本別冊付録",
+      "readingPrefix": "レキシ ドクホン ベッサツ フロク",
+      "basis": {
+        "opacId": "B003333"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本臨時増刊",
+      "readingPrefix": "レキシ ドクホン リンジ ゾウカン",
+      "basis": {
+        "opacId": "B003334"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本臨時増刊",
+      "readingPrefix": "レキシ ドクホン リンジ ゾウカン",
+      "basis": {
+        "opacId": "B003335"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本臨時増刊",
+      "readingPrefix": "レキシ ドクホン リンジ ゾウカン",
+      "basis": {
+        "opacId": "B003336"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本臨時増刊 歴史百科シリーズ",
+      "readingPrefix": "レキシ ドクホン リンジ ゾウカン レキシ ヒャッカ シリーズ",
+      "basis": {
+        "opacId": "B003337"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本臨時増刊 歴史百科シリーズ",
+      "readingPrefix": "レキシ ドクホン リンジ ゾウカン レキシ ヒャッカ シリーズ",
+      "basis": {
+        "opacId": "B003338"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史百科",
+      "readingPrefix": "レキシ ヒャッカ",
+      "basis": {
+        "opacId": "B003339"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
       "groupName": "植物と文化",
       "readingPrefix": "ショクブツ ト ブンカ",
       "basis": {
@@ -1596,6 +1764,30 @@
       },
       "batchId": "8A8F32D2DD47",
       "confirmedAt": "2026-11-09T01:34:20.208Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本別冊",
+      "readingPrefix": "レキシ ドクホン ベッサツ",
+      "basis": {
+        "opacId": "B003408"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本臨時増刊",
+      "readingPrefix": "レキシ ドクホン リンジ ゾウカン",
+      "basis": {
+        "opacId": "B003428"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
     },
     {
       "match": "item",
@@ -1733,6 +1925,18 @@
       "match": "item",
       "kind": "magazine",
       "publisher": "",
+      "groupName": "歴史學研究",
+      "readingPrefix": "レキシガク ケンキュウ",
+      "basis": {
+        "opacId": "B003729"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
       "groupName": "歴史と旅臨時増刊",
       "readingPrefix": "レキシトタビリンジゾウカン",
       "basis": {
@@ -1805,6 +2009,18 @@
       "match": "item",
       "kind": "magazine",
       "publisher": "",
+      "groupName": "歴史読本別冊",
+      "readingPrefix": "レキシ ドクホン ベッサツ",
+      "basis": {
+        "opacId": "B004111"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
       "groupName": "年報政治学",
       "readingPrefix": "ネンポウ セイジガク",
       "basis": {
@@ -1824,6 +2040,30 @@
       },
       "batchId": "AEEE4045E839",
       "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本別冊 最前線シリーズ",
+      "readingPrefix": "レキシドクホンベッサツサイゼンセンシリーズ",
+      "basis": {
+        "opacId": "B004244"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本臨時増刊",
+      "readingPrefix": "レキシ ドクホン リンジ ゾウカン",
+      "basis": {
+        "opacId": "B004245"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
     },
     {
       "match": "item",
@@ -1961,6 +2201,42 @@
       "match": "item",
       "kind": "magazine",
       "publisher": "",
+      "groupName": "月刊しにか",
+      "readingPrefix": "ゲッカン シニカ",
+      "basis": {
+        "opacId": "B004345"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "書道研究",
+      "readingPrefix": "ショドウ ケンキュウ",
+      "basis": {
+        "opacId": "B004346"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "書道研究",
+      "readingPrefix": "ショドウ ケンキュウ",
+      "basis": {
+        "opacId": "B004347"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
       "groupName": "歴史研究",
       "readingPrefix": "レキシ ケンキュウ",
       "basis": {
@@ -1968,6 +2244,18 @@
       },
       "batchId": "AEEE4045E839",
       "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史研究",
+      "readingPrefix": "レキシ ケンキュウ",
+      "basis": {
+        "opacId": "B004349"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
     },
     {
       "match": "item",
@@ -2028,6 +2316,834 @@
       },
       "batchId": "AEEE4045E839",
       "confirmedAt": "2026-11-11T12:42:23.762Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/NHK出版",
+      "groupName": "NHK 歴史への招待",
+      "readingPrefix": "エヌエイチケー レキシ ヘノ ショウタイ",
+      "basis": {
+        "opacId": "B001943"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/NHK出版",
+      "groupName": "故宮 至宝が語る中華五千年",
+      "readingPrefix": "コキュウ シホウ ガ カタル チュウカ ゴセンネン",
+      "basis": {
+        "opacId": "B001944"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/NHK出版",
+      "groupName": "故宮 至宝が語る中華五千年",
+      "readingPrefix": "コキュウ シホウ ガ カタル チュウカ ゴセンネン",
+      "basis": {
+        "opacId": "B001945"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/NHK出版",
+      "groupName": "四大文明",
+      "readingPrefix": "ヨンダイブンメイ",
+      "basis": {
+        "opacId": "B001946"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/NHK出版",
+      "groupName": "四大文明",
+      "readingPrefix": "ヨンダイブンメイ",
+      "basis": {
+        "opacId": "B001947"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/NHK出版",
+      "groupName": "四大文明",
+      "readingPrefix": "ヨンダイブンメイ",
+      "basis": {
+        "opacId": "B001948"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/NHK出版",
+      "groupName": "四大文明",
+      "readingPrefix": "ヨンダイブンメイ",
+      "basis": {
+        "opacId": "B001949"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/医学書院",
+      "groupName": "標準医学",
+      "readingPrefix": "ヒョウジュンイガク",
+      "basis": {
+        "opacId": "B001950"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "双書フォークロアの視点",
+      "readingPrefix": "ソウショ フォークロア ノ シテン",
+      "basis": {
+        "opacId": "B001951"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "日本近代史",
+      "readingPrefix": "ニホン キンダイシ",
+      "basis": {
+        "opacId": "B001952"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B001953"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B001954"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B001955"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B001956"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B001957"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B001958"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B001959"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B001960"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B001961"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B001962"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B001963"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B001964"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B001965"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "IWANAMI GRAPHICS",
+      "readingPrefix": "イワナミ グラフィックス",
+      "basis": {
+        "opacId": "B001966"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "シリーズ日本近現代史",
+      "readingPrefix": "シリーズ ニホン キンゲンダイシ",
+      "basis": {
+        "opacId": "B001967"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "シリーズ日本古代史",
+      "readingPrefix": "シリーズ ニホン コダイシ",
+      "basis": {
+        "opacId": "B001968"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "シリーズ日本古代史",
+      "readingPrefix": "シリーズ ニホン コダイシ",
+      "basis": {
+        "opacId": "B001969"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "シリーズ日本古代史",
+      "readingPrefix": "シリーズ ニホン コダイシ",
+      "basis": {
+        "opacId": "B001970"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001971"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001972"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001973"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001974"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001975"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001976"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001977"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001978"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001979"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001980"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001981"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001982"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001983"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001984"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001985"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001986"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001987"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B001988"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "中国詩人選集",
+      "readingPrefix": "チュウゴク シジン センシュウ",
+      "basis": {
+        "opacId": "B001989"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "日本の歴史",
+      "readingPrefix": "ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B001990"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "日本の歴史",
+      "readingPrefix": "ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B001991"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "日本古典文学大系",
+      "readingPrefix": "ニホン コテン ブンガク タイケイ",
+      "basis": {
+        "opacId": "B001992"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "日本思想大系",
+      "readingPrefix": "ニホン シソウ タイケイ",
+      "basis": {
+        "opacId": "B001993"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B002755"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "中国の歴史",
+      "readingPrefix": "チュウゴク ノ レキシ",
+      "basis": {
+        "opacId": "B002863"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "IWANAMI GRAPHICS",
+      "readingPrefix": "イワナミ グラフィックス",
+      "basis": {
+        "opacId": "B002954"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/旺文社",
+      "groupName": "対訳古典シリーズ",
+      "readingPrefix": "タイヤクコテンシリーズ",
+      "basis": {
+        "opacId": "B003013"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "天皇と王権を考える",
+      "readingPrefix": "テンノウ ト オウケン ヲ カンガエル",
+      "basis": {
+        "opacId": "B003014"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "天皇と王権を考える",
+      "readingPrefix": "テンノウ ト オウケン ヲ カンガエル",
+      "basis": {
+        "opacId": "B003097"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B003399"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "世界史への問い",
+      "readingPrefix": "セカイシ ヘノ トイ",
+      "basis": {
+        "opacId": "B003400"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "世界史への問い",
+      "readingPrefix": "セカイシ ヘノ トイ",
+      "basis": {
+        "opacId": "B003730"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B003873"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B003874"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B003875"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B003876"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "大航海時代叢書",
+      "readingPrefix": "ダイコウカイ ジダイ ソウショ",
+      "basis": {
+        "opacId": "B003877"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B003976"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
+      "groupName": "民俗民芸双書",
+      "readingPrefix": "ミンゾク ミンゲイ ソウショ",
+      "basis": {
+        "opacId": "B004005"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/音楽之友社",
+      "groupName": "日本音楽叢書",
+      "readingPrefix": "ニホン オンガク ソウショ",
+      "basis": {
+        "opacId": "B004246"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩田書院",
+      "groupName": "帝京大学山梨文化財研究所研究集会報告集",
+      "readingPrefix": "テイキョウ ダイガク ヤマナシ ブンカザイ ケンキュウジョ ケンキュウ シュウカイ ホウコクシュウ",
+      "basis": {
+        "opacId": "B004247"
+      },
+      "batchId": "05A45BB13ADA",
+      "confirmedAt": "2026-11-12T05:10:13.730Z"
     }
   ]
 }
