@@ -2319,6 +2319,18 @@
     },
     {
       "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "書道研究",
+      "readingPrefix": "ショドウ ケンキュウ",
+      "basis": {
+        "opacId": "B004373"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
       "kind": "series",
       "publisher": "03 シリーズ 出版社順/あ/NHK出版",
       "groupName": "NHK 歴史への招待",
@@ -2932,6 +2944,558 @@
     {
       "match": "item",
       "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "日本思想大系",
+      "readingPrefix": "ニホン シソウ タイケイ",
+      "basis": {
+        "opacId": "B001994"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/岩波書店",
+      "groupName": "列島の古代史",
+      "readingPrefix": "レットウ ノ コダイシ",
+      "basis": {
+        "opacId": "B001995"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/校倉書房",
+      "groupName": "歴史科学大系",
+      "readingPrefix": "レキシ カガク タイケイ",
+      "basis": {
+        "opacId": "B001996"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/校倉書房",
+      "groupName": "歴史科学大系",
+      "readingPrefix": "レキシ カガク タイケイ",
+      "basis": {
+        "opacId": "B001997"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/校倉書房",
+      "groupName": "歴史科学大系",
+      "readingPrefix": "レキシ カガク タイケイ",
+      "basis": {
+        "opacId": "B001998"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/校倉書房",
+      "groupName": "歴史科学大系",
+      "readingPrefix": "レキシ カガク タイケイ",
+      "basis": {
+        "opacId": "B001999"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/今井書店",
+      "groupName": "山陰文化シリーズ",
+      "readingPrefix": "サンイン ブンカ シリーズ",
+      "basis": {
+        "opacId": "B002000"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/朝日新聞社",
+      "groupName": "地域からの世界史",
+      "readingPrefix": "チイキ カラ ノ セカイシ",
+      "basis": {
+        "opacId": "B002001"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/朝日新聞社",
+      "groupName": "地域からの世界史",
+      "readingPrefix": "チイキ カラ ノ セカイシ",
+      "basis": {
+        "opacId": "B002002"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/朝日新聞社",
+      "groupName": "中国古典選",
+      "readingPrefix": "チュウゴク コテンセン",
+      "basis": {
+        "opacId": "B002003"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/潮出版社",
+      "groupName": "北京大学版 中国の文明",
+      "readingPrefix": "ペキン ダイガクバン チュウゴク ノ ブンメイ",
+      "basis": {
+        "opacId": "B002004"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/潮出版社",
+      "groupName": "北京大学版 中国の文明",
+      "readingPrefix": "ペキン ダイガクバン チュウゴク ノ ブンメイ",
+      "basis": {
+        "opacId": "B002005"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "新版 遊びの百科全書",
+      "readingPrefix": "シンパン アソビ ノ ヒャッカ ゼンショ",
+      "basis": {
+        "opacId": "B002006"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "新版 遊びの百科全書",
+      "readingPrefix": "シンパン アソビ ノ ヒャッカ ゼンショ",
+      "basis": {
+        "opacId": "B002007"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "新版 遊びの百科全書",
+      "readingPrefix": "シンパン アソビ ノ ヒャッカ ゼンショ",
+      "basis": {
+        "opacId": "B002008"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "新版 遊びの百科全書",
+      "readingPrefix": "シンパン アソビ ノ ヒャッカ ゼンショ",
+      "basis": {
+        "opacId": "B002009"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "新版 遊びの百科全書",
+      "readingPrefix": "シンパン アソビ ノ ヒャッカ ゼンショ",
+      "basis": {
+        "opacId": "B002010"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "世界の歴史",
+      "readingPrefix": "セカイ ノ レキシ",
+      "basis": {
+        "opacId": "B002011"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "世界の歴史",
+      "readingPrefix": "セカイ ノ レキシ",
+      "basis": {
+        "opacId": "B002012"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "世界の歴史",
+      "readingPrefix": "セカイ ノ レキシ",
+      "basis": {
+        "opacId": "B002013"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "世界の歴史",
+      "readingPrefix": "セカイ ノ レキシ",
+      "basis": {
+        "opacId": "B002014"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "世界の歴史",
+      "readingPrefix": "セカイ ノ レキシ",
+      "basis": {
+        "opacId": "B002015"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "世界の歴史",
+      "readingPrefix": "セカイ ノ レキシ",
+      "basis": {
+        "opacId": "B002016"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "世界の歴史",
+      "readingPrefix": "セカイ ノ レキシ",
+      "basis": {
+        "opacId": "B002017"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "世界の歴史",
+      "readingPrefix": "セカイ ノ レキシ",
+      "basis": {
+        "opacId": "B002018"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "生活の世界歴史",
+      "readingPrefix": "セイカツ ノ セカイ レキシ",
+      "basis": {
+        "opacId": "B002019"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "生活の世界歴史",
+      "readingPrefix": "セイカツ ノ セカイ レキシ",
+      "basis": {
+        "opacId": "B002020"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "生活の世界歴史",
+      "readingPrefix": "セイカツ ノ セカイ レキシ",
+      "basis": {
+        "opacId": "B002021"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "生活の世界歴史",
+      "readingPrefix": "セイカツ ノ セカイ レキシ",
+      "basis": {
+        "opacId": "B002022"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "生活の世界歴史",
+      "readingPrefix": "セイカツ ノ セカイ レキシ",
+      "basis": {
+        "opacId": "B002023"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "別冊人物読本",
+      "readingPrefix": "ベッサツジンブツドクホン",
+      "basis": {
+        "opacId": "B002024"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/角川書店",
+      "groupName": "ビギナーズ・クラシックス",
+      "readingPrefix": "ビギナーズクラシックス",
+      "basis": {
+        "opacId": "B002025"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/角川書店",
+      "groupName": "ビギナーズ・クラシックス",
+      "readingPrefix": "ビギナーズクラシックス",
+      "basis": {
+        "opacId": "B002026"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/角川書店",
+      "groupName": "ビギナーズ・クラシックス",
+      "readingPrefix": "ビギナーズクラシックス",
+      "basis": {
+        "opacId": "B002027"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/角川書店",
+      "groupName": "古代の日本",
+      "readingPrefix": "コダイ ノ ニホン",
+      "basis": {
+        "opacId": "B002028"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/角川書店",
+      "groupName": "日本近代文学大系",
+      "readingPrefix": "ニホン キンダイ ブンガク タイケイ",
+      "basis": {
+        "opacId": "B002029"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/角川書店",
+      "groupName": "日本民俗誌大系",
+      "readingPrefix": "ニホン ミンゾクシ タイケイ",
+      "basis": {
+        "opacId": "B002030"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/角川書店",
+      "groupName": "日本民俗誌大系",
+      "readingPrefix": "ニホン ミンゾクシ タイケイ",
+      "basis": {
+        "opacId": "B002031"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/角川書店",
+      "groupName": "日本民俗誌大系",
+      "readingPrefix": "ニホン ミンゾクシ タイケイ",
+      "basis": {
+        "opacId": "B002032"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/学研",
+      "groupName": "Books Esoterica",
+      "readingPrefix": "ブックス エソテリカ",
+      "basis": {
+        "opacId": "B002033"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/学研",
+      "groupName": "Books Esoterica",
+      "readingPrefix": "ブックス エソテリカ",
+      "basis": {
+        "opacId": "B002034"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/学研",
+      "groupName": "Books Esoterica",
+      "readingPrefix": "ブックス エソテリカ",
+      "basis": {
+        "opacId": "B002035"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/学研",
+      "groupName": "Books Esoterica",
+      "readingPrefix": "ブックス エソテリカ",
+      "basis": {
+        "opacId": "B002036"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/学研",
+      "groupName": "Books Esoterica",
+      "readingPrefix": "ブックス エソテリカ",
+      "basis": {
+        "opacId": "B002037"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/学研",
+      "groupName": "Books Esoterica",
+      "readingPrefix": "ブックス エソテリカ",
+      "basis": {
+        "opacId": "B002038"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/学研",
+      "groupName": "Books Esoterica",
+      "readingPrefix": "ブックス エソテリカ",
+      "basis": {
+        "opacId": "B002039"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
       "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
       "groupName": "民俗民芸双書",
       "readingPrefix": "ミンゾク ミンゲイ ソウショ",
@@ -2940,6 +3504,66 @@
       },
       "batchId": "05A45BB13ADA",
       "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/ぎょうせい",
+      "groupName": "伝統芸能シリーズ",
+      "readingPrefix": "デントウ ゲイノウ シリーズ",
+      "basis": {
+        "opacId": "B002756"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "世界の歴史",
+      "readingPrefix": "セカイ ノ レキシ",
+      "basis": {
+        "opacId": "B002757"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "世界の歴史",
+      "readingPrefix": "セカイ ノ レキシ",
+      "basis": {
+        "opacId": "B002758"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "世界の歴史",
+      "readingPrefix": "セカイ ノ レキシ",
+      "basis": {
+        "opacId": "B002759"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/学研",
+      "groupName": "Books Esoterica",
+      "readingPrefix": "ブックス エソテリカ",
+      "basis": {
+        "opacId": "B002760"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
     },
     {
       "match": "item",
@@ -2968,6 +3592,18 @@
     {
       "match": "item",
       "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/朝日新聞社",
+      "groupName": "地域からの世界史",
+      "readingPrefix": "チイキ カラ ノ セカイシ",
+      "basis": {
+        "opacId": "B002983"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
       "publisher": "03 シリーズ 出版社順/あ/旺文社",
       "groupName": "対訳古典シリーズ",
       "readingPrefix": "タイヤクコテンシリーズ",
@@ -2992,6 +3628,30 @@
     {
       "match": "item",
       "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/御茶の水書房",
+      "groupName": "明治史研究叢書",
+      "readingPrefix": "メイジシ ケンキュウ ソウショ",
+      "basis": {
+        "opacId": "B003015"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/御茶の水書房",
+      "groupName": "明治史研究叢書",
+      "readingPrefix": "メイジシ ケンキュウ ソウショ",
+      "basis": {
+        "opacId": "B003016"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
       "publisher": "03 シリーズ 出版社順/あ/岩波書店",
       "groupName": "天皇と王権を考える",
       "readingPrefix": "テンノウ ト オウケン ヲ カンガエル",
@@ -3000,6 +3660,54 @@
       },
       "batchId": "05A45BB13ADA",
       "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/御茶の水書房",
+      "groupName": "明治史研究叢書",
+      "readingPrefix": "メイジシ ケンキュウ ソウショ",
+      "basis": {
+        "opacId": "B003098"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/御茶の水書房",
+      "groupName": "明治史研究叢書",
+      "readingPrefix": "メイジシ ケンキュウ ソウショ",
+      "basis": {
+        "opacId": "B003099"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/朝日新聞社",
+      "groupName": "地域からの世界史",
+      "readingPrefix": "チイキ カラ ノ セカイシ",
+      "basis": {
+        "opacId": "B003100"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/角川書店",
+      "groupName": "日本文明史",
+      "readingPrefix": "ニホン ブンメイシ",
+      "basis": {
+        "opacId": "B003154"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
     },
     {
       "match": "item",
@@ -3028,6 +3736,18 @@
     {
       "match": "item",
       "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/ぎょうせい",
+      "groupName": "伝統芸能シリーズ",
+      "readingPrefix": "デントウ ゲイノウ シリーズ",
+      "basis": {
+        "opacId": "B003455"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
       "publisher": "03 シリーズ 出版社順/あ/岩波書店",
       "groupName": "世界史への問い",
       "readingPrefix": "セカイシ ヘノ トイ",
@@ -3036,6 +3756,18 @@
       },
       "batchId": "05A45BB13ADA",
       "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/角川書店",
+      "groupName": "日本史探訪",
+      "readingPrefix": "ニホンシ タンボウ",
+      "basis": {
+        "opacId": "B003757"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
     },
     {
       "match": "item",
@@ -3124,6 +3856,30 @@
     {
       "match": "item",
       "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "世界の歴史",
+      "readingPrefix": "セカイ ノ レキシ",
+      "basis": {
+        "opacId": "B004006"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "生活の世界歴史",
+      "readingPrefix": "セイカツ ノ セカイ レキシ",
+      "basis": {
+        "opacId": "B004082"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
       "publisher": "03 シリーズ 出版社順/あ/音楽之友社",
       "groupName": "日本音楽叢書",
       "readingPrefix": "ニホン オンガク ソウショ",
@@ -3144,6 +3900,126 @@
       },
       "batchId": "05A45BB13ADA",
       "confirmedAt": "2026-11-12T05:10:13.730Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/朝日新聞社",
+      "groupName": "地域からの世界史",
+      "readingPrefix": "チイキ カラ ノ セカイシ",
+      "basis": {
+        "opacId": "B004248"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/朝日新聞社",
+      "groupName": "地域からの世界史",
+      "readingPrefix": "チイキ カラ ノ セカイシ",
+      "basis": {
+        "opacId": "B004249"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/朝日新聞社",
+      "groupName": "地域からの世界史",
+      "readingPrefix": "チイキ カラ ノ セカイシ",
+      "basis": {
+        "opacId": "B004250"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/朝日新聞社",
+      "groupName": "地域からの世界史",
+      "readingPrefix": "チイキ カラ ノ セカイシ",
+      "basis": {
+        "opacId": "B004251"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/朝日新聞社",
+      "groupName": "地域からの世界史",
+      "readingPrefix": "チイキ カラ ノ セカイシ",
+      "basis": {
+        "opacId": "B004252"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/朝日新聞社",
+      "groupName": "地域からの世界史",
+      "readingPrefix": "チイキ カラ ノ セカイシ",
+      "basis": {
+        "opacId": "B004253"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/朝日新聞社",
+      "groupName": "地域からの世界史",
+      "readingPrefix": "チイキ カラ ノ セカイシ",
+      "basis": {
+        "opacId": "B004254"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/朝日新聞社",
+      "groupName": "地域からの世界史",
+      "readingPrefix": "チイキ カラ ノ セカイシ",
+      "basis": {
+        "opacId": "B004255"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/あ/朝日新聞社",
+      "groupName": "地域からの世界史",
+      "readingPrefix": "チイキ カラ ノ セカイシ",
+      "basis": {
+        "opacId": "B004256"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/河出書房新社",
+      "groupName": "生活の世界歴史",
+      "readingPrefix": "セイカツ ノ セカイ レキシ",
+      "basis": {
+        "opacId": "B004257"
+      },
+      "batchId": "2B97698479C8",
+      "confirmedAt": "2026-11-13T00:46:00.632Z"
     }
   ]
 }

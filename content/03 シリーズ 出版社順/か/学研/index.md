@@ -6,18 +6,17 @@ cssclasses:
 
 # 学研
 
-**24件**（読み確認済み 0件・未整理・未確認 24件）
+**24件**（読み確認済み 8件・未整理・未確認 16件）
 
+|  |  |  |  |
+| --- | --- | --- | --- |
+| [[#Books Esoterica\|Books Esoterica]]　8件 |  |  |  |
 
-## 未整理・未確認
+## Books Esoterica
+
+8件
 
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 2 神道の本|Books Esoterica 2 神道の本]]
-- [[03 シリーズ 出版社順/か/学研/Books Esoterica 3 禅の本|Books Esoterica 3 禅の本]]
-- [[03 シリーズ 出版社順/か/学研/Books Esoterica 4 道教の本|Books Esoterica 4 道教の本]]
-- [[03 シリーズ 出版社順/か/学研/Books Esoterica 5 日蓮の本|Books Esoterica 5 日蓮の本]]
-- [[03 シリーズ 出版社順/か/学研/Books Esoterica 6 陰陽道の本|Books Esoterica 6 陰陽道の本]]
-- [[03 シリーズ 出版社順/か/学研/Books Esoterica 8 修験道の本|Books Esoterica 8 修験道の本]]
-- [[03 シリーズ 出版社順/か/学研/Books Esoterica 9 釈迦の本|Books Esoterica 9 釈迦の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 10 古神道の本|Books Esoterica 10 古神道の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 11 密教の本|Books Esoterica 11 密教の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 12 ヒンドゥー教の本|Books Esoterica 12 ヒンドゥー教の本]]
@@ -25,6 +24,15 @@ cssclasses:
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 14 イスラム教の本|Books Esoterica 14 イスラム教の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 17 古代秘教の本|Books Esoterica 17 古代秘教の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 18 神秘学の本|Books Esoterica 18 神秘学の本]]
+
+## 未整理・未確認
+
+- [[03 シリーズ 出版社順/か/学研/Books Esoterica 3 禅の本|Books Esoterica 3 禅の本]]
+- [[03 シリーズ 出版社順/か/学研/Books Esoterica 4 道教の本|Books Esoterica 4 道教の本]]
+- [[03 シリーズ 出版社順/か/学研/Books Esoterica 5 日蓮の本|Books Esoterica 5 日蓮の本]]
+- [[03 シリーズ 出版社順/か/学研/Books Esoterica 6 陰陽道の本|Books Esoterica 6 陰陽道の本]]
+- [[03 シリーズ 出版社順/か/学研/Books Esoterica 8 修験道の本|Books Esoterica 8 修験道の本]]
+- [[03 シリーズ 出版社順/か/学研/Books Esoterica 9 釈迦の本|Books Esoterica 9 釈迦の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 21 天台密教の本|Books Esoterica 21 天台密教の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 24 妖怪の本 異界の闇に蠢く百鬼夜行の伝説|Books Esoterica 24 妖怪の本 異界の闇に蠢く百鬼夜行の伝説]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 39 親鸞の本|Books Esoterica 39 親鸞の本]]
