@@ -210,12 +210,12 @@ export const PukoReading = (() => {
   function snapshot(data) {
     return {version:1,batchId:data.batchId,batchNumber:data.batchNumber,selectionBasis:clone(data.selectionBasis ?? refs(data).map(r=>r.slice(1,3))),
       magazineSettings:clone(data.magazineSettings ?? {version:1,records:[]}),
-      workflow:clone(data.workflow ?? null),books:data.books.map(b=>Object.fromEntries(sourceFields.filter(k=>b[k]!==undefined).map(k=>[k,clone(b[k])])))};
+      workflow:clone(data.workflow ?? null),referenceUpdate:clone(data.referenceUpdate ?? null),books:data.books.map(b=>Object.fromEntries(sourceFields.filter(k=>b[k]!==undefined).map(k=>[k,clone(b[k])])))};
   }
   function restoreSnapshot(embedded,s) {
     if(s?.version!==1 || s.batchId!==embedded.batchId || s.batchNumber!==embedded.batchNumber ||
         key(s.selectionBasis)!==key(embedded.selectionBasis ?? refs(embedded).map(r=>r.slice(1,3)))) stop('RESTORE_REFERENCE_CONFLICT');
-    const d={...clone(embedded),selectionBasis:clone(s.selectionBasis),magazineSettings:clone(s.magazineSettings),workflow:clone(s.workflow),
+    const d={...clone(embedded),selectionBasis:clone(s.selectionBasis),magazineSettings:clone(s.magazineSettings),workflow:clone(s.workflow),referenceUpdate:clone(s.referenceUpdate ?? null),
       books:embedded.books.map((b,i)=>({...clone(b),...clone(s.books?.[i])}))};
     if(s.books?.length!==embedded.books.length) stop('RESTORE_REFERENCE_COUNT_INVALID');
     return validateCandidate(d,embedded);
