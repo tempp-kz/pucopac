@@ -6,11 +6,11 @@ cssclasses:
 
 # 学研
 
-**25件**（読み確認済み 25件・未整理・未確認 0件）
+**26件**（読み確認済み 26件・未整理・未確認 0件）
 
 |  |  |  |  |
 | --- | --- | --- | --- |
-| [[#新・歴史群像シリーズ\|新・歴史群像シリーズ]]　2件 | [[#中国歴史紀行\|中国歴史紀行]]　1件 | [[#復元するシリーズ\|復元するシリーズ]]　1件 | [[#Books Esoterica\|Books Esoterica]]　18件 |
+| [[#新・歴史群像シリーズ\|新・歴史群像シリーズ]]　2件 | [[#中国歴史紀行\|中国歴史紀行]]　1件 | [[#復元するシリーズ\|復元するシリーズ]]　1件 | [[#Books Esoterica\|Books Esoterica]]　19件 |
 | [[#歴史群像シリーズ\|歴史群像シリーズ]]　2件 | [[#歴史群像シリーズ特別編集\|歴史群像シリーズ特別編集]]　1件 |  |  |
 
 ## 新・歴史群像シリーズ
@@ -34,7 +34,7 @@ cssclasses:
 
 ## Books Esoterica
 
-18件
+19件
 
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 2 神道の本|Books Esoterica 2 神道の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 3 禅の本|Books Esoterica 3 禅の本]]
@@ -51,6 +51,7 @@ cssclasses:
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 17 古代秘教の本|Books Esoterica 17 古代秘教の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 18 神秘学の本|Books Esoterica 18 神秘学の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 21 天台密教の本|Books Esoterica 21 天台密教の本]]
+- [[03 シリーズ 出版社順/か/学研/Books Esoterica 23 風水の本|Books Esoterica 23 風水の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 24 妖怪の本 異界の闇に蠢く百鬼夜行の伝説|Books Esoterica 24 妖怪の本 異界の闇に蠢く百鬼夜行の伝説]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 39 親鸞の本|Books Esoterica 39 親鸞の本]]
 - [[03 シリーズ 出版社順/か/学研/Books Esoterica 40 古事記の本|Books Esoterica 40 古事記の本]]
