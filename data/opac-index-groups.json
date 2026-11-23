@@ -2453,6 +2453,18 @@
       "match": "item",
       "kind": "magazine",
       "publisher": "",
+      "groupName": "NHKラジオ まいにち中国語",
+      "readingPrefix": "エヌエイチケー ラジオ マイニチ チュウゴクゴ",
+      "basis": {
+        "opacId": "B004566"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
       "groupName": "宗教研究",
       "readingPrefix": "シュウキョウ ケンキュウ",
       "basis": {
@@ -2487,8 +2499,32 @@
     },
     {
       "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本事典シリーズ",
+      "readingPrefix": "レキシ ドクホン ジテン シリーズ",
+      "basis": {
+        "opacId": "B004708"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "magazine",
+      "publisher": "",
+      "groupName": "歴史読本事典シリーズ",
+      "readingPrefix": "レキシ ドクホン ジテン シリーズ",
+      "basis": {
+        "opacId": "B004709"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
       "kind": "series",
-      "publisher": "03 シリーズ 出版社順/あ/NHK出版",
+      "publisher": "03 シリーズ 出版社順/な/日本放送出版協会",
       "groupName": "NHK 歴史への招待",
       "readingPrefix": "エヌエイチケー レキシ ヘノ ショウタイ",
       "basis": {
@@ -2500,7 +2536,7 @@
     {
       "match": "item",
       "kind": "series",
-      "publisher": "03 シリーズ 出版社順/あ/NHK出版",
+      "publisher": "03 シリーズ 出版社順/な/日本放送出版協会",
       "groupName": "故宮 至宝が語る中華五千年",
       "readingPrefix": "コキュウ シホウ ガ カタル チュウカ ゴセンネン",
       "basis": {
@@ -2512,7 +2548,7 @@
     {
       "match": "item",
       "kind": "series",
-      "publisher": "03 シリーズ 出版社順/あ/NHK出版",
+      "publisher": "03 シリーズ 出版社順/な/日本放送出版協会",
       "groupName": "故宮 至宝が語る中華五千年",
       "readingPrefix": "コキュウ シホウ ガ カタル チュウカ ゴセンネン",
       "basis": {
@@ -2524,7 +2560,7 @@
     {
       "match": "item",
       "kind": "series",
-      "publisher": "03 シリーズ 出版社順/あ/NHK出版",
+      "publisher": "03 シリーズ 出版社順/な/日本放送出版協会",
       "groupName": "四大文明",
       "readingPrefix": "ヨンダイブンメイ",
       "basis": {
@@ -2536,7 +2572,7 @@
     {
       "match": "item",
       "kind": "series",
-      "publisher": "03 シリーズ 出版社順/あ/NHK出版",
+      "publisher": "03 シリーズ 出版社順/な/日本放送出版協会",
       "groupName": "四大文明",
       "readingPrefix": "ヨンダイブンメイ",
       "basis": {
@@ -2548,7 +2584,7 @@
     {
       "match": "item",
       "kind": "series",
-      "publisher": "03 シリーズ 出版社順/あ/NHK出版",
+      "publisher": "03 シリーズ 出版社順/な/日本放送出版協会",
       "groupName": "四大文明",
       "readingPrefix": "ヨンダイブンメイ",
       "basis": {
@@ -2560,7 +2596,7 @@
     {
       "match": "item",
       "kind": "series",
-      "publisher": "03 シリーズ 出版社順/あ/NHK出版",
+      "publisher": "03 シリーズ 出版社順/な/日本放送出版協会",
       "groupName": "四大文明",
       "readingPrefix": "ヨンダイブンメイ",
       "basis": {
@@ -4912,6 +4948,342 @@
     {
       "match": "item",
       "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/集英社",
+      "groupName": "中国の詩人",
+      "readingPrefix": "チュウゴク ノ シジン",
+      "basis": {
+        "opacId": "B002146"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/集英社",
+      "groupName": "中国の詩人",
+      "readingPrefix": "チュウゴク ノ シジン",
+      "basis": {
+        "opacId": "B002147"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/春秋社",
+      "groupName": "大系 仏教と日本人",
+      "readingPrefix": "タイケイ ブッキョウ ト ニホンジン",
+      "basis": {
+        "opacId": "B002148"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/春秋社",
+      "groupName": "大系 仏教と日本人",
+      "readingPrefix": "タイケイ ブッキョウ ト ニホンジン",
+      "basis": {
+        "opacId": "B002149"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/春秋社",
+      "groupName": "大系 仏教と日本人",
+      "readingPrefix": "タイケイ ブッキョウ ト ニホンジン",
+      "basis": {
+        "opacId": "B002150"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/春秋社",
+      "groupName": "大系 仏教と日本人",
+      "readingPrefix": "タイケイ ブッキョウ ト ニホンジン",
+      "basis": {
+        "opacId": "B002151"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/春秋社",
+      "groupName": "大系 仏教と日本人",
+      "readingPrefix": "タイケイ ブッキョウ ト ニホンジン",
+      "basis": {
+        "opacId": "B002152"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/春秋社",
+      "groupName": "大系 仏教と日本人",
+      "readingPrefix": "タイケイ ブッキョウ ト ニホンジン",
+      "basis": {
+        "opacId": "B002153"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/春秋社",
+      "groupName": "大系 仏教と日本人",
+      "readingPrefix": "タイケイ ブッキョウ ト ニホンジン",
+      "basis": {
+        "opacId": "B002154"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "大系日本の歴史",
+      "readingPrefix": "タイケイ ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B002155"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "大系日本の歴史",
+      "readingPrefix": "タイケイ ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B002156"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "大系日本の歴史",
+      "readingPrefix": "タイケイ ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B002157"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "大系日本の歴史",
+      "readingPrefix": "タイケイ ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B002158"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "大系日本の歴史",
+      "readingPrefix": "タイケイ ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B002159"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "大系日本の歴史",
+      "readingPrefix": "タイケイ ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B002160"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "大系日本の歴史",
+      "readingPrefix": "タイケイ ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B002161"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "大系日本の歴史",
+      "readingPrefix": "タイケイ ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B002162"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "大系日本の歴史",
+      "readingPrefix": "タイケイ ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B002163"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本の歴史",
+      "readingPrefix": "ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B002164"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本の歴史",
+      "readingPrefix": "ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B002165"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本の歴史",
+      "readingPrefix": "ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B002166"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本古典文学全集",
+      "readingPrefix": "ニホン コテン ブンガク ゼンシュウ",
+      "basis": {
+        "opacId": "B002167"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本民俗文化大系",
+      "readingPrefix": "ニホン ミンゾク ブンカ タイケイ",
+      "basis": {
+        "opacId": "B002168"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本民俗文化大系",
+      "readingPrefix": "ニホン ミンゾク ブンカ タイケイ",
+      "basis": {
+        "opacId": "B002169"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本民俗文化大系",
+      "readingPrefix": "ニホン ミンゾク ブンカ タイケイ",
+      "basis": {
+        "opacId": "B002170"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本民俗文化大系",
+      "readingPrefix": "ニホン ミンゾク ブンカ タイケイ",
+      "basis": {
+        "opacId": "B002171"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本民俗文化大系",
+      "readingPrefix": "ニホン ミンゾク ブンカ タイケイ",
+      "basis": {
+        "opacId": "B002172"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本民俗文化大系",
+      "readingPrefix": "ニホン ミンゾク ブンカ タイケイ",
+      "basis": {
+        "opacId": "B002173"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
       "publisher": "03 シリーズ 出版社順/あ/岩崎美術社",
       "groupName": "民俗民芸双書",
       "readingPrefix": "ミンゾク ミンゲイ ソウショ",
@@ -5104,6 +5476,30 @@
     {
       "match": "item",
       "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本の歴史",
+      "readingPrefix": "ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B002771"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本の歴史",
+      "readingPrefix": "ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B002772"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
       "publisher": "03 シリーズ 出版社順/あ/岩波書店",
       "groupName": "中国の歴史",
       "readingPrefix": "チュウゴク ノ レキシ",
@@ -5136,6 +5532,18 @@
       },
       "batchId": "7AFFA5F30402",
       "confirmedAt": "2026-11-15T14:05:31.701Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "大系日本の歴史",
+      "readingPrefix": "タイケイ ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B002956"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
     },
     {
       "match": "item",
@@ -5292,6 +5700,42 @@
       },
       "batchId": "EC2B1DADC864",
       "confirmedAt": "2026-11-14T03:07:49.128Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本民俗文化大系",
+      "readingPrefix": "ニホン ミンゾク ブンカ タイケイ",
+      "basis": {
+        "opacId": "B003104"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本民俗文化大系",
+      "readingPrefix": "ニホン ミンゾク ブンカ タイケイ",
+      "basis": {
+        "opacId": "B003105"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本民俗文化大系",
+      "readingPrefix": "ニホン ミンゾク ブンカ タイケイ",
+      "basis": {
+        "opacId": "B003106"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
     },
     {
       "match": "item",
@@ -5496,6 +5940,78 @@
       },
       "batchId": "097BE61A00FB",
       "confirmedAt": "2026-11-17T12:15:46.678Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/集英社",
+      "groupName": "人物中国の歴史",
+      "readingPrefix": "ジンブツ チュウゴク ノ レキシ",
+      "basis": {
+        "opacId": "B003653"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/集英社",
+      "groupName": "中国の詩人",
+      "readingPrefix": "チュウゴク ノ シジン",
+      "basis": {
+        "opacId": "B003654"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "大系日本の歴史",
+      "readingPrefix": "タイケイ ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B003655"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "大系日本の歴史",
+      "readingPrefix": "タイケイ ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B003656"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "大系日本の歴史",
+      "readingPrefix": "タイケイ ニホン ノ レキシ",
+      "basis": {
+        "opacId": "B003657"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/小学館",
+      "groupName": "日本民俗文化大系",
+      "readingPrefix": "ニホン ミンゾク ブンカ タイケイ",
+      "basis": {
+        "opacId": "B003658"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
     },
     {
       "match": "item",
@@ -6028,6 +6544,18 @@
     {
       "match": "item",
       "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/集英社",
+      "groupName": "中国の都城",
+      "readingPrefix": "チュウゴク ノ トジョウ",
+      "basis": {
+        "opacId": "B004268"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
       "publisher": "03 シリーズ 出版社順/か/近藤出版社",
       "groupName": "日本史小百科",
       "readingPrefix": "ニホンシショウヒャッカ",
@@ -6112,6 +6640,18 @@
     {
       "match": "item",
       "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/春秋社",
+      "groupName": "シリーズ道教の世界",
+      "readingPrefix": "シリーズ ドウキョウ ノ セカイ",
+      "basis": {
+        "opacId": "B004492"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
       "publisher": "03 シリーズ 出版社順/か/学研",
       "groupName": "Books Esoterica",
       "readingPrefix": "ブックス エソテリカ",
@@ -6124,6 +6664,18 @@
     {
       "match": "item",
       "kind": "series",
+      "publisher": "03 シリーズ 出版社順/か/光文社",
+      "groupName": "グラフィティ・歴史謎事典",
+      "readingPrefix": "グラフィティレキシナゾ ジテン",
+      "basis": {
+        "opacId": "B004571"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
       "publisher": "03 シリーズ 出版社順/か/講談社",
       "groupName": "中国の歴史",
       "readingPrefix": "チュウゴク ノ レキシ",
@@ -6132,6 +6684,30 @@
       },
       "batchId": "097BE61A00FB",
       "confirmedAt": "2026-11-17T12:15:46.678Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/そしえて",
+      "groupName": "日記・記録による日本歴史叢書近世編",
+      "readingPrefix": "ニッキ キロク ニヨル ニホン レキシ ソウショ キンセイヘン",
+      "basis": {
+        "opacId": "B004573"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
+    },
+    {
+      "match": "item",
+      "kind": "series",
+      "publisher": "03 シリーズ 出版社順/さ/集英社",
+      "groupName": "本と日本史",
+      "readingPrefix": "ホン ト ニホンシ",
+      "basis": {
+        "opacId": "B004720"
+      },
+      "batchId": "954AA4D441CC",
+      "confirmedAt": "2026-11-22T19:47:03.641Z"
     }
   ]
 }
