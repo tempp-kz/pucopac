@@ -6,7 +6,7 @@ cssclasses:
 
 # 新紀元社
 
-**33件**（読み確認済み 0件・未整理・未確認 33件）
+**34件**（読み確認済み 0件・未整理・未確認 34件）
 
 
 ## 未整理・未確認
@@ -42,5 +42,6 @@ cssclasses:
 - [[03 シリーズ 出版社順/さ/新紀元社/Truth In Fantasy 47 鬼|Truth In Fantasy 47 鬼]]
 - [[03 シリーズ 出版社順/さ/新紀元社/Truth In Fantasy 48 妖精|Truth In Fantasy 48 妖精]]
 - [[03 シリーズ 出版社順/さ/新紀元社/Truth In Fantasy 53 コスチューム 中世衣装カタログ|Truth In Fantasy 53 コスチューム 中世衣装カタログ]]
+- [[03 シリーズ 出版社順/さ/新紀元社/Truth In Game 5 中国拳法のすべて|Truth In Game 5 中国拳法のすべて]]
 - [[03 シリーズ 出版社順/さ/新紀元社/Truth In History 7 史記・春秋戦国人物事典|Truth In History 7 史記・春秋戦国人物事典]]
 - [[03 シリーズ 出版社順/さ/新紀元社/Truth In History 9 戦術 名将たちの戦場|Truth In History 9 戦術 名将たちの戦場]]
